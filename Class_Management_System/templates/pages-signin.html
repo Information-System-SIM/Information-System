@@ -46,11 +46,12 @@
 				<h2 class="title text-uppercase text-bold m-none"><i class="fa fa-user mr-xs"></i> Sign In</h2>
 			</div>
 			<div class="panel-body">
-				<form method="post" action="/login">
+				<form method="post" action="/login/">
+                {% csrf_token %}
 					<div class="form-group mb-lg">
 						<label>学号</label>
 						<div class="input-group input-group-icon">
-							<input name="username" type="text" class="form-control input-lg">
+							<input name="student_num" type="text" class="form-control input-lg">
 							<span class="input-group-addon">
 										<span class="icon icon-lg">
 											<i class="fa fa-user"></i>
@@ -65,8 +66,14 @@
 							<a href="pages-recover-password.html" class="pull-right">Change Password</a>
 						</div>
 						<div class="input-group input-group-icon">
-							<input name="pwd" type="password" class="form-control input-lg">
-							<span class="input-group-addon">
+							<input name="password" type="password" class="form-control input-lg" >
+                            {% if password_true == False %}
+                                <br/>
+                                <h6 style="color: red">密码错误</h6>
+                            {% elif User_Exit == False %}
+                                <br/>
+                                <h6 style="color: red">用户名不存在</h6>
+                            {% endif %}							<span class="input-group-addon">
 										<span class="icon icon-lg">
 											<i class="fa fa-lock"></i>
 										</span>
