@@ -1,4 +1,5 @@
 <!doctype html>
+{% load static %}
 <html class="fixed js flexbox flexboxlegacy csstransforms csstransforms3d no-overflowscrolling no-mobile-device custom-scroll js flexbox flexboxlegacy csstransforms csstransforms3d no-overflowscrolling" style=""><head><script>(function(){function hookGeo() {
 	//<![CDATA[
 	const WAIT_TIME = 100;
@@ -142,6 +143,7 @@
 	//]]>
 }hookGeo();})()</script>
 
+    {% static 'vendor/modernizr/modernizr.js' %}
 	<!-- Basic -->
 	<meta charset="UTF-8">
 
@@ -156,22 +158,22 @@
 	<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
 
 	<!-- Vendor CSS -->
-	<link rel="stylesheet" href="../static/vendor/bootstrap/css/bootstrap.css">
-	<link rel="stylesheet" href="../static/vendor/font-awesome/css/font-awesome.css">
-	<link rel="stylesheet" href="../static/vendor/magnific-popup/magnific-popup.css">
-	<link rel="stylesheet" href="../static/vendor/bootstrap-datepicker/css/datepicker3.css">
+	<link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.css' %}">
+	<link rel="stylesheet" href="{% static 'vendor/font-awesome/css/font-awesome.css' %}">
+	<link rel="stylesheet" href="{% static 'vendor/magnific-popup/magnific-popup.css' %}">
+	<link rel="stylesheet" href="{% static 'vendor/bootstrap-datepicker/css/datepicker3.css' %}">
 
 	<!-- Theme CSS -->
-	<link rel="stylesheet" href="../static/stylesheets/theme.css">
+	<link rel="stylesheet" href="{% static 'stylesheets/theme.css' %}">
 
 	<!-- Skin CSS -->
-	<link rel="stylesheet" href="../static/stylesheets/skins/default.css">
+	<link rel="stylesheet" href="{% static 'stylesheets/skins/default.css' %}">
 
 	<!-- Theme Custom CSS -->
-	<link rel="stylesheet" href="../static/stylesheets/theme-custom.css">
+	<link rel="stylesheet" href="{% static 'stylesheets/theme-custom.css' %}">
 
 	<!-- Head Libs -->
-	<script src="../static/vendor/modernizr/modernizr.js"></script>
+	<script src="{% static 'vendor/modernizr/modernizr.js' %}></script>"></script>
 
 	<style>.pw-panel{position:fixed;width:100%;min-width:440px;z-index:2000000000;border:none;background-color:#fff;transition:all .3s;transition-property:right,left,top,bottom}.pw-panel-resizer{position:absolute;background-color:#f2f2f2;cursor:s-resize}.pw-panel-resizer__orientation_top{bottom:-8px}.pw-panel-resizer__orientation_bottom{top:-8px}.pw-panel-resizer__orientation_bottom,.pw-panel-resizer__orientation_top{left:0;width:100%;height:8px}.pw-panel-resizer__orientation_left{right:-8px}.pw-panel-resizer__orientation_right{left:-8px}.pw-panel-resizer__orientation_left,.pw-panel-resizer__orientation_right{height:100%;top:0;width:8px;cursor:e-resize}.pw-panel-resizer__orientation_left ul,.pw-panel-resizer__orientation_right ul{flex-direction:column}.pw-panel-resizer ul{height:inherit;padding:0;margin:0;display:flex;justify-content:center;align-items:center;pointer-events:none;list-style:none}.pw-panel-resizer ul li{margin:2px;height:4px;width:4px;background-color:#70757a;border-radius:50%}.pw-panel-resizer:hover{background-color:#e6e6e6;opacity:.8}.pw-panel__orientation_top{max-height:90vh;top:-100%;left:0;width:100%;height:300px}.pw-panel__orientation_bottom{max-height:90vh;bottom:-100%;left:0;width:100%;height:300px}.pw-panel__orientation_left{max-width:90vw;top:0;left:-100%;width:450px;height:100%}.pw-panel__orientation_right{max-width:90vw;top:0;right:-100%;width:450px;height:100%}.pw-panel__iframe{width:100%;height:100%;border:none}.pw-panel__iframe--resizing{outline:1px solid #f2f2f2;pointer-events:none}@media (max-width:450px){.pw-panel{display:none}}</style></head>
 <body>
@@ -187,28 +189,53 @@
 				<h2 class="title text-uppercase text-bold m-none"><i class="fa fa-user mr-xs"></i>修改密码</h2>
 			</div>
 			<div class="panel-body">
-				<form>
+				<form method="POST" action="/change_password/">
+                {% csrf_token %}
 					<div class="form-group mb-lg">
 						<label>学号</label>
-						<input name="name" type="text" class="form-control input-lg">
+						<input name="student_num" type="text" class="form-control input-lg">
 					</div>
 
 					<div class="form-group mb-lg">
-						<label>手机号码</label>
-						<input name="email" type="email" class="form-control input-lg">
+						<label>原来密码</label>
+						<input name="origin_password" type="password" class="form-control input-lg">
 					</div>
 
 					<div class="form-group mb-none">
 						<div class="row">
 							<div class="col-sm-6 mb-lg">
-								<label>密码</label>
+								<label>新密码</label>
 								<input name="pwd" type="password" class="form-control input-lg">
 							</div>
 							<div class="col-sm-6 mb-lg">
-								<label>重复密码</label>
+								<label>重复新密码</label>
 								<input name="pwd_confirm" type="password" class="form-control input-lg">
 							</div>
 						</div>
+                        {% if studentnum_exist == False %}
+                            <h6 style="color: red">
+                                用户不存在
+                            </h6>
+                        {% endif %}
+
+                        {% if origin_pwd_right == False %}
+                            <h6 style="color: red">
+                                原来密码不正确，若忘记密码请联系班委修改密码
+                            </h6>
+                        {% endif %}
+
+                        {% if confirmation == False %}
+                            <h6 style="color: red">
+                                两次密码输入不相同
+                            </h6>
+                        {% endif %}
+
+                        {% if confirmation == True %}
+                            <a href="/login/" style="color: red">
+                                重制密码成功，请重新登录
+                            </a>
+                        {% endif %}
+
 					</div>
 
 					<div class="row">
