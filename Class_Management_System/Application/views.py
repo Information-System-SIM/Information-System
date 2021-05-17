@@ -1,8 +1,12 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from Application import models
+import os
+from Class_Management_System import settings
 
 # Create your views here.
+
+
 
 def index(request):
     student_num = request.GET.get("student_num")
@@ -61,3 +65,17 @@ def change_password(request):
         except:
             print(4) #test
             return render(request, "pages-changeid.html", {"studentnum_exist":False})
+
+def document_upload(request):
+    if request.method == "get":
+        return render(request, "document_upload.html")
+    elif request.method == "POST":
+        file = request.FILES.get("document")
+        path = os.path.join(settings.BASE_DIR, "static/Documents/")
+        print(path)
+        with open(os.path.join(path, file.name), "wb+") as f:
+            for chunk in file:
+                f.write(chunk)
+        return render(request, "document_upload.html")
+    else:
+        return render(request, "document_upload.html")
