@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <form enctype="multipart/form-data" action="/document_upload/" target="/document_upload/" method="post">
+    <form enctype="multipart/form-data" action="/index/homework/upload" target="/index/homework/upload" method="post">
         {% csrf_token %}
         <input type="File" name="document">
+        <input type="text" name="student_num" disabled="disabled" value={{ student_num }}>
+        <input type="text" name="homework_name" disabled="disabled" value={{ homework_name }}>
         <input type="submit">
     </form>
 </head>
