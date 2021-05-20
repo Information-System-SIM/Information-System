@@ -13,6 +13,7 @@ class student(models.Model):
     student_phone = models.CharField(max_length=11)
     student_email = models.CharField(max_length=256)
     self_description = models.TextField(null="请填写你的个人简介")
+    image = models.ImageField(default=None, null=True, blank=True, upload_to='IMG/')
 
 class message_homework(models.Model):
     ms_num = models.CharField(max_length=11, primary_key=True)

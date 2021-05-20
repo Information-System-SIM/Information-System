@@ -7,6 +7,7 @@ import os
 
 
 # Create your views here.
+from Class_Management_System.settings import BASE_DIR
 
 
 def mainpage(request):
@@ -16,6 +17,9 @@ def mainpage(request):
         student = models.student.objects.get(student_num=student_num)
         student_name = student.student_name
         self_description = student.self_description
+        path = "Image/" + student_num + ".jpeg"
+        course_path = "Image/course.png"
+        print(student.image.url)
         return render(request, 'mainpage.html',locals())
     else:
         pass
