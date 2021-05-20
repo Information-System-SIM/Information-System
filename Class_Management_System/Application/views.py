@@ -9,10 +9,16 @@ import os
 # Create your views here.
 
 
-def index(request):
-    student_num = request.GET.get("student_num")
-    auth = models.users.objects.get(student_num=student_num).auth
-    return render(request, 'index.html')
+def mainpage(request):
+    if request.method == "GET":
+        student_num = request.GET.get("student_num")
+        auth = models.users.objects.get(student_num=student_num).auth
+        student = models.student.objects.get(student_num=student_num)
+        student_name = student.student_name
+        self_description = student.self_description
+        return render(request, 'mainpage.html',locals())
+    else:
+        pass
 
 
 def show_login(request):
@@ -54,3 +60,10 @@ def homework_upload(request):
         student_num = request.GET.get("student_num")
         homework_name = request.GET.get("homework_name")
         return render(request, "document_upload.html", {"student_num":student_num,"homework_name":homework_name})
+
+def message(request):
+    if request.method == "GET":
+        student_num = request.GET.get("student_num")
+        messages = models.message_homework.objects.filter(useable=True)
+        unnoticed_messages = [message.ms_num_id for message in models.notice_homework.objects.filter(student_num_id=student_num)]
+        return render(request, "messages_homework.html", locals())
