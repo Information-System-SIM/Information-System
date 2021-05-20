@@ -16,7 +16,7 @@ def login(request):
 
         # 若用户名密码正确，重定向到主界面；否则返回密码错误
         if password_true == password_entered:
-            return HttpResponseRedirect(redirect_to="/index?student_num=" + user_true.student_num)
+            return HttpResponseRedirect(redirect_to="/mainpage?student_num=" + user_true.student_num)
         else:
             return render(request, "pages-signin.html", {"password_true": False})
 

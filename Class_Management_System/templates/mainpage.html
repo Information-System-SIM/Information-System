@@ -780,8 +780,8 @@
                              data-lock-picture="assets/images/!logged-user.jpg">
                     </figure>
                     <div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@JSOFT.com">
-                        <span class="name">John Doe Junior</span>
-                        <span class="role">administrator</span>
+                        <span class="name">{{ student_name }}</span>
+                        <span class="role">{{ auth }}</span>
                     </div>
 
                     <i class="fa custom-caret"></i>
@@ -794,7 +794,7 @@
                             <a role="menuitem" tabindex="-1" href="pages-user-profile.html"><i class="fa fa-user"></i>我的账户</a>
                         </li>
                         <li>
-                            <a role="menuitem" tabindex="-1" href="pages-signin.html"><i class="fa fa-power-off"></i>退出登录</a>
+                            <a role="menuitem" tabindex="-1" href="/login/"><i class="fa fa-power-off"></i>退出登录</a>
                         </li>
                     </ul>
                 </div>
@@ -829,7 +829,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="mailbox-folder.html">
+                                <a href="/mainpage/messages?student_num={{ student_num }}">
                                     <span class="pull-right label label-primary">182</span>
                                     <i class="fa fa-envelope" aria-hidden="true"></i>
                                     <span>通知&amp;消息</span>
@@ -946,7 +946,8 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-parent">
+                            {% if auth != "Student" %}
+                                <li class="nav-parent">
                                 <a>
                                     <i class="fa fa-align-left" aria-hidden="true"></i>
                                     <span>班级管理</span>
@@ -957,7 +958,11 @@
                                         <ul class="nav nav-children">
                                             <li><a href="">发布比赛通知</a></li>
                                             <li><a href="">发布活动通知</a></li>
-                                            <li><a href="">发布作业通知</a></li>
+
+                                            {% if auth == "Study" %}
+                                                <li><a href="">发布作业通知</a></li>
+                                            {% endif %}
+
                                         </ul>
                                     </li>
 
@@ -970,11 +975,14 @@
                                     <li>
                                         <a>活动分统计</a>
                                     </li>
-                                    <li>
-                                        <a>作业管理</a>
-                                    </li>
+                                    {% if auth == "Study" %}
+                                        <li>
+                                            <a>作业管理</a>
+                                        </li>
+                                    {% endif %}
                                 </ul>
                             </li>
+                            {% endif %}
                             <li>
 
                             </li>
@@ -1019,7 +1027,7 @@
                                 <i class="fa fa-home"></i>
                             </a>
                         </li>
-                        <li><span>Dashboard</span></li>
+                        <li><span>主页</span></li>
                     </ol>
 
                     <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
@@ -1034,7 +1042,7 @@
                                 <img src="../static/images/!logged-user.jpg" class="rounded img-responsive"
                                      alt="John Doe">
                                 <div class="thumb-info-title">
-                                    <span class="thumb-info-inner">姓名</span>
+                                    <span class="thumb-info-inner">{{ student_name }}</span>
                                     <span class="thumb-info-type">WHU</span>
                                 </div>
                             </div>
@@ -1044,11 +1052,11 @@
                                     <table style="column-gap: 1%">
                                         <tr>
                                             <td width="40"><strong>姓名</strong></td>
-                                            <td>蓝弘毅</td>
+                                            <td>{{ student_name }}</td>
                                         </tr>
                                         <tr>
                                             <td><strong>学号</strong></td>
-                                            <td>2019301040030</td>
+                                            <td>{{ student_num }}</td>
                                         </tr>
                                         <tr>
                                             <td><strong>班级</strong></td>
@@ -1060,7 +1068,7 @@
                             </div>
 
                             <h6 class="text-muted"><strong>个人简介</strong></h6>
-                            <p>这里是一个简介段落</p>
+                            <p>{{ self_description }}</p>
                             <div class="clearfix">
 
                             </div>
