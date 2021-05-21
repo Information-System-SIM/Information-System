@@ -41,14 +41,14 @@
 需要的界面：  
 序号|界面名称|界面信息
 :--:|:--:|:--:
-1|登陆界面|已完成
-2|更改密码界面|已完成
-3|主界面|已完成（需要添加图片）
-4|通知-作业通知|已完成
-5|通知-比赛通知|已完成
-6|通知-活动通知|已完成
-7|通知-通知消息|已完成
-8|通知-通知内容界面|已完成
+1|登陆界面| pages-signin.html 已完成
+2|更改密码界面| pages-changeid.html 已完成
+3|主界面| mainpage.html 已完成（需要添加图片）
+4|通知-作业通知| messages_homework.html 已完成
+5|通知-比赛通知| messages_competition.html 已完成
+6|通知-活动通知| messages_activity.html 已完成
+7|通知-通知消息| messages_message.html 已完成
+8|通知-通知内容界面| message.html 已完成
 9|作业DDL一览|--
 10|作业DDL一览-作业提交界面|--
 11|我提交的作业|--
