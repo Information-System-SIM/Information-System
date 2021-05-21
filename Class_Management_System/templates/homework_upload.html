@@ -1,0 +1,99 @@
+{% extends "mainpage.html" %}
+
+{
+
+{% block title %}
+    作业通知上传
+{% endblock %}
+
+{% block page_title %}
+    作业通知
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li><span>班级管理</span></li>
+    <li><span>发布通知</span></li>
+    <li><span>作业通知</span></li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    <div class="panel-actions">
+                        <a href="#" class="fa fa-caret-down"></a>
+                    </div>
+
+                    <h2 class="panel-title">作业信息</h2>
+                </header>
+                <div class="panel-body">
+                    <form class="form-horizontal form-bordered" method="post"
+                          action="/management/notice_publishment/homework?student_num={{ student_num }}&auth={{ auth }}"
+                          target="/management/notice_publishment/homework?student_num={{ student_num }}&auth={{ auth }}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="inputDefault">作业名称</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="homework_title" id="homework_title">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="inputDefault">作业描述</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="text" id="text">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="inputDefault">作业要求</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="requirement" id="requirement">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="inputDefault">学科</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="subject" id="subject">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">DDL日期</label>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                    <input type="text" data-plugin-datepicker class="form-control"
+                                           name="homework_date" id="homework_date">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">DDL时间</label>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-clock-o"></i>
+                                    </span>
+                                    <input type="text" data-plugin-timepicker class="form-control"
+                                           data-plugin-options='{ "showMeridian": false }' name="homework_time" id="homework_time" placeholder="08:00">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-9 col-sm-offset-3" align="right">
+                            <button class="btn btn-primary" style="min-width: 200px;min-height: 50px">提交</button>
+                        </div>
+
+                    </form>
+                </div>
+            </section>
+
+        </div>
+    </div>
+{% endblock %}

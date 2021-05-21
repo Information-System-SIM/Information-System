@@ -29,5 +29,8 @@ urlpatterns = [
     path('mainpage/messages_competition', views.message_competition),
     path('mainpage/messages_activity', views.message_activity),
     path('mainpage/messages_message', views.message_message),
-    path('mainpage/message', views.message)
+    path('mainpage/message', views.message),
+    path('management/notice_publishment/competition', views.competition_publishment),
+    path('management/notice_publishment/activity', views.activity_publishment),
+    path('management/notice_publishment/homework',views.homework_publishment),
 ]

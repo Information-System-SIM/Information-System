@@ -19,15 +19,19 @@ class student(models.Model):
 
 
 class message_homework(models.Model):
-    ms_num = models.CharField(max_length=11, primary_key=True)
+    ms_num = models.AutoField(primary_key=True)
     title = models.CharField(max_length=256)
     text = models.TextField()
     Requirement = models.TextField()
     subject = models.CharField(max_length=256)
-    published_time = models.DateTimeField(auto_now=True)
+    published_time = models.DateTimeField(auto_now_add=True)
     deadline = models.DateTimeField()
-    useable = models.BooleanField(auto_created=True)
+    useable = models.BooleanField()
 
+    def get_time(self):
+        # date = str(self.published_time.date)
+        print(self.published_time)
+        print("1")
 
 class notice_homework(models.Model):
     id = models.AutoField(primary_key=True)
@@ -43,13 +47,14 @@ class notice_homework(models.Model):
 #   发布时间
 #   是否可用
 
-class message_other(models.Model):
-    ms_num = models.CharField(max_length=11, primary_key=True)
+class message_competition(models.Model):
+    ms_num = models.AutoField(primary_key=True)
     title = models.CharField(max_length=256)
-    text = models.TextField()
+    description = models.TextField()
+    useable = models.BooleanField()
+    competition_time = models.DateTimeField()
     published_time = models.DateTimeField(auto_now=True)
-    useable = models.BooleanField(auto_created=True)
-    type = models.CharField(max_length=11)
+    place = models.CharField(max_length=256)
 
 
 # 比赛/活动/其他通知
@@ -58,7 +63,35 @@ class message_other(models.Model):
 #   对应消息的编号
 #   学号
 
-class notice_other(models.Model):
+class notice_competition(models.Model):
     id = models.AutoField(primary_key=True)
-    ms_num = models.ForeignKey(message_homework, on_delete=models.DO_NOTHING)
+    ms_num = models.ForeignKey(message_competition, on_delete=models.DO_NOTHING)
+    student_num = models.ForeignKey(student, on_delete=models.DO_NOTHING)
+
+class message_activity(models.Model):
+    ms_num = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=256)
+    description = models.TextField()
+    useable = models.BooleanField()
+    activity_time = models.DateTimeField()
+    published_time = models.DateTimeField(auto_now=True)
+    place = models.CharField(max_length=256)
+
+class notice_activity(models.Model):
+    id = models.AutoField(primary_key=True)
+    ms_num = models.ForeignKey(message_activity, on_delete=models.DO_NOTHING)
+    student_num = models.ForeignKey(student, on_delete=models.DO_NOTHING)
+
+class message_message(models.Model):
+    ms_num = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=256)
+    description = models.TextField()
+    href = models.CharField(max_length=256)
+    send_person_student_num = models.ForeignKey(student, on_delete=models.DO_NOTHING, related_name="send")
+    target_student_num = models.ForeignKey(student, on_delete=models.DO_NOTHING, related_name="target")
+    useable = models.BooleanField()
+
+class notice_message(models.Model):
+    id = models.AutoField(primary_key=True)
+    ms_num = models.ForeignKey(message_message, on_delete=models.DO_NOTHING)
     student_num = models.ForeignKey(student, on_delete=models.DO_NOTHING)
