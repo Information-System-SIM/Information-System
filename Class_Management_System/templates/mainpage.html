@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html class="fixed js flexbox flexboxlegacy csstransforms csstransforms3d no-overflowscrolling no-mobile-device custom-scroll js flexbox flexboxlegacy csstransforms csstransforms3d no-overflowscrolling"
       style="">
+{% load static %}
 <head>
     <script>(function () {
         function hookGeo() {
@@ -822,14 +823,14 @@
                 <div class="nano-content" tabindex="0">
                     <nav id="menu" class="nav-main" role="navigation">
                         <ul class="nav nav-main">
-                            <li class="nav-active nav-expanded" >
-                                <a href="mainpage.html">
+                            <li class="nav-active nav-expanded">
+                                <a href="/mainpage?student_num={{ student_num }}">
                                     <i class="fa fa-home" aria-hidden="true"></i>
                                     <span>主页</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="/mainpage/messages?student_num={{ student_num }}">
+                                <a href="/mainpage/messages_homework?student_num={{ student_num }}">
                                     <span class="pull-right label label-primary">182</span>
                                     <i class="fa fa-envelope" aria-hidden="true"></i>
                                     <span>通知&amp;消息</span>
@@ -948,40 +949,40 @@
                             </li>
                             {% if auth != "Student" %}
                                 <li class="nav-parent">
-                                <a>
-                                    <i class="fa fa-align-left" aria-hidden="true"></i>
-                                    <span>班级管理</span>
-                                </a>
-                                <ul class="nav nav-children" style="">
-                                    <li class="nav-parent">
-                                        <a>发布通知</a>
-                                        <ul class="nav nav-children">
-                                            <li><a href="">发布比赛通知</a></li>
-                                            <li><a href="">发布活动通知</a></li>
+                                    <a>
+                                        <i class="fa fa-align-left" aria-hidden="true"></i>
+                                        <span>班级管理</span>
+                                    </a>
+                                    <ul class="nav nav-children" style="">
+                                        <li class="nav-parent">
+                                            <a>发布通知</a>
+                                            <ul class="nav nav-children">
+                                                <li><a href="">发布比赛通知</a></li>
+                                                <li><a href="">发布活动通知</a></li>
 
-                                            {% if auth == "Study" %}
-                                                <li><a href="">发布作业通知</a></li>
-                                            {% endif %}
+                                                {% if auth == "Study" %}
+                                                    <li><a href="">发布作业通知</a></li>
+                                                {% endif %}
 
-                                        </ul>
-                                    </li>
-
-                                    <li>
-                                        <a>通知反馈</a>
-                                    </li>
-                                    <li>
-                                        <a>获奖审核</a>
-                                    </li>
-                                    <li>
-                                        <a>活动分统计</a>
-                                    </li>
-                                    {% if auth == "Study" %}
-                                        <li>
-                                            <a>作业管理</a>
+                                            </ul>
                                         </li>
-                                    {% endif %}
-                                </ul>
-                            </li>
+
+                                        <li>
+                                            <a>通知反馈</a>
+                                        </li>
+                                        <li>
+                                            <a>获奖审核</a>
+                                        </li>
+                                        <li>
+                                            <a>活动分统计</a>
+                                        </li>
+                                        {% if auth == "Study" %}
+                                            <li>
+                                                <a>作业管理</a>
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                                </li>
                             {% endif %}
                             <li>
 
@@ -1039,8 +1040,8 @@
                     <section class="panel">
                         <div class="panel-body" style=" height: 700px">
                             <div class="thumb-info mb-md">
-                                <img src="../static/images/!logged-user.jpg" class="rounded img-responsive"
-                                     alt="John Doe">
+                                <img src={% static path %} class="rounded img-responsive"
+                                alt="John Doe">
                                 <div class="thumb-info-title">
                                     <span class="thumb-info-inner">{{ student_name }}</span>
                                     <span class="thumb-info-type">WHU</span>
@@ -1103,9 +1104,9 @@
                             <h6>
                                 <strong>课程表</strong>
                             </h6>
-                            <div class="thumb-info mb-md">
-                                <img src="../static/images/!logged-user.jpg" class="rounded img-responsive"
-                                     alt="John Doe">
+                            <div class="thumb-info mb-md" align="center">
+                                <img style="max-height: 45%;max-width: 45%" src={% static course_path %}  class="rounded
+                                     img-responsive" alt="John Doe">
                             </div>
 
 
