@@ -24,5 +24,10 @@ urlpatterns = [
     path('mainpage', views.mainpage),
     path('change_password/', views.change_password),
     path('index/homework/upload', views.homework_upload),
-    path('mainpage/messages',views.message)
+    # 把原先的message名字改成了messages_homework
+    path('mainpage/messages_homework', views.message_homework),
+    path('mainpage/messages_competition', views.message_competition),
+    path('mainpage/messages_activity', views.message_activity),
+    path('mainpage/messages_message', views.message_message),
+    path('mainpage/message', views.message)
 ]
