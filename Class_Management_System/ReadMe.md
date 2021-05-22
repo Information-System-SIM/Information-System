@@ -48,7 +48,7 @@
 5|通知-比赛通知| messages_competition.html 已完成
 6|通知-活动通知| messages_activity.html 已完成
 7|通知-通知消息| messages_message.html 已完成
-8|通知-通知内容界面| homework_message.html <br />competition_message.html  <br />activity_message.html 已完成
+8|通知-通知内容界面| homework_message.html <br />competition_message.html <br />activity_message.html <br />已完成
 9|作业DDL一览|--
 10|作业DDL一览-作业提交界面|--
 11|我提交的作业|--
