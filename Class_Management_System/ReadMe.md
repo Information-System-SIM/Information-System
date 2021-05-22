@@ -48,7 +48,7 @@
 5|通知-比赛通知| messages_competition.html 已完成
 6|通知-活动通知| messages_activity.html 已完成
 7|通知-通知消息| messages_message.html 已完成
-8|通知-通知内容界面| message.html 已完成
+8|通知-通知内容界面| homework_message.html <br />competition_message.html  <br />activity_message.html 已完成
 9|作业DDL一览|--
 10|作业DDL一览-作业提交界面|--
 11|我提交的作业|--
@@ -58,9 +58,9 @@
 15|奖项审核进度|可参考作业通知
 16|审核通过的奖项|可参考作业通知
 17|活动分查看|--
-18|发布通知-发布比赛通知|--
-19|发布通知-发布活动通知|可参考发布活动通知
-20|发布通知-发布作业通知|可参考发布作业通知
+18|发布通知-发布比赛通知| competition_upload.html 已完成
+19|发布通知-发布活动通知| activity_upload.html 已完成
+20|发布通知-发布作业通知| homework_upload.html 已完成
 21|通知反馈|--
 22|奖项审核-奖项一览|--
 23|奖项审核-审核界面|--
