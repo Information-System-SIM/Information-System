@@ -9,7 +9,8 @@ def message_homework_page(request):
     # 获取学生学号
     student_num = request.GET.get("student_num")
     # 查询所有有效作业通知
-    messages = models.message_homework.objects.filter(useable=True)
+    messages = models.message_homework.objects.filter(useable=True).order_by("-published_time")
+
     # 查询未读作业通知，特殊显示
     unnoticed_homework = [message.ms_num_id for message in
                           models.notice_homework.objects.filter(student_num_id=student_num)]
@@ -29,7 +30,7 @@ def message_competition_page(request):
     # 获取学生学号
     student_num = request.GET.get("student_num")
     # 获取所有比赛通知
-    messages = models.message_competition.objects.filter(useable=True)
+    messages = models.message_competition.objects.filter(useable=True).order_by("-published_time")
 
     # 查询所有四种通知的未读消息个数，用于显示未读消息个数
     unnoticed_homework_num = len(models.notice_homework.objects.filter(student_num_id=student_num))
