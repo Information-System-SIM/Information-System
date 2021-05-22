@@ -908,53 +908,8 @@
                                         <span>活动分查看</span>
                                     </a>
                                 </li>
-                                <li class="nav-parent {% if page == "班级管理" %}nav-active nav-expanded{% endif %}">
-
-                                    <ul class="nav nav-children">
-                                        <li>
-                                            <a href="maps-google-maps.html">
-                                                Basic
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="maps-google-maps-builder.html">
-                                                Map Builder
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="maps-vector.html">
-                                                Vector
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="nav-parent">
-
-                                    <ul class="nav nav-children">
-                                        <li>
-                                            <a href="layouts-default.html">
-                                                Default
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="layouts-boxed.html">
-                                                Boxed
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="layouts-menu-collapsed.html">
-                                                Menu Collapsed
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="layouts-scroll.html">
-                                                Scroll
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
                                 {% if auth != "Student" %}
-                                    <li class="nav-parent">
+                                    <li class="nav-parent  {% if page == "班级管理" %}nav-active nav-expanded{% endif %}">
                                         <a>
                                             <i class="fa fa-align-left" aria-hidden="true"></i>
                                             <span>班级管理</span>
