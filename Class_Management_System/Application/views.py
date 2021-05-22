@@ -22,10 +22,11 @@ def mainpage(request):
         self_description = student.self_description
         path = "Image/" + student_num + ".jpeg"
         course_path = "Image/course.png"
-        unnoticed_homework_num = len(models.notice_homework.objects.filter(student_num_id=student_num))
-        unnoticed_competition_num = len(models.notice_competition.objects.filter(student_num_id=student_num))
-        unnoticed_activity_num = len(models.notice_activity.objects.filter(student_num_id=student_num))
-        unnoticed_message_num = len(models.notice_message.objects.filter(student_num_id=student_num))
+
+        # 获取4类未读notice的数量
+        unnoticed_homework_num, unnoticed_competition_num, unnoticed_activity_num, unnoticed_message_num = get_unnoticed_num(
+            student_num)
+
         message_num = unnoticed_homework_num + unnoticed_competition_num + unnoticed_activity_num + unnoticed_message_num
         print(message_num)
         return render(request, 'mainpage.html', locals())
@@ -74,30 +75,47 @@ def homework_upload(request):
         return render(request, "document_upload.html", {"student_num": student_num, "homework_name": homework_name})
 
 
+# 获取未读notice数量，用于显示通知的四个页面
+def get_unnoticed_num(student_num):
+    unnoticed_homework_num = len(models.notice_homework.objects.filter(student_num_id=student_num))
+    unnoticed_competition_num = len(models.notice_competition.objects.filter(student_num_id=student_num))
+    unnoticed_activity_num = len(models.notice_activity.objects.filter(student_num_id=student_num))
+    unnoticed_message_num = len(models.notice_message.objects.filter(student_num_id=student_num))
+    return unnoticed_homework_num, unnoticed_competition_num, unnoticed_activity_num, unnoticed_message_num
+
+
 # 作业通知
 def message_homework(request):
     if request.method == "GET":
-        page = "通知&消息"
+        # 根据学号获取学生姓名（页面右上角要展示姓名）和身份
         student_num = request.GET.get("student_num")
+        student_name = models.student.objects.get(student_num=student_num).student_name
+        auth = models.users.objects.get(student_num=student_num).auth
+
+        # 获取所有作业message
         messages = models.message_homework.objects.filter(useable=True)
+
+        # 获取4类未读notice的数量
+        unnoticed_homework_num, unnoticed_competition_num, unnoticed_activity_num, unnoticed_message_num = get_unnoticed_num(
+            student_num)
+
+        # 获取未读作业消息
         unnoticed_homework = [message.ms_num_id for message in
                               models.notice_homework.objects.filter(student_num_id=student_num)]
-        unnoticed_homework_num = len(models.notice_homework.objects.filter(student_num_id=student_num))
-        unnoticed_competition_num = len(models.notice_competition.objects.filter(student_num_id=student_num))
-        unnoticed_activity_num = len(models.notice_activity.objects.filter(student_num_id=student_num))
-        unnoticed_message_num = len(models.notice_message.objects.filter(student_num_id=student_num))
+
         return render(request, "messages_homework.html", locals())
 
 
 # 比赛通知
 def message_competition(request):
     if request.method == "GET":
+        # 根据学号获取学生姓名（页面右上角要展示姓名）和身份
         student_num = request.GET.get("student_num")
+        student_name = models.student.objects.get(student_num=student_num).student_name
+        auth = models.users.objects.get(student_num=student_num).auth
         messages = models.message_competition.objects.filter(useable=True)
-        unnoticed_homework_num = len(models.notice_homework.objects.filter(student_num_id=student_num))
-        unnoticed_competition_num = len(models.notice_competition.objects.filter(student_num_id=student_num))
-        unnoticed_activity_num = len(models.notice_activity.objects.filter(student_num_id=student_num))
-        unnoticed_message_num = len(models.notice_message.objects.filter(student_num_id=student_num))
+        unnoticed_homework_num, unnoticed_competition_num, unnoticed_activity_num, unnoticed_message_num = get_unnoticed_num(
+            student_num)
         unnoticed_messages = [message.ms_num_id for message in
                               models.notice_competition.objects.filter(student_num_id=student_num)]
         return render(request, "messages_competition.html", locals())
@@ -107,11 +125,11 @@ def message_competition(request):
 def message_activity(request):
     if request.method == "GET":
         student_num = request.GET.get("student_num")
+        student_name = models.student.objects.get(student_num=student_num).student_name
+        auth = models.users.objects.get(student_num=student_num).auth
         messages = models.message_activity.objects.filter(useable=True)
-        unnoticed_homework_num = len(models.notice_homework.objects.filter(student_num_id=student_num))
-        unnoticed_competition_num = len(models.notice_competition.objects.filter(student_num_id=student_num))
-        unnoticed_activity_num = len(models.notice_activity.objects.filter(student_num_id=student_num))
-        unnoticed_message_num = len(models.notice_message.objects.filter(student_num_id=student_num))
+        unnoticed_homework_num, unnoticed_competition_num, unnoticed_activity_num, unnoticed_message_num = get_unnoticed_num(
+            student_num)
         unnoticed_messages = [message.ms_num_id for message in
                               models.notice_activity.objects.filter(student_num_id=student_num)]
         return render(request, "messages_activity.html", locals())
@@ -121,12 +139,11 @@ def message_activity(request):
 def message_message(request):
     if request.method == "GET":
         student_num = request.GET.get("student_num")
-        auth = models.users.objects.get(student_num=student_num)
+        student_name = models.student.objects.get(student_num=student_num).student_name
+        auth = models.users.objects.get(student_num=student_num).auth
         messages = models.message_message.objects.filter(useable=True)
-        unnoticed_homework_num = len(models.notice_homework.objects.filter(student_num_id=student_num))
-        unnoticed_competition_num = len(models.notice_competition.objects.filter(student_num_id=student_num))
-        unnoticed_activity_num = len(models.notice_activity.objects.filter(student_num_id=student_num))
-        unnoticed_message_num = len(models.notice_message.objects.filter(student_num_id=student_num))
+        unnoticed_homework_num, unnoticed_competition_num, unnoticed_activity_num, unnoticed_message_num = get_unnoticed_num(
+            student_num)
         unnoticed_messages = [message.ms_num_id for message in
                               models.notice_message.objects.filter(student_num_id=student_num)]
         return render(request, "messages_message.html", locals())
@@ -137,13 +154,15 @@ def message(request):
     if request.method == "GET":
         student_num = request.GET.get("student_num")
         auth = models.users.objects.get(student_num=student_num).auth
+        student_name = models.student.objects.get(student_num=student_num).student_name
+
         # 根据传回的message_id获取到唯一对应的通知
         message_id = request.GET.get("message_id")
         type_code = request.GET.get("type")
         if type_code == "0":
             message = models.message_homework.objects.get(ms_num=message_id)
             try:
-                notice = models.notice_homework.objects.get(ms_num=message_id,student_num_id=student_num)
+                notice = models.notice_homework.objects.get(ms_num=message_id, student_num_id=student_num)
                 notice.delete()
             except:
                 pass
@@ -151,7 +170,7 @@ def message(request):
         elif type_code == "1":
             message = models.message_competition.objects.get(ms_num=message_id)
             try:
-                notice = models.notice_competition.objects.get(ms_num=message_id,student_num_id=student_num)
+                notice = models.notice_competition.objects.get(ms_num=message_id, student_num_id=student_num)
                 notice.delete()
             except:
                 pass
@@ -159,7 +178,7 @@ def message(request):
         elif type_code == "2":
             message = models.message_activity.objects.get(ms_num=message_id)
             try:
-                notice = models.notice_activity.objects.get(ms_num=message_id,student_num_id=student_num)
+                notice = models.notice_activity.objects.get(ms_num=message_id, student_num_id=student_num)
                 notice.delete()
             except:
                 pass
@@ -167,7 +186,7 @@ def message(request):
         elif type_code == "3":
             message = models.message_message.objects.get(ms_num=message_id)
         else:
-            return render(request, "competition_message.html", {"Not_Exist":True})
+            return render(request, "competition_message.html", {"Not_Exist": True})
 
         return render(request, "competition_message.html", locals())
 
@@ -194,17 +213,19 @@ def competition_publishment(request):
         place = request.POST["place"]
 
         # 转换比赛日期时间为可写入数据库的格式
-        competition_datetime = transfer(competition_date,competition_time)
+        competition_datetime = transfer(competition_date, competition_time)
 
         # 将比赛信息写入数据库
-        ms_num = models.message_competition.objects.create(title=title,description=description,competition_time=competition_datetime,place=place,useable=True).ms_num
+        ms_num = models.message_competition.objects.create(title=title, description=description,
+                                                           competition_time=competition_datetime, place=place,
+                                                           useable=True).ms_num
 
         # 将比赛未读信息写入数据库
         stu_lst = [stu.student_num for stu in models.users.objects.all()]
         for stu_num in stu_lst:
-            models.notice_competition.objects.create(ms_num_id=ms_num,student_num_id=stu_num)
+            models.notice_competition.objects.create(ms_num_id=ms_num, student_num_id=stu_num)
 
-        return render(request, "competition_upload.html", {"student_num":student_num, "auth":auth})
+        return render(request, "competition_upload.html", {"student_num": student_num, "auth": auth})
 
 
 def activity_publishment(request):
@@ -233,8 +254,8 @@ def activity_publishment(request):
 
         # 将比赛信息写入数据库
         ms_num = models.message_activity.objects.create(title=title, description=description,
-                                                           activity_time=activity_datetime, place=place,
-                                                           useable=True).ms_num
+                                                        activity_time=activity_datetime, place=place,
+                                                        useable=True).ms_num
 
         # 将比赛未读信息写入数据库
         stu_lst = [stu.student_num for stu in models.users.objects.all()]
@@ -242,6 +263,7 @@ def activity_publishment(request):
             models.notice_activity.objects.create(ms_num_id=ms_num, student_num_id=stu_num)
 
         return render(request, "activity_upload.html", {"student_num": student_num, "auth": auth})
+
 
 def homework_publishment(request):
     if request.method == "GET":
@@ -269,7 +291,9 @@ def homework_publishment(request):
         deadline_datetime = transfer(homework_date, homework_time)
 
         # 将比赛信息写入数据库
-        ms_num = models.message_homework.objects.create(title=title, text = text, Requirement=requirement, subject=subject, deadline=deadline_datetime, useable=True).ms_num
+        ms_num = models.message_homework.objects.create(title=title, text=text, Requirement=requirement,
+                                                        subject=subject, deadline=deadline_datetime,
+                                                        useable=True).ms_num
 
         # 将比赛未读信息写入数据库
         stu_lst = [stu.student_num for stu in models.users.objects.all()]
