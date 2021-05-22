@@ -1,21 +1,41 @@
+from random import random
+
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from Application import models
 from Application.Functions import Login, Document_Management
-from Application.Functions.MainPage import mainpage_show
-from Application.Functions.Message import message_homework_page, message_competition_page, message_activity_page, \
-    message_message_page, detailed_message_page, competition_publishment_page, activity_publishment_page, \
-    homework_publishment_page
-from Application.Functions.Message_Publishment import competition_publishment_deal, activity_publishment_deal, \
-    homework_publishment_deal
+from Class_Management_System import settings
+from Application.Functions.function import transfer
+import os
+import datetime
 
 # Create your views here.
+from Class_Management_System.settings import BASE_DIR
 
 
 def mainpage(request):
     if request.method == "GET":
-        return mainpage_show(request)
+        student_num = request.GET.get("student_num")
+        auth = models.users.objects.get(student_num=student_num).auth
+        student = models.student.objects.get(student_num=student_num)
+        student_name = student.student_name
+        self_description = student.self_description
+        path = "Image/" + student_num + ".jpeg"
+        course_path = "Image/course.png"
+
+        # 获取4类未读notice的数量
+        unnoticed_homework_num, unnoticed_competition_num, unnoticed_activity_num, unnoticed_message_num = get_unnoticed_num(
+            student_num)
+
+        message_num = unnoticed_homework_num + unnoticed_competition_num + unnoticed_activity_num + unnoticed_message_num
+        print(message_num)
+        return render(request, 'mainpage.html', locals())
     else:
         pass
+
+
+def show_login(request):
+    return render(request, 'pages-signin.html')
 
 
 def login(request):
@@ -55,51 +75,229 @@ def homework_upload(request):
         return render(request, "document_upload.html", {"student_num": student_num, "homework_name": homework_name})
 
 
+# 获取未读notice数量，用于显示通知的四个页面
+def get_unnoticed_num(student_num):
+    unnoticed_homework_num = len(models.notice_homework.objects.filter(student_num_id=student_num))
+    unnoticed_competition_num = len(models.notice_competition.objects.filter(student_num_id=student_num))
+    unnoticed_activity_num = len(models.notice_activity.objects.filter(student_num_id=student_num))
+    unnoticed_message_num = len(models.notice_message.objects.filter(student_num_id=student_num))
+    return unnoticed_homework_num, unnoticed_competition_num, unnoticed_activity_num, unnoticed_message_num
+
+
 # 作业通知
 def message_homework(request):
     if request.method == "GET":
-        return message_homework_page(request)
+        # 根据学号获取学生姓名（页面右上角要展示姓名）和身份
+        student_num = request.GET.get("student_num")
+        student_name = models.student.objects.get(student_num=student_num).student_name
+        auth = models.users.objects.get(student_num=student_num).auth
+
+        # 获取所有作业message
+        messages = models.message_homework.objects.filter(useable=True)
+
+        # 获取4类未读notice的数量
+        unnoticed_homework_num, unnoticed_competition_num, unnoticed_activity_num, unnoticed_message_num = get_unnoticed_num(
+            student_num)
+
+        # 获取未读作业消息
+        unnoticed_homework = [message.ms_num_id for message in
+                              models.notice_homework.objects.filter(student_num_id=student_num)]
+
+        return render(request, "messages_homework.html", locals())
 
 
 # 比赛通知
 def message_competition(request):
     if request.method == "GET":
-        return message_competition_page(request)
+        # 根据学号获取学生姓名（页面右上角要展示姓名）和身份
+        student_num = request.GET.get("student_num")
+        student_name = models.student.objects.get(student_num=student_num).student_name
+        auth = models.users.objects.get(student_num=student_num).auth
+        messages = models.message_competition.objects.filter(useable=True)
+        unnoticed_homework_num, unnoticed_competition_num, unnoticed_activity_num, unnoticed_message_num = get_unnoticed_num(
+            student_num)
+        unnoticed_messages = [message.ms_num_id for message in
+                              models.notice_competition.objects.filter(student_num_id=student_num)]
+        return render(request, "messages_competition.html", locals())
 
 
 # 活动通知
 def message_activity(request):
     if request.method == "GET":
-        return message_activity_page(request)
+        student_num = request.GET.get("student_num")
+        student_name = models.student.objects.get(student_num=student_num).student_name
+        auth = models.users.objects.get(student_num=student_num).auth
+        messages = models.message_activity.objects.filter(useable=True)
+        unnoticed_homework_num, unnoticed_competition_num, unnoticed_activity_num, unnoticed_message_num = get_unnoticed_num(
+            student_num)
+        unnoticed_messages = [message.ms_num_id for message in
+                              models.notice_activity.objects.filter(student_num_id=student_num)]
+        return render(request, "messages_activity.html", locals())
 
 
 # 通知消息
 def message_message(request):
     if request.method == "GET":
-        return message_message_page(request)
+        student_num = request.GET.get("student_num")
+        student_name = models.student.objects.get(student_num=student_num).student_name
+        auth = models.users.objects.get(student_num=student_num).auth
+        messages = models.message_message.objects.filter(useable=True)
+        unnoticed_homework_num, unnoticed_competition_num, unnoticed_activity_num, unnoticed_message_num = get_unnoticed_num(
+            student_num)
+        unnoticed_messages = [message.ms_num_id for message in
+                              models.notice_message.objects.filter(student_num_id=student_num)]
+        return render(request, "messages_message.html", locals())
 
 
 # 查看消息详情
 def message(request):
     if request.method == "GET":
-        return detailed_message_page(request)
+        student_num = request.GET.get("student_num")
+        auth = models.users.objects.get(student_num=student_num).auth
+        student_name = models.student.objects.get(student_num=student_num).student_name
+
+        # 根据传回的message_id获取到唯一对应的通知
+        message_id = request.GET.get("message_id")
+        type_code = request.GET.get("type")
+        if type_code == "0":
+            message = models.message_homework.objects.get(ms_num=message_id)
+            try:
+                notice = models.notice_homework.objects.get(ms_num=message_id, student_num_id=student_num)
+                notice.delete()
+            except:
+                pass
+            return render(request, "homework_message.html", locals())
+        elif type_code == "1":
+            message = models.message_competition.objects.get(ms_num=message_id)
+            try:
+                notice = models.notice_competition.objects.get(ms_num=message_id, student_num_id=student_num)
+                notice.delete()
+            except:
+                pass
+            return render(request, "competition_message.html", locals())
+        elif type_code == "2":
+            message = models.message_activity.objects.get(ms_num=message_id)
+            try:
+                notice = models.notice_activity.objects.get(ms_num=message_id, student_num_id=student_num)
+                notice.delete()
+            except:
+                pass
+            return render(request, "activity_message.html", locals())
+        elif type_code == "3":
+            message = models.message_message.objects.get(ms_num=message_id)
+        else:
+            return render(request, "competition_message.html", {"Not_Exist": True})
+
+        return render(request, "competition_message.html", locals())
 
 
 def competition_publishment(request):
     if request.method == "GET":
-        return competition_publishment_page(request)
+
+        # 传递用户名和权限信息
+        student_num = request.GET.get("student_num")
+        auth = models.users.objects.get(student_num=student_num).auth
+
+        return render(request, "competition_upload.html", locals())
     elif request.method == "POST":
-        return competition_publishment_deal(request)
+
+        # 传递用户名和权限信息
+        student_num = request.GET.get("student_num")
+        auth = models.users.objects.get(student_num=student_num).auth
+
+        # 获取表单信息
+        title = request.POST["competition_title"]
+        description = request.POST["description"]
+        competition_date = request.POST["competition_date"]
+        competition_time = request.POST["competition_time"]
+        place = request.POST["place"]
+
+        # 转换比赛日期时间为可写入数据库的格式
+        competition_datetime = transfer(competition_date, competition_time)
+
+        # 将比赛信息写入数据库
+        ms_num = models.message_competition.objects.create(title=title, description=description,
+                                                           competition_time=competition_datetime, place=place,
+                                                           useable=True).ms_num
+
+        # 将比赛未读信息写入数据库
+        stu_lst = [stu.student_num for stu in models.users.objects.all()]
+        for stu_num in stu_lst:
+            models.notice_competition.objects.create(ms_num_id=ms_num, student_num_id=stu_num)
+
+        return render(request, "competition_upload.html", {"student_num": student_num, "auth": auth})
 
 
 def activity_publishment(request):
     if request.method == "GET":
-        return activity_publishment_page(request)
+
+        # 传递用户名和权限信息
+        student_num = request.GET.get("student_num")
+        auth = models.users.objects.get(student_num=student_num).auth
+
+        return render(request, "activity_upload.html", locals())
     elif request.method == "POST":
-        return activity_publishment_deal(request)
+
+        # 传递用户名和权限信息
+        student_num = request.GET.get("student_num")
+        auth = models.users.objects.get(student_num=student_num).auth
+
+        # 获取表单信息
+        title = request.POST["activity_title"]
+        description = request.POST["description"]
+        activity_date = request.POST["activity_date"]
+        activity_time = request.POST["activity_time"]
+        place = request.POST["place"]
+
+        # 转换比赛日期时间为可写入数据库的格式
+        activity_datetime = transfer(activity_date, activity_time)
+
+        # 将比赛信息写入数据库
+        ms_num = models.message_activity.objects.create(title=title, description=description,
+                                                        activity_time=activity_datetime, place=place,
+                                                        useable=True).ms_num
+
+        # 将比赛未读信息写入数据库
+        stu_lst = [stu.student_num for stu in models.users.objects.all()]
+        for stu_num in stu_lst:
+            models.notice_activity.objects.create(ms_num_id=ms_num, student_num_id=stu_num)
+
+        return render(request, "activity_upload.html", {"student_num": student_num, "auth": auth})
+
 
 def homework_publishment(request):
     if request.method == "GET":
-        return homework_publishment_page(request)
+
+        # 传递用户名和权限信息
+        student_num = request.GET.get("student_num")
+        auth = models.users.objects.get(student_num=student_num).auth
+
+        return render(request, "homework_upload.html", locals())
     elif request.method == "POST":
-        return homework_publishment_deal(request)
+
+        # 传递用户名和权限信息
+        student_num = request.GET.get("student_num")
+        auth = models.users.objects.get(student_num=student_num).auth
+
+        # 获取表单信息
+        title = request.POST["homework_title"]
+        text = request.POST["text"]
+        homework_date = request.POST["homework_date"]
+        homework_time = request.POST["homework_time"]
+        subject = request.POST["subject"]
+        requirement = request.POST["requirement"]
+
+        # 转换比赛日期时间为可写入数据库的格式
+        deadline_datetime = transfer(homework_date, homework_time)
+
+        # 将比赛信息写入数据库
+        ms_num = models.message_homework.objects.create(title=title, text=text, Requirement=requirement,
+                                                        subject=subject, deadline=deadline_datetime,
+                                                        useable=True).ms_num
+
+        # 将比赛未读信息写入数据库
+        stu_lst = [stu.student_num for stu in models.users.objects.all()]
+        for stu_num in stu_lst:
+            models.notice_homework.objects.create(ms_num_id=ms_num, student_num_id=stu_num)
+
+        return render(request, "homework_upload.html", {"student_num": student_num, "auth": auth})
