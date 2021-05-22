@@ -6,8 +6,11 @@ def message_homework_page(request):
     # 用于优化页面细节
     page = "通知&消息"
 
-    # 获取学生学号
+    # 获取学生学号、姓名、auth
     student_num = request.GET.get("student_num")
+    student_name = models.student.objects.get(student_num=student_num).student_name
+    auth = models.users.objects.get(student_num=student_num).auth
+
     # 查询所有有效作业通知
     messages = models.message_homework.objects.filter(useable=True).order_by("-published_time")
 
@@ -27,8 +30,11 @@ def message_competition_page(request):
     # 优化页面细节
     page = "通知&消息"
 
-    # 获取学生学号
+    # 获取学生学号、姓名、auth
     student_num = request.GET.get("student_num")
+    student_name = models.student.objects.get(student_num=student_num).student_name
+    auth = models.users.objects.get(student_num=student_num).auth
+
     # 获取所有比赛通知
     messages = models.message_competition.objects.filter(useable=True).order_by("-published_time")
 
@@ -48,8 +54,11 @@ def message_activity_page(request):
     # 优化页面细节
     page = "通知&消息"
 
-    # 获取学生学号
+    # 获取学生学号、姓名、auth
     student_num = request.GET.get("student_num")
+    student_name = models.student.objects.get(student_num=student_num).student_name
+    auth = models.users.objects.get(student_num=student_num).auth
+
     # 获取所有有效活动通知
     messages = models.message_activity.objects.filter(useable=True)
 
@@ -69,9 +78,11 @@ def message_message_page(request):
     # 优化页面细节
     page = "通知&消息"
 
-    # 获取学生学号并以此获得权限
+    # 获取学生学号、姓名、auth
     student_num = request.GET.get("student_num")
-    auth = models.users.objects.get(student_num=student_num)
+    student_name = models.student.objects.get(student_num=student_num).student_name
+    auth = models.users.objects.get(student_num=student_num).auth
+
     # 获取所有未读消息
     messages = models.message_message.objects.filter(useable=True)
 
@@ -91,8 +102,9 @@ def detailed_message_page(request):
     # 优化页面细节
     page = "通知&消息"
 
-    # 获取学生学号和权限
+    # 获取学生学号、姓名、auth
     student_num = request.GET.get("student_num")
+    student_name = models.student.objects.get(student_num=student_num).student_name
     auth = models.users.objects.get(student_num=student_num).auth
 
     # 获取回传的ms_num(message_id)和通知种类
@@ -145,8 +157,9 @@ def detailed_message_page(request):
 def competition_publishment_page(request):
     page = "班级管理"
 
-    # 传递用户名和权限信息
+    # 传递学号、用户名和权限信息
     student_num = request.GET.get("student_num")
+    student_name = models.student.objects.get(student_num=student_num).student_name
     auth = models.users.objects.get(student_num=student_num).auth
 
     return render(request, "competition_upload.html", locals())
@@ -155,8 +168,9 @@ def competition_publishment_page(request):
 def activity_publishment_page(request):
     page = "班级管理"
 
-    # 传递用户名和权限信息
+    # 传递学号、用户名和权限信息
     student_num = request.GET.get("student_num")
+    student_name = models.student.objects.get(student_num=student_num).student_name
     auth = models.users.objects.get(student_num=student_num).auth
 
     return render(request, "activity_upload.html", locals())
@@ -165,8 +179,9 @@ def activity_publishment_page(request):
 def homework_publishment_page(request):
     page = "班级管理"
 
-    # 传递用户名和权限信息
+    # 传递学号、用户名和权限信息
     student_num = request.GET.get("student_num")
+    student_name = models.student.objects.get(student_num=student_num).student_name
     auth = models.users.objects.get(student_num=student_num).auth
 
     return render(request, "homework_upload.html", locals())
