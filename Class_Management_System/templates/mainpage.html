@@ -299,7 +299,7 @@
     <!-- Basic -->
     <meta charset="UTF-8">
 
-    <title>Admin</title>
+    <title>{% block title %}19级信息管理与信息系统2班{% endblock title %}</title>
     <meta name="keywords" content="HTML5 Admin Template">
     <meta name="description" content="JSOFT Admin - Responsive HTML5 Template">
 
@@ -312,27 +312,31 @@
           rel="stylesheet" type="text/css">
 
     <!-- Vendor CSS -->
-    <link rel="stylesheet" href="../static/vendor/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="../static/vendor/font-awesome/css/font-awesome.css">
-    <link rel="stylesheet" href="../static/vendor/magnific-popup/magnific-popup.css">
-    <link rel="stylesheet" href="../static/vendor/bootstrap-datepicker/css/datepicker3.css">
+    <link rel="stylesheet" href="/static/vendor/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/vendor/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="/static/vendor/magnific-popup/magnific-popup.css">
+    <link rel="stylesheet" href="/static/vendor/bootstrap-datepicker/css/datepicker3.css">
 
     <!-- Specific Page Vendor CSS -->
-    <link rel="stylesheet" href="../static/vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.css">
-    <link rel="stylesheet" href="../static/vendor/bootstrap-multiselect/bootstrap-multiselect.css">
-    <link rel="stylesheet" href="../static/vendor/morris/morris.css">
+    <link rel="stylesheet" href="/static/vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.css">
+    <link rel="stylesheet" href="/static/vendor/bootstrap-multiselect/bootstrap-multiselect.css">
+    <link rel="stylesheet" href="/static/vendor/morris/morris.css">
 
     <!-- Theme CSS -->
-    <link rel="stylesheet" href="../static/stylesheets/theme.css">
+    <link rel="stylesheet" href="/static/stylesheets/theme.css">
 
     <!-- Skin CSS -->
-    <link rel="stylesheet" href="../static/stylesheets/skins/default.css">
+    <link rel="stylesheet" href="/static/stylesheets/skins/default.css">
 
     <!-- Theme Custom CSS -->
-    <link rel="stylesheet" href="../static/stylesheets/theme-custom.css">
+    <link rel="stylesheet" href="/static/stylesheets/theme-custom.css">
+
+    {% block additional_css %}
+
+    {% endblock additional_css %}
 
     <!-- Head Libs -->
-    <script src="../static/vendor/modernizr/modernizr.js"></script>
+    <script src="/static/vendor/modernizr/modernizr.js"></script>
 
     <style>.pw-panel {
         position: fixed;
@@ -807,219 +811,179 @@
 
     <div class="inner-wrapper">
         <!-- start: sidebar -->
-        <aside id="sidebar-left" class="sidebar-left">
+        {% block navigation %}
+            <aside id="sidebar-left" class="sidebar-left">
 
-            <div class="sidebar-header">
-                <div class="sidebar-title" style="color: white">
-                    Navigation
+                <div class="sidebar-header">
+                    <div class="sidebar-title" style="color: white">
+                        19信二yyds
+                    </div>
+                    <div class="sidebar-toggle hidden-xs" data-toggle-class="sidebar-left-collapsed" data-target="html"
+                         data-fire-event="sidebar-left-toggle">
+                        <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
+                    </div>
                 </div>
-                <div class="sidebar-toggle hidden-xs" data-toggle-class="sidebar-left-collapsed" data-target="html"
-                     data-fire-event="sidebar-left-toggle">
-                    <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
-                </div>
-            </div>
 
-            <div class="nano">
-                <div class="nano-content" tabindex="0">
-                    <nav id="menu" class="nav-main" role="navigation">
-                        <ul class="nav nav-main">
-                            <li class="nav-active nav-expanded">
-                                <a href="/mainpage?student_num={{ student_num }}">
-                                    <i class="fa fa-home" aria-hidden="true"></i>
-                                    <span>主页</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/mainpage/messages_homework?student_num={{ student_num }}">
-                                    <span class="pull-right label label-primary">182</span>
-                                    <i class="fa fa-envelope" aria-hidden="true"></i>
-                                    <span>通知&amp;消息</span>
-                                </a>
-                            </li>
-                            <li class="nav-parent">
-                                <a>
-                                    <i class="fa fa-copy" aria-hidden="true"></i>
-                                    <span>提交作业</span>
-                                </a>
-                                <ul class="nav nav-children">
-                                    <li>
-                                        <a href="">
-                                            作业DDL一览
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="">
-                                            我提交的作业
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-parent">
-                                <a>
-                                    <i class="fa fa-tasks" aria-hidden="true"></i>
-                                    <span>班级Gallery</span>
-                                </a>
-                                <ul class="nav nav-children">
-                                    <li>
-                                        <a href="">
-                                            班级成员
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="">
-                                            班级委员
-                                        </a>
-                                    </li>
-
-                                </ul>
-                            </li>
-                            <li class="nav-parent">
-                                <a>
-                                    <i class="fa fa-list-alt" aria-hidden="true"></i>
-                                    <span>提交获奖信息</span>
-                                </a>
-                                <ul class="nav nav-children">
-                                    <li>
-                                        <a href="">
-                                            提交获奖信息
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="">
-                                            奖项审核进度
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="">
-                                            审核通过的奖项
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav nav-children">
-                                <a>
-                                    <i class="fa fa-table" aria-hidden="true"></i>
-                                    <span>活动分查看</span>
-                                </a>
-                            </li>
-                            <li class="nav-parent">
-
-                                <ul class="nav nav-children">
-                                    <li>
-                                        <a href="maps-google-maps.html">
-                                            Basic
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="maps-google-maps-builder.html">
-                                            Map Builder
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="maps-vector.html">
-                                            Vector
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-parent">
-
-                                <ul class="nav nav-children">
-                                    <li>
-                                        <a href="layouts-default.html">
-                                            Default
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="layouts-boxed.html">
-                                            Boxed
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="layouts-menu-collapsed.html">
-                                            Menu Collapsed
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="layouts-scroll.html">
-                                            Scroll
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            {% if auth != "Student" %}
-                                <li class="nav-parent">
-                                    <a>
-                                        <i class="fa fa-align-left" aria-hidden="true"></i>
-                                        <span>班级管理</span>
+                <div class="nano">
+                    <div class="nano-content" tabindex="0">
+                        <nav id="menu" class="nav-main" role="navigation">
+                            <ul class="nav nav-main">
+                                <!-- 传入一个page参数来控制导航栏显示 -->
+                                <li {% if page == "主页" %} class="nav-active nav-expanded" {% endif %}>
+                                    <a href="/mainpage?student_num={{ student_num }}&auth={{ auth }}">
+                                        <i class="fa fa-home" aria-hidden="true"></i>
+                                        <span>主页</span>
                                     </a>
-                                    <ul class="nav nav-children" style="">
-                                        <li class="nav-parent">
-                                            <a>发布通知</a>
-                                            <ul class="nav nav-children">
-                                                <li><a href="">发布比赛通知</a></li>
-                                                <li><a href="">发布活动通知</a></li>
-
-                                                {% if auth == "Study" %}
-                                                    <li><a href="">发布作业通知</a></li>
-                                                {% endif %}
-
-                                            </ul>
-                                        </li>
-
+                                </li>
+                                <li {% if page == "通知&消息" %}class="nav-active nav-expanded"{% endif %}>
+                                    <a href="/mainpage/messages_homework?student_num={{ student_num }}">
+                                        <span class="pull-right label label-primary">{{ message_num }}</span>
+                                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                                        <span>通知&amp;消息</span>
+                                    </a>
+                                </li>
+                                <li class="nav-parent {% if page == "提交作业" %}nav-active nav-expanded{% endif %}">
+                                    <a>
+                                        <i class="fa fa-copy" aria-hidden="true"></i>
+                                        <span>提交作业</span>
+                                    </a>
+                                    <ul class="nav nav-children">
                                         <li>
-                                            <a>通知反馈</a>
+                                            <a href="">
+                                                作业DDL一览
+                                            </a>
                                         </li>
                                         <li>
-                                            <a>获奖审核</a>
+                                            <a href="">
+                                                我提交的作业
+                                            </a>
                                         </li>
-                                        <li>
-                                            <a>活动分统计</a>
-                                        </li>
-                                        {% if auth == "Study" %}
-                                            <li>
-                                                <a>作业管理</a>
-                                            </li>
-                                        {% endif %}
                                     </ul>
                                 </li>
-                            {% endif %}
-                            <li>
+                                <li class="nav-parent {% if page == "班级Gallery" %}nav-active nav-expanded{% endif %}">
+                                    <a>
+                                        <i class="fa fa-tasks" aria-hidden="true"></i>
+                                        <span>班级Gallery</span>
+                                    </a>
+                                    <ul class="nav nav-children">
+                                        <li>
+                                            <a href="">
+                                                班级成员
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="">
+                                                班级委员
+                                            </a>
+                                        </li>
 
-                            </li>
-                        </ul>
-                    </nav>
+                                    </ul>
+                                </li>
+                                <li class="nav-parent {% if page == "提交获奖信息" %}nav-active nav-expanded{% endif %}">
+                                    <a>
+                                        <i class="fa fa-list-alt" aria-hidden="true"></i>
+                                        <span>提交获奖信息</span>
+                                    </a>
+                                    <ul class="nav nav-children">
+                                        <li>
+                                            <a href="">
+                                                提交获奖信息
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="">
+                                                奖项审核进度
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="">
+                                                审核通过的奖项
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav nav-children {% if page == "活动分查看" %}nav-active nav-expanded{% endif %}">
+                                    <a>
+                                        <i class="fa fa-table" aria-hidden="true"></i>
+                                        <span>活动分查看</span>
+                                    </a>
+                                </li>
+                                {% if auth != "Student" %}
+                                    <li class="nav-parent  {% if page == "班级管理" %}nav-active nav-expanded{% endif %}">
+                                        <a>
+                                            <i class="fa fa-align-left" aria-hidden="true"></i>
+                                            <span>班级管理</span>
+                                        </a>
+                                        <ul class="nav nav-children" style="">
+                                            <li class="nav-parent">
+                                                <a>发布通知</a>
+                                                <ul class="nav nav-children">
+                                                    <li><a href="/management/notice_publishment/competition?student_num={{ student_num }}&auth={{ auth }}">发布比赛通知</a></li>
+                                                    <li><a href="/management/notice_publishment/activity?student_num={{ student_num }}&auth={{ auth }}">发布活动通知</a></li>
+
+                                                    {% if auth == "Study" %}
+                                                        <li><a href="/management/notice_publishment/homework?student_num={{ student_num }}&auth={{ auth }}">发布作业通知</a></li>
+                                                    {% endif %}
+
+                                                </ul>
+                                            </li>
+
+                                            <li>
+                                                <a>通知反馈</a>
+                                            </li>
+                                            <li>
+                                                <a>获奖审核</a>
+                                            </li>
+                                            <li>
+                                                <a>活动分统计</a>
+                                            </li>
+                                            {% if auth == "Study" %}
+                                                <li>
+                                                    <a>作业管理</a>
+                                                </li>
+                                            {% endif %}
+                                        </ul>
+                                    </li>
+                                {% endif %}
+                                <li>
+
+                                </li>
+                            </ul>
+                        </nav>
 
 
-                    <div class="sidebar-widget widget-tasks">
-                        <div class="widget-header">
+                        <div class="sidebar-widget widget-tasks">
+                            <div class="widget-header">
 
+
+                            </div>
 
                         </div>
 
-                    </div>
+
+                        <div class="sidebar-widget widget-stats">
+                            <div class="widget-header">
 
 
-                    <div class="sidebar-widget widget-stats">
-                        <div class="widget-header">
-
+                            </div>
 
                         </div>
+                    </div>
 
+                    <div class="nano-pane" style="display: none; opacity: 1; visibility: visible;">
+                        <div class="nano-slider" style="height: 569px; transform: translate(0px, 0px);"></div>
                     </div>
                 </div>
 
-                <div class="nano-pane" style="display: none; opacity: 1; visibility: visible;">
-                    <div class="nano-slider" style="height: 569px; transform: translate(0px, 0px);"></div>
-                </div>
-            </div>
+            </aside>
+        {% endblock navigation %}
 
-        </aside>
         <!-- end: sidebar -->
 
         <section role="main" class="content-body">
+
             <header class="page-header">
-                <h2>主页</h2>
+                <h2>{% block page_title %}主页{% endblock page_title %}</h2>
 
                 <div class="right-wrapper pull-right">
                     <ol class="breadcrumbs">
@@ -1028,100 +992,96 @@
                                 <i class="fa fa-home"></i>
                             </a>
                         </li>
-                        <li><span>主页</span></li>
+                        {% block breadcrumbs %}
+                            <li><span>主页</span></li>
+                        {% endblock %}
                     </ol>
 
                     <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
                 </div>
             </header>
 
-            <div class="row">
-                <div class="col-md-6">
-                    <section class="panel">
-                        <div class="panel-body" style=" height: 700px">
-                            <div class="thumb-info mb-md">
-                                <img src={% static path %} class="rounded img-responsive"
-                                alt="John Doe">
-                                <div class="thumb-info-title">
-                                    <span class="thumb-info-inner">{{ student_name }}</span>
-                                    <span class="thumb-info-type">WHU</span>
+            {% block content %}
+                <div class="row">
+                    <div class="col-md-6">
+                        <section class="panel">
+                            <div class="panel-body" style=" height: 700px">
+                                <div class="thumb-info mb-md">
+                                    <img src={% static path %} class="rounded img-responsive" alt="John Doe">
+                                    <div class="thumb-info-title">
+                                        <span class="thumb-info-inner">{{ student_name }}</span>
+                                        <span class="thumb-info-type">WHU</span>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="widget-toggle-expand mb-md">
-                                <div class="widget-header">
-                                    <table style="column-gap: 1%">
-                                        <tr>
-                                            <td width="40"><strong>姓名</strong></td>
-                                            <td>{{ student_name }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>学号</strong></td>
-                                            <td>{{ student_num }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>班级</strong></td>
-                                            <td>19信息管理与信息系统2班</td>
-                                        </tr>
-                                    </table>
+                                <div class="widget-toggle-expand mb-md">
+                                    <div class="widget-header">
+                                        <table style="column-gap: 1%">
+                                            <tr>
+                                                <td width="40"><strong>姓名</strong></td>
+                                                <td>{{ student_name }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>学号</strong></td>
+                                                <td>{{ student_num }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>班级</strong></td>
+                                                <td>19信息管理与信息系统2班</td>
+                                            </tr>
+                                        </table>
+
+                                    </div>
+                                </div>
+
+                                <h6 class="text-muted"><strong>个人简介</strong></h6>
+                                <p>{{ self_description }}</p>
+                                <div class="clearfix">
 
                                 </div>
-                            </div>
 
-                            <h6 class="text-muted"><strong>个人简介</strong></h6>
-                            <p>{{ self_description }}</p>
-                            <div class="clearfix">
+                                <hr class="dotted short">
+
 
                             </div>
-
-                            <hr class="dotted short">
-
-
-                        </div>
-                    </section>
-                </div>
-                <div class="col-md-6">
-                    <section class="panel">
-                        <div class="panel-body" style="height: 700px">
-                            <div class="widget-toggle-expand mb-md">
-                                <div class="widget-header">
-                                    <h6>近期通知：</h6>
+                        </section>
+                    </div>
+                    <div class="col-md-6">
+                        <section class="panel">
+                            <div class="panel-body" style="height: 700px">
+                                <div class="widget-toggle-expand mb-md">
+                                    <div class="widget-header">
+                                        <h6>近期通知：</h6>
+                                    </div>
+                                    <div class="widget-content-expanded">
+                                        <ul class="simple-todo-list">
+                                            <li class="completed">5/29信息管理与信息系统汇报</li>
+                                            <li class="completed">6/12四级考试</li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <div class="widget-content-expanded">
-                                    <ul class="simple-todo-list">
-                                        <li class="completed">5/29信息管理与信息系统汇报</li>
-                                        <li class="completed">6/12四级考试</li>
-                                    </ul>
+
+                                <hr class="dotted short">
+
+                                <h6 class="text-muted"><strong>留言板</strong></h6>
+                                <p>留言板内容</p>
+                                <hr class="dotted short">
+
+                                <h6>
+                                    <strong>课程表</strong>
+                                </h6>
+                                <div class="thumb-info mb-md" align="center">
+                                    <img style="max-height: 45%;max-width: 45%"
+                                         src={% static course_path %}  class="rounded
+                                         img-responsive" alt="John Doe">
                                 </div>
+
+
                             </div>
-
-                            <hr class="dotted short">
-
-                            <h6 class="text-muted"><strong>留言板</strong></h6>
-                            <p>留言板内容</p>
-                            <hr class="dotted short">
-
-                            <h6>
-                                <strong>课程表</strong>
-                            </h6>
-                            <div class="thumb-info mb-md" align="center">
-                                <img style="max-height: 45%;max-width: 45%" src={% static course_path %}  class="rounded
-                                     img-responsive" alt="John Doe">
-                            </div>
-
-
-                        </div>
-                    </section>
+                        </section>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-
-                </div>
-                <div class="col-md-6">
-
-                </div>
-            </div>
+            {% endblock content %}
             <!-- end: page -->
         </section>
     </div>
@@ -1490,53 +1450,53 @@
 </section>
 
 <!-- Vendor -->
-<script src="../static/vendor/jquery/jquery.js"></script>
-<script src="../static/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
-<script src="../static/vendor/bootstrap/js/bootstrap.js"></script>
-<script src="../static/vendor/nanoscroller/nanoscroller.js"></script>
-<script src="../static/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-<script src="../static/vendor/magnific-popup/magnific-popup.js"></script>
-<script src="../static/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+<script src="/static/vendor/jquery/jquery.js"></script>
+<script src="/static/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
+<script src="/static/vendor/bootstrap/js/bootstrap.js"></script>
+<script src="/static/vendor/nanoscroller/nanoscroller.js"></script>
+<script src="/static/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<script src="/static/vendor/magnific-popup/magnific-popup.js"></script>
+<script src="/static/vendor/jquery-placeholder/jquery.placeholder.js"></script>
 
 <!-- Specific Page Vendor -->
-<script src="../static/vendor/jquery-ui/js/jquery-ui-1.10.4.custom.js"></script>
-<script src="../static/vendor/jquery-ui-touch-punch/jquery.ui.touch-punch.js"></script>
-<script src="../static/vendor/jquery-appear/jquery.appear.js"></script>
-<script src="../static/vendor/bootstrap-multiselect/bootstrap-multiselect.js"></script>
-<script src="../static/vendor/jquery-easypiechart/jquery.easypiechart.js"></script>
-<script src="../static/vendor/flot/jquery.flot.js"></script>
-<script src="../static/vendor/flot-tooltip/jquery.flot.tooltip.js"></script>
-<script src="../static/vendor/flot/jquery.flot.pie.js"></script>
-<script src="../static/vendor/flot/jquery.flot.categories.js"></script>
-<script src="../static/vendor/flot/jquery.flot.resize.js"></script>
-<script src="../static/vendor/jquery-sparkline/jquery.sparkline.js"></script>
-<script src="../static/vendor/raphael/raphael.js"></script>
-<script src="../static/vendor/morris/morris.js"></script>
-<script src="../static/vendor/gauge/gauge.js"></script>
-<script src="../static/vendor/snap-svg/snap.svg.js"></script>
-<script src="../static/vendor/liquid-meter/liquid.meter.js"></script>
-<script src="../static/vendor/jqvmap/jquery.vmap.js"></script>
-<script src="../static/vendor/jqvmap/data/jquery.vmap.sampledata.js"></script>
-<script src="../static/vendor/jqvmap/maps/jquery.vmap.world.js"></script>
-<script src="../static/vendor/jqvmap/maps/continents/jquery.vmap.africa.js"></script>
-<script src="../static/vendor/jqvmap/maps/continents/jquery.vmap.asia.js"></script>
-<script src="../static/vendor/jqvmap/maps/continents/jquery.vmap.australia.js"></script>
-<script src="../static/vendor/jqvmap/maps/continents/jquery.vmap.europe.js"></script>
-<script src="../static/vendor/jqvmap/maps/continents/jquery.vmap.north-america.js"></script>
-<script src="../static/vendor/jqvmap/maps/continents/jquery.vmap.south-america.js"></script>
+<script src="/static/vendor/jquery-ui/js/jquery-ui-1.10.4.custom.js"></script>
+<script src="/static/vendor/jquery-ui-touch-punch/jquery.ui.touch-punch.js"></script>
+<script src="/static/vendor/jquery-appear/jquery.appear.js"></script>
+<script src="/static/vendor/bootstrap-multiselect/bootstrap-multiselect.js"></script>
+<script src="/static/vendor/jquery-easypiechart/jquery.easypiechart.js"></script>
+<script src="/static/vendor/flot/jquery.flot.js"></script>
+<script src="/static/vendor/flot-tooltip/jquery.flot.tooltip.js"></script>
+<script src="/static/vendor/flot/jquery.flot.pie.js"></script>
+<script src="/static/vendor/flot/jquery.flot.categories.js"></script>
+<script src="/static/vendor/flot/jquery.flot.resize.js"></script>
+<script src="/static/vendor/jquery-sparkline/jquery.sparkline.js"></script>
+<script src="/static/vendor/raphael/raphael.js"></script>
+<script src="/static/vendor/morris/morris.js"></script>
+<script src="/static/vendor/gauge/gauge.js"></script>
+<script src="/static/vendor/snap-svg/snap.svg.js"></script>
+<script src="/static/vendor/liquid-meter/liquid.meter.js"></script>
+<script src="/static/vendor/jqvmap/jquery.vmap.js"></script>
+<script src="/static/vendor/jqvmap/data/jquery.vmap.sampledata.js"></script>
+<script src="/static/vendor/jqvmap/maps/jquery.vmap.world.js"></script>
+<script src="/static/vendor/jqvmap/maps/continents/jquery.vmap.africa.js"></script>
+<script src="/static/vendor/jqvmap/maps/continents/jquery.vmap.asia.js"></script>
+<script src="/static/vendor/jqvmap/maps/continents/jquery.vmap.australia.js"></script>
+<script src="/static/vendor/jqvmap/maps/continents/jquery.vmap.europe.js"></script>
+<script src="/static/vendor/jqvmap/maps/continents/jquery.vmap.north-america.js"></script>
+<script src="/static/vendor/jqvmap/maps/continents/jquery.vmap.south-america.js"></script>
 
 <!-- Theme Base, Components and Settings -->
-<script src="../static/javascripts/theme.js"></script>
+<script src="/static/javascripts/theme.js"></script>
 
 <!-- Theme Custom -->
-<script src="../static/javascripts/theme.custom.js"></script>
+<script src="/static/javascripts/theme.custom.js"></script>
 
 <!-- Theme Initialization Files -->
-<script src="../static/javascripts/theme.init.js"></script>
+<script src="/static/javascripts/theme.init.js"></script>
 
 
 <!-- Examples -->
-<script src="../static/javascripts/dashboard/examples.dashboard.js"></script>
+<script src="/static/javascripts/dashboard/examples.dashboard.js"></script>
 <div id="flotTip" style="display: none; position: absolute; left: 535px; top: 475px;">
     <div id="extwaiokist" style="display:none" v="fcoon" q="7bc7b595" c="13.83" i="21" u="258.5" s="05072114" d="1"
          w="false" e="" m="BMe=" vn="3gtra">

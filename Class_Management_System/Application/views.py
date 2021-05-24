@@ -1,31 +1,21 @@
-from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from Application import models
 from Application.Functions import Login, Document_Management
-from Class_Management_System import settings
-import os
+from Application.Functions.MainPage import mainpage_show
+from Application.Functions.Message import message_homework_page, message_competition_page, message_activity_page, \
+    message_message_page, detailed_message_page, competition_publishment_page, activity_publishment_page, \
+    homework_publishment_page
+from Application.Functions.Message_Publishment import competition_publishment_deal, activity_publishment_deal, \
+    homework_publishment_deal
 
 # Create your views here.
-from Class_Management_System.settings import BASE_DIR
 
 
 def mainpage(request):
     if request.method == "GET":
-        student_num = request.GET.get("student_num")
-        auth = models.users.objects.get(student_num=student_num).auth
-        student = models.student.objects.get(student_num=student_num)
-        student_name = student.student_name
-        self_description = student.self_description
-        path = "Image/" + student_num + ".jpeg"
-        course_path = "Image/course.png"
-        print(student.image.url)
-        return render(request, 'mainpage.html', locals())
+        return mainpage_show(request)
     else:
         pass
-
-
-def show_login(request):
-    return render(request, 'pages-signin.html')
 
 
 def login(request):
@@ -68,55 +58,48 @@ def homework_upload(request):
 # 作业通知
 def message_homework(request):
     if request.method == "GET":
-        student_num = request.GET.get("student_num")
-        messages = models.message_homework.objects.filter(useable=True)
-        unnoticed_messages = [message.ms_num_id for message in
-                              models.notice_homework.objects.filter(student_num_id=student_num)]
-        return render(request, "messages_homework.html", locals())
+        return message_homework_page(request)
 
 
 # 比赛通知
 def message_competition(request):
     if request.method == "GET":
-        student_num = request.GET.get("student_num")
-        messages = models.message_other.objects.filter(useable=True, type="competition")
-        unnoticed_messages = [message.ms_num_id for message in
-                              models.notice_other.objects.filter(student_num_id=student_num)]
-        return render(request, "messages_competition.html", locals())
+        return message_competition_page(request)
 
 
 # 活动通知
 def message_activity(request):
     if request.method == "GET":
-        student_num = request.GET.get("student_num")
-        messages = models.message_other.objects.filter(useable=True, type="activity")
-        unnoticed_messages = [message.ms_num_id for message in
-                              models.notice_other.objects.filter(student_num_id=student_num)]
-        return render(request, "messages_activity.html", locals())
+        return message_activity_page(request)
 
 
 # 通知消息
 def message_message(request):
     if request.method == "GET":
-        student_num = request.GET.get("student_num")
-        messages = models.message_other.objects.filter(useable=True, type="message")
-        unnoticed_messages = [message.ms_num_id for message in
-                              models.notice_other.objects.filter(student_num_id=student_num)]
-        return render(request, "messages_message.html", locals())
+        return message_message_page(request)
 
 
 # 查看消息详情
 def message(request):
     if request.method == "GET":
-        # 根据传回的message_id获取到唯一对应的通知
-        message_id = request.GET.get("message_id")
+        return detailed_message_page(request)
 
-        # 两个表都查一遍
-        message = models.message_homework.objects.filter(ms_num=message_id)
-        if not message:
-            message = models.message_other.objects.filter(ms_num=message_id)
 
-        # 这里注意，message是一个QuerySet，要取第一个
-        message = message[0]
+def competition_publishment(request):
+    if request.method == "GET":
+        return competition_publishment_page(request)
+    elif request.method == "POST":
+        return competition_publishment_deal(request)
 
-        return render(request, "message.html", locals())
+
+def activity_publishment(request):
+    if request.method == "GET":
+        return activity_publishment_page(request)
+    elif request.method == "POST":
+        return activity_publishment_deal(request)
+
+def homework_publishment(request):
+    if request.method == "GET":
+        return homework_publishment_page(request)
+    elif request.method == "POST":
+        return homework_publishment_deal(request)
