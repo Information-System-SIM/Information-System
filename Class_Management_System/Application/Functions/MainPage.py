@@ -2,8 +2,11 @@ from django.shortcuts import render
 from Application import models
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 from Application.Functions.function import get_image_path
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 import os
@@ -27,6 +30,9 @@ def mainpage_show(request):
     if path not in dir_lst:
         path = default_path
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
