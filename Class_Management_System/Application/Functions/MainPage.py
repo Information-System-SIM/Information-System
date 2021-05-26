@@ -1,8 +1,11 @@
 from django.shortcuts import render
 from Application import models
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 from Application.Functions.function import get_image_path
 =======
+=======
+>>>>>>> Stashed changes
 import os
 from Class_Management_System.settings import BASE_DIR
 
@@ -23,6 +26,9 @@ def mainpage_show(request):
     dir_lst = os.listdir(os.path.join(BASE_DIR,"static/Image/"))
     if path not in dir_lst:
         path = default_path
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     unnoticed_homework_num = len(models.notice_homework.objects.filter(student_num_id=student_num))
     unnoticed_competition_num = len(models.notice_competition.objects.filter(student_num_id=student_num))
