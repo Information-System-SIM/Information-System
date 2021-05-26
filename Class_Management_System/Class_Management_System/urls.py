@@ -33,4 +33,8 @@ urlpatterns = [
     path('management/notice_publishment/competition', views.competition_publishment),
     path('management/notice_publishment/activity', views.activity_publishment),
     path('management/notice_publishment/homework',views.homework_publishment),
+    path('homework/homework_list',views.homework_list),
+    path('homework/uploaded_homework',views.uploaded_homework),
+    path('management/homework',views.homework_management),
+    path('management/homework_notuploadedlist', views.homework_notuploadedlist)
 ]

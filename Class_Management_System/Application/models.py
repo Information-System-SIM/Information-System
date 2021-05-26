@@ -95,3 +95,9 @@ class notice_message(models.Model):
     id = models.AutoField(primary_key=True)
     ms_num = models.ForeignKey(message_message, on_delete=models.DO_NOTHING)
     student_num = models.ForeignKey(student, on_delete=models.DO_NOTHING)
+
+class homework_upload(models.Model):
+    id = models.AutoField(primary_key=True)
+    ms_num = models.ForeignKey(message_homework, on_delete=models.CASCADE)
+    student_num = models.ForeignKey(student, on_delete=models.DO_NOTHING)
+    location = models.CharField(max_length=256)

@@ -636,7 +636,7 @@
     <header class="header">
         <div class="logo-container">
             <a href="../.." class="logo">
-                <img src="../static/images/logo.png" height="35" alt="JSOFT Admin">
+                <img src={% static "images/logo.png" %} height="35" alt="JSOFT Admin">
             </a>
             <div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html"
                  data-fire-event="sidebar-left-opened">
@@ -676,7 +676,7 @@
                                 <li>
                                     <a href="#" class="clearfix">
                                         <figure class="image">
-                                            <img src="../static/images/!sample-user.jpg" alt="Joseph Doe Junior"
+                                            <img src={% static "images/!sample-user.jpg" %} alt="Joseph Doe Junior"
                                                  class="img-circle">
                                         </figure>
                                         <span class="title">Joseph Doe</span>
@@ -686,7 +686,7 @@
                                 <li>
                                     <a href="#" class="clearfix">
                                         <figure class="image">
-                                            <img src="../static/images/!sample-user.jpg" alt="Joseph Junior"
+                                            <img src={% static "images/!sample-user.jpg" %} alt="Joseph Junior"
                                                  class="img-circle">
                                         </figure>
                                         <span class="title">Joseph Junior</span>
@@ -696,7 +696,7 @@
                                 <li>
                                     <a href="#" class="clearfix">
                                         <figure class="image">
-                                            <img src="../static/images/!sample-user.jpg" alt="Joe Junior"
+                                            <img src={% static "images/!sample-user.jpg" %} alt="Joe Junior"
                                                  class="img-circle">
                                         </figure>
                                         <span class="title">Joe Junior</span>
@@ -706,7 +706,7 @@
                                 <li>
                                     <a href="#" class="clearfix">
                                         <figure class="image">
-                                            <img src="../static/images/!sample-user.jpg" alt="Joseph Junior"
+                                            <img src={% static "images/!sample-user.jpg" %} alt="Joseph Junior"
                                                  class="img-circle">
                                         </figure>
                                         <span class="title">Joseph Junior</span>
@@ -781,7 +781,7 @@
             <div id="userbox" class="userbox">
                 <a href="#" data-toggle="dropdown">
                     <figure class="profile-picture">
-                        <img src="../static/images/!logged-user.jpg" alt="Joseph Doe" class="img-circle"
+                        <img src="{% static path %}" alt="Joseph Doe" class="img-circle"
                              data-lock-picture="assets/images/!logged-user.jpg">
                     </figure>
                     <div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@JSOFT.com">
@@ -849,12 +849,12 @@
                                     </a>
                                     <ul class="nav nav-children">
                                         <li>
-                                            <a href="">
+                                            <a href="/homework/homework_list?student_num={{ student_num }}">
                                                 作业DDL一览
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="">
+                                            <a href="/homework/uploaded_homework?student_num={{ student_num }}">
                                                 我提交的作业
                                             </a>
                                         </li>
@@ -939,7 +939,7 @@
                                             </li>
                                             {% if auth == "Study" %}
                                                 <li>
-                                                    <a>作业管理</a>
+                                                    <a href="/management/homework?student_num={{ student_num }}">作业管理</a>
                                                 </li>
                                             {% endif %}
                                         </ul>
@@ -1063,7 +1063,7 @@
 
                                 <hr class="dotted short">
 
-                                <h6 class="text-muted"><strong>留言板</strong></h6>
+                                <h6><strong>留言板</strong></h6>
                                 <p>留言板内容</p>
                                 <hr class="dotted short">
 
@@ -1071,9 +1071,7 @@
                                     <strong>课程表</strong>
                                 </h6>
                                 <div class="thumb-info mb-md" align="center">
-                                    <img style="max-height: 45%;max-width: 45%"
-                                         src={% static course_path %}  class="rounded
-                                         img-responsive" alt="John Doe">
+                                    <img style="max-height: 45%;max-width: 45%" src={% static course_path %} class="rounded" alt="John Doe">
                                 </div>
 
 
@@ -1403,7 +1401,7 @@
                         <ul>
                             <li class="status-online">
                                 <figure class="profile-picture">
-                                    <img src="../static/images/!sample-user.jpg" alt="Joseph Doe" class="img-circle">
+                                    <img src={% static "images/!sample-user.jpg" %} alt="Joseph Doe" class="img-circle">
                                 </figure>
                                 <div class="profile-info">
                                     <span class="name">Joseph Doe Junior</span>
@@ -1412,7 +1410,7 @@
                             </li>
                             <li class="status-online">
                                 <figure class="profile-picture">
-                                    <img src="../static/images/!sample-user.jpg" alt="Joseph Doe" class="img-circle">
+                                    <img src={% static "images/!sample-user.jpg" %} alt="Joseph Doe" class="img-circle">
                                 </figure>
                                 <div class="profile-info">
                                     <span class="name">Joseph Doe Junior</span>
@@ -1421,7 +1419,7 @@
                             </li>
                             <li class="status-offline">
                                 <figure class="profile-picture">
-                                    <img src="../static/images/!sample-user.jpg" alt="Joseph Doe" class="img-circle">
+                                    <img src={% static "images/!sample-user.jpg" %} alt="Joseph Doe" class="img-circle">
                                 </figure>
                                 <div class="profile-info">
                                     <span class="name">Joseph Doe Junior</span>
@@ -1430,7 +1428,7 @@
                             </li>
                             <li class="status-offline">
                                 <figure class="profile-picture">
-                                    <img src="../static/images/!sample-user.jpg" alt="Joseph Doe" class="img-circle">
+                                    <img src={% static "images/!sample-user.jpg" %} alt="Joseph Doe" class="img-circle">
                                 </figure>
                                 <div class="profile-info">
                                     <span class="name">Joseph Doe Junior</span>

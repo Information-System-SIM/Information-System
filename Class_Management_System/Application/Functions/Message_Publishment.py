@@ -1,5 +1,10 @@
+import os
+
 from django.shortcuts import render
 from Application import models
+from Application.Functions.function import get_image_path
+from Class_Management_System.settings import BASE_DIR
+
 
 def transfer(date_str,time_str):
     lst = str(date_str).split("/")
@@ -8,11 +13,12 @@ def transfer(date_str,time_str):
     return result
 
 def competition_publishment_deal(request):
-    page = "班级管理"
-
     # 传递用户名和权限信息
     student_num = request.GET.get("student_num")
     auth = models.users.objects.get(student_num=student_num).auth
+
+    page = "班级管理"
+    path = get_image_path(student_num)
 
     # 获取表单信息
     title = request.POST["competition_title"]
@@ -37,11 +43,12 @@ def competition_publishment_deal(request):
     return render(request, "competition_upload.html", {"student_num": student_num, "auth": auth})
 
 def activity_publishment_deal(request):
-    page = "班级管理"
-
     # 传递用户名和权限信息
     student_num = request.GET.get("student_num")
     auth = models.users.objects.get(student_num=student_num).auth
+
+    page = "班级管理"
+    path = get_image_path(student_num)
 
     # 获取表单信息
     title = request.POST["activity_title"]
@@ -63,14 +70,15 @@ def activity_publishment_deal(request):
     for stu_num in stu_lst:
         models.notice_activity.objects.create(ms_num_id=ms_num, student_num_id=stu_num)
 
-    return render(request, "activity_upload.html", {"student_num": student_num, "auth": auth})
+    return render(request, "activity_upload.html", locals())
 
 def homework_publishment_deal(request):
-    page = "班级管理"
-
     # 传递用户名和权限信息
     student_num = request.GET.get("student_num")
     auth = models.users.objects.get(student_num=student_num).auth
+
+    page = "班级管理"
+    path = get_image_path(student_num)
 
     # 获取表单信息
     title = request.POST["homework_title"]
@@ -92,4 +100,6 @@ def homework_publishment_deal(request):
     for stu_num in stu_lst:
         models.notice_homework.objects.create(ms_num_id=ms_num, student_num_id=stu_num)
 
-    return render(request, "homework_upload.html", {"student_num": student_num, "auth": auth})
+    path = os.path.join(BASE_DIR,'static/Documents/'+str(ms_num))
+    os.mkdir(path)
+    return render(request, "homework_upload.html", locals())

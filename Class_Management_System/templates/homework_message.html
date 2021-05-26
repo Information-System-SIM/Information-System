@@ -153,6 +153,22 @@
                         <hr/>
                         <p><strong>作业要求：</strong></p>
                         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ message.Requirement }}</p>
+                        <hr/>
+                        <form enctype="multipart/form-data" action="/mainpage/message?message_id={{ message_id }}&type=0&student_num={{ student_num }}" method="post" target="/mainpage/message?message_id={{ message_id }}&type=0&student_num={{ student_num }}">
+                            {% csrf_token %}
+                            <div style="text-align: center">
+                                <input type="file" width="100px" height="60px" style="horiz-align: center" name="document" id="document">
+                                <br/>
+                                <h6 style="color: red">
+                                    {% if upload_resault == True %}
+                                        上传成功
+                                    {% elif upload_resault == Flase %}
+                                        请选择正确的作业文件
+                                    {% endif %}
+                                </h6>
+                                <input type="submit" class="btn btn-primary">
+                            </div>
+                        </form>
                     </div>
                 </section>
             </div>

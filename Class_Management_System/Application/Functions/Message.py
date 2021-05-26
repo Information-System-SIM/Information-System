@@ -1,15 +1,17 @@
 from django.shortcuts import render
 from Application import models
+from Application.Functions.function import get_image_path
 
 
 def message_homework_page(request):
-    # 用于优化页面细节
-    page = "通知&消息"
-
     # 获取学生学号、姓名、auth
     student_num = request.GET.get("student_num")
     student_name = models.student.objects.get(student_num=student_num).student_name
     auth = models.users.objects.get(student_num=student_num).auth
+
+    # 用于优化页面细节
+    page = "通知&消息"
+    path = get_image_path(student_num)
 
     # 查询所有有效作业通知
     messages = models.message_homework.objects.filter(useable=True).order_by("-published_time")
@@ -27,13 +29,14 @@ def message_homework_page(request):
 
 
 def message_competition_page(request):
-    # 优化页面细节
-    page = "通知&消息"
-
     # 获取学生学号、姓名、auth
     student_num = request.GET.get("student_num")
     student_name = models.student.objects.get(student_num=student_num).student_name
     auth = models.users.objects.get(student_num=student_num).auth
+
+    # 优化页面细节
+    page = "通知&消息"
+    path = get_image_path(student_num)
 
     # 获取所有比赛通知
     messages = models.message_competition.objects.filter(useable=True).order_by("-published_time")
@@ -51,16 +54,17 @@ def message_competition_page(request):
 
 
 def message_activity_page(request):
-    # 优化页面细节
-    page = "通知&消息"
-
     # 获取学生学号、姓名、auth
     student_num = request.GET.get("student_num")
     student_name = models.student.objects.get(student_num=student_num).student_name
     auth = models.users.objects.get(student_num=student_num).auth
 
+    # 优化页面细节
+    page = "通知&消息"
+    path = get_image_path(student_num)
+
     # 获取所有有效活动通知
-    messages = models.message_activity.objects.filter(useable=True)
+    messages = models.message_activity.objects.filter(useable=True).order_by("-published_time")
 
     # 查询所有四种通知的未读消息个数，用于显示未读消息个数
     unnoticed_homework_num = len(models.notice_homework.objects.filter(student_num_id=student_num))
@@ -75,16 +79,17 @@ def message_activity_page(request):
 
 
 def message_message_page(request):
-    # 优化页面细节
-    page = "通知&消息"
-
     # 获取学生学号、姓名、auth
     student_num = request.GET.get("student_num")
     student_name = models.student.objects.get(student_num=student_num).student_name
     auth = models.users.objects.get(student_num=student_num).auth
 
+    # 优化页面细节
+    page = "通知&消息"
+    path = get_image_path(student_num)
+
     # 获取所有未读消息
-    messages = models.message_message.objects.filter(useable=True)
+    messages = models.message_message.objects.filter(useable=True).order_by("-published_time")
 
     # 查询所有四种通知的未读消息个数，用于显示未读消息个数
     unnoticed_homework_num = len(models.notice_homework.objects.filter(student_num_id=student_num))
@@ -98,14 +103,15 @@ def message_message_page(request):
     return render(request, "messages_message.html", locals())
 
 
-def detailed_message_page(request):
-    # 优化页面细节
-    page = "通知&消息"
-
+def detailed_message_page(request, upload_resault = "-1"):
     # 获取学生学号、姓名、auth
     student_num = request.GET.get("student_num")
     student_name = models.student.objects.get(student_num=student_num).student_name
     auth = models.users.objects.get(student_num=student_num).auth
+
+    # 优化页面细节
+    page = "通知&消息"
+    path = get_image_path(student_num)
 
     # 获取回传的ms_num(message_id)和通知种类
     message_id = request.GET.get("message_id")
@@ -155,33 +161,39 @@ def detailed_message_page(request):
 
 
 def competition_publishment_page(request):
-    page = "班级管理"
-
     # 传递学号、用户名和权限信息
     student_num = request.GET.get("student_num")
     student_name = models.student.objects.get(student_num=student_num).student_name
     auth = models.users.objects.get(student_num=student_num).auth
+
+    # 优化页面细节
+    page = "班级管理"
+    path = get_image_path(student_num)
 
     return render(request, "competition_upload.html", locals())
 
 
 def activity_publishment_page(request):
-    page = "班级管理"
-
     # 传递学号、用户名和权限信息
     student_num = request.GET.get("student_num")
     student_name = models.student.objects.get(student_num=student_num).student_name
     auth = models.users.objects.get(student_num=student_num).auth
+
+    # 优化页面细节
+    page = "班级管理"
+    path = get_image_path(student_num)
 
     return render(request, "activity_upload.html", locals())
 
 
 def homework_publishment_page(request):
-    page = "班级管理"
-
     # 传递学号、用户名和权限信息
     student_num = request.GET.get("student_num")
     student_name = models.student.objects.get(student_num=student_num).student_name
     auth = models.users.objects.get(student_num=student_num).auth
+
+    # 优化页面细节
+    page = "班级管理"
+    path = get_image_path(student_num)
 
     return render(request, "homework_upload.html", locals())

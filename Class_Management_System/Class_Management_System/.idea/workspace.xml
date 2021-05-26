@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9c5b572f-c3d3-4ff9-ab0b-4ed4300c6598" name="默认变更列表" comment="" />
+    <list default="true" id="9c5b572f-c3d3-4ff9-ab0b-4ed4300c6598" name="默认变更列表" comment="">
+      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,21 +24,21 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.django.DjangoModulesConfigurable" />
   </component>
   <component name="RunManager">
-    <configuration name="Class_Management_System" type="Python.DjangoServer" factoryName="Django server">
-      <module name="Class_Management_System" />
+    <configuration name="Class_Management_System" type="Python.DjangoServer" factoryName="Django server" singleton="false">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
+      <option name="SDK_HOME" value="$USER_HOME$/miniforge3/bin/python" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
       <option name="launchJavascriptDebuger" value="false" />
       <option name="port" value="8000" />
       <option name="host" value="" />
@@ -57,6 +60,11 @@
       <option name="presentableId" value="Default" />
       <updated>1621816837091</updated>
       <workItem from="1621816838551" duration="34000" />
+      <workItem from="1622031438645" duration="6000" />
+      <workItem from="1622031462236" duration="179000" />
+      <workItem from="1622031643436" duration="60000" />
+      <workItem from="1622034522709" duration="102000" />
+      <workItem from="1622034662187" duration="69000" />
     </task>
     <servers />
   </component>
