@@ -44,7 +44,7 @@
 8|通知-通知内容界面| homework_message.html <br />competition_message.html <br />activity_message.html <br />已完成
 9|作业DDL一览|homework_list.html 已完成
 10|作业DDL一览-作业提交界面| messages_homework.html 已完成<br />（通知中包括作业提交按钮） 
-11|我提交的作业|uploaded_homework.html
+11|我提交的作业|uploaded_homework.html 已完成
 12|班级Gallery-班级成员|--
 13|班级Gallery-班级委员|可参考班级成员
 14|提交获奖信息|--
@@ -58,5 +58,5 @@
 22|奖项审核-奖项一览|--
 23|奖项审核-审核界面|--
 24|活动分统计|可参考活动分查看
-25|作业管理|management_homework.html
-26|未交作业名单|notuploaded_homework.html
+25|作业管理|management_homework.html 已完成
+26|未交作业名单|notuploaded_homework.html 已完成
