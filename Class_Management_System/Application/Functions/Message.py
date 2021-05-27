@@ -89,7 +89,7 @@ def message_message_page(request):
     path = get_image_path(student_num)
 
     # 获取所有未读消息
-    messages = models.message_message.objects.filter(useable=True).order_by("-published_time")
+    messages = models.message_message.objects.filter(useable=True, target_student_num_id=student_num).order_by("-published_time")
 
     # 查询所有四种通知的未读消息个数，用于显示未读消息个数
     unnoticed_homework_num = len(models.notice_homework.objects.filter(student_num_id=student_num))
@@ -154,10 +154,17 @@ def detailed_message_page(request, upload_resault = "-1"):
     elif type_code == "3":
         # 在相应的数据库中查找通知详细内容，这里可能出现一个同学点击通知的时候通知被删除的情况，需要捕获错误（删除通知功能还未添加，如添加需要增加try..except...语句） 下同
         message = models.message_message.objects.get(ms_num=message_id)
+        try:
+            notice = models.notice_message.objects.get(ms_num=message_id, student_num_id=student_num)
+            notice.delete()
+        except:
+            pass
+        send_person_name = models.student.objects.get(student_num_id=message.send_person_student_num_id).student_name
+        return render(request, "message_message.html", locals())
     else:
-        return render(request, "competition_message.html", {"Not_Exist": True})
+        pass
 
-    return render(request, "competition_message.html", locals())
+    return render(request, "homework_message.html", locals())
 
 
 def competition_publishment_page(request):

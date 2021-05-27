@@ -89,6 +89,7 @@ class message_message(models.Model):
     href = models.CharField(max_length=256)
     send_person_student_num = models.ForeignKey(student, on_delete=models.DO_NOTHING, related_name="send")
     target_student_num = models.ForeignKey(student, on_delete=models.DO_NOTHING, related_name="target")
+    published_time = models.DateTimeField(auto_now=True)
     useable = models.BooleanField()
 
 class notice_message(models.Model):

@@ -136,7 +136,7 @@
                                         <!-- 类为未读，是黑体 -->
                                         {% for message in messages %}
                                             <li {% if message.ms_num in unnoticed_messages %}class="unread"{% endif %}>
-                                                <a href="message?message_id={{ message.ms_num }}">
+                                                <a href="message?message_id={{ message.ms_num }}&student_num={{ student_num }}&type=3">
                                                     <!-- 未读小红点 -->
                                                     {% if message.ms_num in unnoticed_messages %}
                                                         <i class="mail-label" style="border-color: #EA4C89"></i>
@@ -155,8 +155,6 @@
                                                             <!-- 比赛通知简介 -->
                                                             <span class="mail-partial">{{ message.text }}</span>
                                                         </p>
-                                                        <!-- 通知发布时间 -->
-                                                        <p class="m-none mail-date">{{ message.published_time }}</p>
                                                     </div>
                                                 </a>
                                             </li>
