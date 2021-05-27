@@ -16,26 +16,19 @@
 * 服务器网址：121.4.214.125，端口号我运行的时候通常设置为8000
 
 ----
-目前已完成html5文件更改：
-1. pages-signin 登陆界面
-2. pages-changeid 更改密码界面
-
-----
-目前已完成数据处理：
-1. 登陆（完全实现）
-2. 更改密码（完全实现）
-
-----
 需要在DDL前实现的功能（有待完善）：  
-~~1. 登陆~~  
-~~2. 更改密码~~  
-~~3. 主页~~  
-4. 通知&消息
-5. 提交作业  
+1. ~~登陆  ~~
+2. ~~更改密码  ~~
+3. ~~主页  ~~
+4. ~~通知&消息~~
+5. ~~提交作业  ~~
 6. 班级Gallery  
 7. 提交获奖信息  
 8. 活动分查看  
-9. 班级管理  
+9. ~~发布通知~~
+10. 获奖审核
+11. 活动分统计
+12. ~~作业管理~~
 
 ----
 需要的界面：  
@@ -44,14 +37,14 @@
 1|登陆界面| pages-signin.html 已完成
 2|更改密码界面| pages-changeid.html 已完成
 3|主界面| mainpage.html 已完成（需要添加图片）
-4|通知-作业通知| messages_homework.html 已完成
+4|通知-作业通知| messages_homework.html 已完成<br />通知中包括作业提交按钮 
 5|通知-比赛通知| messages_competition.html 已完成
 6|通知-活动通知| messages_activity.html 已完成
 7|通知-通知消息| messages_message.html 已完成
 8|通知-通知内容界面| homework_message.html <br />competition_message.html <br />activity_message.html <br />已完成
-9|作业DDL一览|--
-10|作业DDL一览-作业提交界面|--
-11|我提交的作业|--
+9|作业DDL一览|homework_list.html 已完成
+10|作业DDL一览-作业提交界面| messages_homework.html 已完成<br />（通知中包括作业提交按钮） 
+11|我提交的作业|uploaded_homework.html
 12|班级Gallery-班级成员|--
 13|班级Gallery-班级委员|可参考班级成员
 14|提交获奖信息|--
@@ -64,4 +57,6 @@
 21|通知反馈|--
 22|奖项审核-奖项一览|--
 23|奖项审核-审核界面|--
-23|活动分统计|可参考活动分查看
+24|活动分统计|可参考活动分查看
+25|作业管理|management_homework.html
+26|未交作业名单|notuploaded_homework.html
