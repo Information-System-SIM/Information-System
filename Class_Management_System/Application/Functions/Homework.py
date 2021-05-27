@@ -118,6 +118,7 @@ def homework_notuploadedlist_deal(request):
     ms_num = request.GET.get("message_id")
 
     message = models.message_homework.objects.get(ms_num=ms_num)
-    models.message_message.objects.create(title="作业提醒",description="记得在" + str(message.deadline) + "前提交" + message.title + "作业哦！！！！",
+    object = models.message_message.objects.create(title="作业提醒",description="记得在" + str(message.deadline) + "前提交" + message.title + "作业哦！！！！",
                                           send_person_student_num_id=str(student_num),target_student_num_id=str(target), useable=True)
+    models.notice_message.objects.create(ms_num_id=object.ms_num, student_num_id=object.target_student_num_id)
     return homework_notuploadedlist_page(request)
