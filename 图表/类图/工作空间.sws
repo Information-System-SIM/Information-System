@@ -5,6 +5,10 @@
 <Workspace>
 	<Local Expanded="Yes">
 		<Model Expanded="Yes" ID="{EC2C8532-F408-4290-9156-ED7E053D86D0}" Loaded="No" Name="ObjectOrientedModel_2" Type="{18112060-1A4B-11D1-83D9-444553540000}" URL="类图.oom"/>
+		<Model Expanded="Yes" ID="{EC2C8532-F408-4290-9156-ED7E053D86D0}" Loaded="No" Name="ObjectOrientedModel_2" Type="{18112060-1A4B-11D1-83D9-444553540000}" URL="类图.oom"/>
+		<Model Expanded="Yes" ID="{EC2C8532-F408-4290-9156-ED7E053D86D0}" Loaded="No" Name="ObjectOrientedModel_2" Type="{18112060-1A4B-11D1-83D9-444553540000}" URL="../../../../信息系统大作业/各种图/类图.oom"/>
+		<Model Expanded="Yes" ID="{EC2C8532-F408-4290-9156-ED7E053D86D0}" Loaded="No" Name="ObjectOrientedModel_2" Type="{18112060-1A4B-11D1-83D9-444553540000}" URL="类图.oom"/>
+		<Model Expanded="Yes" ID="{EC2C8532-F408-4290-9156-ED7E053D86D0}" Loaded="No" Name="ObjectOrientedModel_2" Type="{18112060-1A4B-11D1-83D9-444553540000}" URL="类图.oom"/>
 		<Model Expanded="Yes" ID="{EC2C8532-F408-4290-9156-ED7E053D86D0}" Name="ObjectOrientedModel_2" Selected="Yes" Type="{18112060-1A4B-11D1-83D9-444553540000}" URL="类图.oom"/>
 	</Local>
 	<BrowserModule Name="仓库(&amp;R)"/>

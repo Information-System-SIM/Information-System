@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from Application import models
 from Application.Functions import Login, Document_Management
+from Application.Functions.Award import award_upload_page
 from Application.Functions.Homework import homework_page, uploaded_homework_deal, homework_management_page, \
     homework_management_deal, homework_notuploadedlist_page, homework_notuploadedlist_deal
 from Application.Functions.MainPage import mainpage_show
@@ -152,3 +153,8 @@ def homework_notuploadedlist(request):
         return homework_notuploadedlist_page(request)
     elif request.method == "POST":
         return homework_notuploadedlist_deal(request)
+
+def upload_award(request):
+    if request.method != "POST":
+        return award_upload_page(request)
+

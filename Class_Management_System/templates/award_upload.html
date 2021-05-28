@@ -1,0 +1,97 @@
+{% extends "mainpage.html" %}
+
+{
+
+{% block title %}
+    获奖信息上传
+{% endblock %}
+
+{% block page_title %}
+    获奖信息
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li><span>我的奖项</span></li>
+    <li><span>提交获奖信息</span></li>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    <div class="panel-actions">
+                        <a href="#" class="fa fa-caret-down"></a>
+                    </div>
+
+                    <h2 class="panel-title">获奖信息</h2>
+                </header>
+                <div class="panel-body">
+
+
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="inputDefault">奖项名称</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="award_name" id="award_name">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="inputDefault">奖项类型</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="award_type" id="award_type">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="inputDefault">获奖级别</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="place" id="place">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">获奖日期</label>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                    <input type="text" data-plugin-datepicker class="form-control"
+                                           name="award_date" id="award_date">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="inputDefault">备注</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="award_level" id="award_level">
+                            </div>
+                        </div>
+
+{#                        <div class="form-group">#}
+{#                            <label class="col-md-3 control-label">备注</label>#}
+{#                            <div class="col-md-6">#}
+{#                                <div class="input-group">#}
+{#                                    <span class="input-group-addon">#}
+{#                                        <i class="fa fa-clock-o"></i>#}
+{#                                    </span>#}
+{#                                    <input type="text" data-plugin-timepicker class="form-control"#}
+{#                                           data-plugin-options='{ "showMeridian": false }' name="competition_time" id="competition_time" placeholder="08:00">#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+
+                        <div class="col-sm-9 col-sm-offset-3" align="right">
+                            <button class="btn btn-primary" style="min-width: 200px;min-height: 50px">提交</button>
+                        </div>
+
+                    </form>
+                </div>
+            </section>
+
+        </div>
+    </div>
+{% endblock %}
