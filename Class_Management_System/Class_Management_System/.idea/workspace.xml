@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9c5b572f-c3d3-4ff9-ab0b-4ed4300c6598" name="默认变更列表" comment="">
-      <change beforePath="$PROJECT_DIR$/../Application/Functions/Document_Management.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Application/Functions/Document_Management.py" afterDir="false" />
-    </list>
+    <list default="true" id="9c5b572f-c3d3-4ff9-ab0b-4ed4300c6598" name="默认变更列表" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -65,6 +63,7 @@
       <workItem from="1622034522709" duration="102000" />
       <workItem from="1622034662187" duration="69000" />
       <workItem from="1622082986045" duration="7000" />
+      <workItem from="1622132780166" duration="1000" />
     </task>
     <servers />
   </component>
