@@ -27,27 +27,29 @@
             <table class="table table-bordered table-striped mb-none" id="datatable-details">
                 <thead>
                 <tr>
-                    <th style="text-align: center">DeadLine</th>
-                    <th style="text-align: center">作业名称</th>
-                    <th style="text-align: center">作业学科</th>
-                    <th style="text-align: center">未交人数</th>
-                    <th style="text-align: center" width="100px">打包下载</th>
+                    <th style="font-size: 18px;text-align: center">DeadLine</th>
+                    <th style="font-size: 18px;text-align: center">作业名称</th>
+                    <th style="font-size: 18px;text-align: center">作业学科</th>
+                    <th style="font-size: 18px;text-align: center">未交人数</th>
+                    <th style="font-size: 18px;text-align: center" width="100px">打包下载</th>
+                    <th style="font-size: 18px;text-align: center" width="100px">未交名单</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for homework in homework_list %}
                     <tr class="gradeX">
-                        <td>{{ homework.0|date:"m/d h:m" }}</td>
-                        <td>{{ homework.1 }}</td>
-                        <td>{{ homework.2 }}</td>
-                        <td class="center">{{ homework.3 }}</td>
-                        <td class="center">
+                        <td style="font-size: 15px;text-align: center;vertical-align: middle">{{ homework.0|date:"m/d h:m" }}</td>
+                        <td style="font-size: 15px;text-align: center;vertical-align: middle" valign="middle">{{ homework.1 }}</td>
+                        <td style="font-size: 15px;text-align: center;vertical-align: middle" valign="middle">{{ homework.2 }}</td>
+                        <td class="center" style="font-size: 15px;text-align: center;vertical-align: middle" valign="middle">{{ homework.3 }}</td>
+                        <td class="center" style="font-size: 15px;text-align: center;vertical-align: middle" valign="middle">
                             <form action="/management/homework?student_num={{ student_num }}&message_id={{ homework.4 }}&order=download" method="post">
                                 {% csrf_token %}
                                 <input type="submit" value="文件下载" class="btn btn-primary" height="2px">
                             </form>
-                            <br/>
-                            <a href="/management/homework_notuploadedlist?student_num={{ student_num }}&message_id={{ homework.4 }}" class="btn btn-primary">未交作业名单</a>
+                        </td>
+                        <td class="center" style="font-size: 15px;text-align: center;vertical-align: middle" valign="middle">
+                            <a href="/management/homework_notuploadedlist?student_num={{ student_num }}&message_id={{ homework.4 }}" class="btn">未交名单</a>
                         </td>
                     </tr>
                 {% endfor %}
