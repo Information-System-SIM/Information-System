@@ -146,6 +146,7 @@ def homework_management(request):
     else:
         return homework_management_deal(request)
 
+
 def homework_notuploadedlist(request):
     if request.method != "POST":
         return homework_notuploadedlist_page(request)

@@ -79,21 +79,20 @@ def homework_management_deal(request):
         path = os.path.join(BASE_DIR,"static/Documents")
         dir_name = ms_num
         target_name = models.message_homework.objects.get(ms_num=ms_num).title
-        command_1 = "cd " + path
-        command_2 = "tar cvf " + target_name + ".tar " + dir_name
+        os.chdir(os.path.join(BASE_DIR,"static/Documents"))
+        command_2 = "tar cvf " + target_name + ".tar" + " " + dir_name
         command_3 = "gzip " + target_name + ".tar"
-        print(command_1)
         print(command_2)
         print(command_3)
-        os.system(command_1)
         os.system(command_2)
         os.system(command_3)
         filename = target_name + ".tar.gz"
-        path = os.path.join(BASE_DIR,filename)
+        path = os.path.join(path, filename)
         f = open(path, "rb")
         response = FileResponse(f, filename=filename, as_attachment=True)
         response['Content-Type'] = 'application/octet-stream'
         response['Content-Disposition'] = 'attachment;filename=%s' % quote(filename)
+        os.remove(path)
         return response
 
 
