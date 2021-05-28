@@ -459,7 +459,54 @@
         .pw-panel {
             display: none
         }
-    }</style>
+    }
+    .table1 {
+        margin: 0;
+        padding: 0;
+    }
+    .table2 > tbody > tr > td,
+    .table2 > tbody > tr > th{
+        height:55px;
+        line-height:55px;
+        text-align:center;
+        border:1px solid #ccc;
+    }
+    .table2 > tbody >th {
+        background:#eee;
+        font-weight:normal;
+    }
+    .table2 > tbody >tr {
+        background:#fff;
+    }
+    .table2 > tbody >tr:hover {
+        background: rgba(253, 250, 214, 0.9);
+    }
+    .table2 > tbody >td > a {
+        color:#06f;
+        text-decoration:none;
+    }
+    .table2 > tbody >td > :hover {
+        color:#06f;
+        text-decoration:underline;
+    }
+
+    .table2 {
+        width:90%;
+        background:#ccc;
+        margin: 10px auto;
+        border-collapse:collapse;
+    }
+    .table2 > tbody > tr > td {
+        height:25px;
+        line-height:25px;
+        text-align:center;
+        border:1px solid #ccc;
+    }
+    .color {
+        color: #fff;
+        font-weight: bold;
+    }
+</style>
     <style type="text/css">.jqstooltip {
         position: absolute;
         left: 0px;
@@ -1076,11 +1123,123 @@
                                 <h6>
                                     <strong>课程表</strong>
                                 </h6>
-                                <div class="thumb-info mb-md" align="center">
-                                    <img style="max-height: 45%;max-width: 45%" src={% static "Image/course1.png" %} class="rounded img-responsive" alt="John Doe">
-                                </div>
-
-
+                                <table class="table1">
+                                    <tr class="xueqi" align="center">
+                                        <td align="center">
+                                            <form action="">
+                                                <select name="gre" id="aa">
+                                                    <option value="2019">2019-2020年第一学期</option>
+                                                    <option value="2018">2019-2020年第二学期</option>
+                                                    <option value="2017">2019-2020年第三学期</option>
+                                                    <option value="2016">2020-2021年第一学期</option>
+                                                    <option value="2016">2020-2021年第二学期</option>
+                                                </select>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <body text="#000000">
+                                <table class="table2">
+                                    <tr>
+                                        <th width="76"></th>
+                                        <th width="86" height="50"></th>
+                                        <th width="100">周一</th>
+                                        <th width="100">周二</th>
+                                        <th width="100">周三</th>
+                                        <th width="100">周四</th>
+                                        <th width="100">周五</th>
+                                        <th width="100">周六</th>
+                                        <th width="108">周日</th>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="5">上午</td>
+                                        <td>1</td>
+                                        <td rowspan="2">信息系统分析与设计（理论）</td>
+                                        <td rowspan="2">高级英语4</td>
+                                        <td rowspan="3">信息构建（理论）</td>
+                                        <td rowspan="2">社会计算</td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td rowspan="3">信息系统分析与设计（理论）</td>
+                                        <td rowspan="3">概率论</td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="9" align="center"><b>午休</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="5">下午</td>
+                                        <td>6</td>
+                                        <td rowspan="3">篮球2</td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="3">信息构建（实验）</td>
+                                        <td rowspan="3">形势与政策</td>
+                                        <td rowspan="3">社会网络分析</td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>7</td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>8</td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>9</td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>10</td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                    </tr>
+                                </table>
                             </div>
                         </section>
                     </div>
