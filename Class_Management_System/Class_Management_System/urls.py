@@ -36,5 +36,7 @@ urlpatterns = [
     path('homework/homework_list',views.homework_list),
     path('homework/uploaded_homework',views.uploaded_homework),
     path('management/homework',views.homework_management),
-    path('management/homework_notuploadedlist', views.homework_notuploadedlist)
+    path('management/homework_notuploadedlist', views.homework_notuploadedlist),
+    #获奖信息提交
+    path('award/award_upload', views.upload_award)
 ]
