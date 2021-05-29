@@ -154,6 +154,7 @@ def homework_notuploadedlist(request):
     elif request.method == "POST":
         return homework_notuploadedlist_deal(request)
 
+
 def upload_award(request):
     if request.method != "POST":
         return award_upload_page(request)
