@@ -1,13 +1,9 @@
 import os
 from urllib.parse import quote
-
-from django.http import FileResponse, StreamingHttpResponse, HttpResponseRedirect
+from django.http import FileResponse, HttpResponseRedirect
 from django.shortcuts import render
-
 from Application import models
-from Application.Functions.function import get_image_path
 from Class_Management_System.settings import BASE_DIR
-import tkinter.messagebox as ms
 
 
 def homework_page(request):

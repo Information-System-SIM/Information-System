@@ -1,6 +1,4 @@
 import os
-
-import django.http
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from Application import models

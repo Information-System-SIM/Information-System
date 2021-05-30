@@ -3,8 +3,9 @@ from Application import models
 from Application.Functions.function import get_image_path
 
 
+# 主页函数
 def mainpage_show(request):
-    # 优化页面细节需要的参数
+    # 优化页面细节需要的参数，将必要渲染用参数存入session
     student_num = request.session["student_num"]
     auth = request.session["auth"]
     path = get_image_path(student_num)

@@ -2,8 +2,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from Application import models
 
-# 登陆模块（包括用户名密码验证模块 和 更改密码模块）
 
+# 登陆模块（包括用户名密码验证模块 和 更改密码模块）
 def login(request):
     # 从表单中获取用户输入的用户名和密码
     student_num_entered = str(request.POST["student_num"])
