@@ -9,7 +9,7 @@ from django.contrib import messages
 
 # 文件管理模块
 def notice_success(request):
-    messages.success(request, "作业上传成功")
+    messages.info(request, "作业上传成功")
 
 
 # 传入参数request，学号和作业名，可以直接将上传文件存储
@@ -19,8 +19,8 @@ def homework_upload(request, student_num, message_id):
         file_format = file.name.split(".")[-1]
         homework_name = models.message_homework.objects.get(ms_num=message_id).title
         file_name = str(student_num) + "_" + str(homework_name) + "." + file_format
-        path = os.path.join(BASE_DIR, 'static/Documents/' + str(message_id) + "/")
-        with open(path + file_name, "wb+") as f:
+        path = os.path.join(BASE_DIR, 'static', 'Documents', str(message_id), file_name)
+        with open(path, "wb+") as f:
             for chunk in file:
                 f.write(chunk)
         try:
@@ -29,7 +29,6 @@ def homework_upload(request, student_num, message_id):
         except:
             pass
         models.homework_upload.objects.create(ms_num_id=message_id,student_num_id=student_num,location=file_name)
-        notice_success(request)
         return True
     else:
         return False

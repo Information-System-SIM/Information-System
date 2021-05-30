@@ -2,6 +2,7 @@
 
 {% block title %}
     {{ apply.awar_name }}
+    {% load static %}
 {% endblock title %}
 
 {% block page_title %}
@@ -130,7 +131,7 @@
                         </div>
                         <hr/>
                         <p><strong>证明材料：</strong></p>
-                        <img src="{{ file_path }}" alt="未提交证明材料">
+                        <img src={% static file_path %} alt="未提交证明材料" class="img-responsive">
                         <hr/>
                         {% if apply.checked == None %}
                             <h2 style="color: grey" align="center">未审核</h2>

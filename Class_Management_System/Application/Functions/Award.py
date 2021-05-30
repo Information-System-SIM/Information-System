@@ -131,6 +131,7 @@ def award_audit_page(request):
     student_name = map_num2name(apply.uploaded_stu_id)
     level, order = map_code2level(apply.award_level, apply.award_order).split(" ")
     filename = apply.filename
+    print("111" + filename)
     if filename is not None:
         file_path = os.path.join('Award', filename)
         print(file_path)
@@ -205,5 +206,5 @@ def award_content_page(request):
     level, order = map_code2level(apply.award_level, apply.award_order).split(" ")
     filename = apply.filename
     if filename is not None:
-        file_path = os.path.join(BASE_DIR, 'static', 'Award', filename)
+        file_path = os.path.join('Award', filename)
     return render(request, 'award_content.html', locals())
