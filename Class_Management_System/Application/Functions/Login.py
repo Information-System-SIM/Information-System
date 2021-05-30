@@ -26,6 +26,7 @@ def login(request):
     except:
         return render(request, "pages-signin.html", {"User_Exit": False})
 
+
 def change_password(request):
     student_num = request.POST["student_num"]
     origin_password = request.POST["origin_password"]
@@ -39,7 +40,7 @@ def change_password(request):
             if new_password == new_password_confirm:
                 user.pwd = new_password
                 user.save()
-                return HttpResponseRedirect("login/")
+                return HttpResponseRedirect("/login/")
             else:
                 return render(request, "pages-changeid.html", {"confirmation": False})
         else:
