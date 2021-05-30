@@ -45,19 +45,19 @@
 
                             <ul class="list-unstyled mt-xl pt-md">
                                 <li>
-                                    <a href="messages_homework?student_num={{ student_num }}&auth={{ auth }}" class="menu-item">作业通知 <span
+                                    <a href="messages_homework" class="menu-item">作业通知 <span
                                             class="label label-primary text-normal pull-right">{{ unnoticed_homework_num }}</span></a>
                                 </li>
                                 <li>
-                                    <a href="messages_competition?student_num={{ student_num }}&auth={{ auth }}" class="menu-item">比赛通知 <span
+                                    <a href="messages_competition" class="menu-item">比赛通知 <span
                                             class="label label-primary text-normal pull-right">{{ unnoticed_competition_num }}</span></a>
                                 </li>
                                 <li>
-                                    <a href="messages_activity?student_num={{ student_num }}&auth={{ auth }}" class="menu-item active">活动通知 <span
+                                    <a href="messages_activity" class="menu-item active">活动通知 <span
                                             class="label label-primary text-normal pull-right">{{ unnoticed_activity_num }}</span></a>
                                 </li>
                                 <li>
-                                    <a href="messages_message?student_num={{ student_num }}&auth={{ auth }}" class="menu-item">通知消息 <span
+                                    <a href="messages_message" class="menu-item">通知消息 <span
                                             class="label label-primary text-normal pull-right">{{ unnoticed_message_num }}</span></a>
                             </ul>
                         </div>
@@ -137,7 +137,7 @@
                                 <!-- 类为未读，是黑体 -->
                                 {% for message in messages %}
                                     <li {% if message.ms_num in unnoticed_messages %}class="unread"{% endif %}>
-                                        <a href="message?message_id={{ message.ms_num }}&type=2&student_num={{ student_num }}">
+                                        <a href="message?message_id={{ message.ms_num }}&type=2">
                                             <!-- 未读小红点 -->
                                             {% if message.ms_num in unnoticed_messages %}
                                                 <i class="mail-label" style="border-color: #EA4C89"></i>

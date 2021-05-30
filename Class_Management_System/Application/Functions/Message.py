@@ -1,17 +1,23 @@
 from django.shortcuts import render
 from Application import models
-from Application.Functions.function import get_image_path
+from Application.Functions import Document_Management
+from django.contrib import messages
+
+
+def message_notice(request):
+    messages.success(request, "通知发布成功")
 
 
 def message_homework_page(request):
     # 获取学生学号、姓名、auth
-    student_num = request.GET.get("student_num")
-    student_name = models.student.objects.get(student_num=student_num).student_name
-    auth = models.users.objects.get(student_num=student_num).auth
+    student_num = request.session["student_num"]
+    student_name = request.session["student_name"]
+    auth = request.session["auth"]
+    message_num = request.session["message_num"]
+    path = request.session["path"]
 
     # 用于优化页面细节
     page = "通知&消息"
-    path = get_image_path(student_num)
 
     # 查询所有有效作业通知
     messages = models.message_homework.objects.filter(useable=True).order_by("-published_time")
@@ -25,18 +31,23 @@ def message_homework_page(request):
     unnoticed_competition_num = len(models.notice_competition.objects.filter(student_num_id=student_num))
     unnoticed_activity_num = len(models.notice_activity.objects.filter(student_num_id=student_num))
     unnoticed_message_num = len(models.notice_message.objects.filter(student_num_id=student_num))
+
+    message_num = unnoticed_homework_num + unnoticed_competition_num + unnoticed_activity_num + unnoticed_message_num
+    message_notice_num = message_num - unnoticed_message_num
+    request.session["message_num"] = message_num
     return render(request, "messages_homework.html", locals())
 
 
 def message_competition_page(request):
     # 获取学生学号、姓名、auth
-    student_num = request.GET.get("student_num")
-    student_name = models.student.objects.get(student_num=student_num).student_name
-    auth = models.users.objects.get(student_num=student_num).auth
+    student_num = request.session["student_num"]
+    student_name = request.session["student_name"]
+    auth = request.session["auth"]
+    message_num = request.session["message_num"]
+    path = request.session["path"]
 
-    # 优化页面细节
+    # 用于优化页面细节
     page = "通知&消息"
-    path = get_image_path(student_num)
 
     # 获取所有比赛通知
     messages = models.message_competition.objects.filter(useable=True).order_by("-published_time")
@@ -55,13 +66,14 @@ def message_competition_page(request):
 
 def message_activity_page(request):
     # 获取学生学号、姓名、auth
-    student_num = request.GET.get("student_num")
-    student_name = models.student.objects.get(student_num=student_num).student_name
-    auth = models.users.objects.get(student_num=student_num).auth
+    student_num = request.session["student_num"]
+    student_name = request.session["student_name"]
+    auth = request.session["auth"]
+    message_num = request.session["message_num"]
+    path = request.session["path"]
 
-    # 优化页面细节
+    # 用于优化页面细节
     page = "通知&消息"
-    path = get_image_path(student_num)
 
     # 获取所有有效活动通知
     messages = models.message_activity.objects.filter(useable=True).order_by("-published_time")
@@ -80,16 +92,18 @@ def message_activity_page(request):
 
 def message_message_page(request):
     # 获取学生学号、姓名、auth
-    student_num = request.GET.get("student_num")
-    student_name = models.student.objects.get(student_num=student_num).student_name
-    auth = models.users.objects.get(student_num=student_num).auth
+    student_num = request.session["student_num"]
+    student_name = request.session["student_name"]
+    auth = request.session["auth"]
+    message_num = request.session["message_num"]
+    path = request.session["path"]
 
-    # 优化页面细节
+    # 用于优化页面细节
     page = "通知&消息"
-    path = get_image_path(student_num)
 
     # 获取所有未读消息
-    messages = models.message_message.objects.filter(useable=True, target_student_num_id=student_num).order_by("-published_time")
+    messages = models.message_message.objects.filter(useable=True, target_student_num_id=student_num).order_by(
+        "-published_time")
 
     # 查询所有四种通知的未读消息个数，用于显示未读消息个数
     unnoticed_homework_num = len(models.notice_homework.objects.filter(student_num_id=student_num))
@@ -103,15 +117,16 @@ def message_message_page(request):
     return render(request, "messages_message.html", locals())
 
 
-def detailed_message_page(request, upload_resault = "-1"):
+def detailed_message_page(request, upload_resault="-1"):
     # 获取学生学号、姓名、auth
-    student_num = request.GET.get("student_num")
-    student_name = models.student.objects.get(student_num=student_num).student_name
-    auth = models.users.objects.get(student_num=student_num).auth
+    student_num = request.session["student_num"]
+    student_name = request.session["student_name"]
+    auth = request.session["auth"]
+    message_num = request.session["message_num"]
+    path = request.session["path"]
 
-    # 优化页面细节
+    # 用于优化页面细节
     page = "通知&消息"
-    path = get_image_path(student_num)
 
     # 获取回传的ms_num(message_id)和通知种类
     message_id = request.GET.get("message_id")
@@ -168,39 +183,199 @@ def detailed_message_page(request, upload_resault = "-1"):
 
 
 def competition_publishment_page(request):
-    # 传递学号、用户名和权限信息
-    student_num = request.GET.get("student_num")
-    student_name = models.student.objects.get(student_num=student_num).student_name
-    auth = models.users.objects.get(student_num=student_num).auth
+    # 获取学生学号、姓名、auth
+    student_num = request.session["student_num"]
+    student_name = request.session["student_name"]
+    auth = request.session["auth"]
+    message_num = request.session["message_num"]
+    path = request.session["path"]
 
-    # 优化页面细节
+    # 用于优化页面细节
     page = "班级管理"
-    path = get_image_path(student_num)
 
     return render(request, "competition_upload.html", locals())
 
 
 def activity_publishment_page(request):
-    # 传递学号、用户名和权限信息
-    student_num = request.GET.get("student_num")
-    student_name = models.student.objects.get(student_num=student_num).student_name
-    auth = models.users.objects.get(student_num=student_num).auth
+    # 获取学生学号、姓名、auth
+    student_num = request.session["student_num"]
+    student_name = request.session["student_name"]
+    auth = request.session["auth"]
+    message_num = request.session["message_num"]
+    path = request.session["path"]
 
-    # 优化页面细节
+    # 用于优化页面细节
     page = "班级管理"
-    path = get_image_path(student_num)
 
     return render(request, "activity_upload.html", locals())
 
 
 def homework_publishment_page(request):
-    # 传递学号、用户名和权限信息
-    student_num = request.GET.get("student_num")
-    student_name = models.student.objects.get(student_num=student_num).student_name
-    auth = models.users.objects.get(student_num=student_num).auth
+    # 获取学生学号、姓名、auth
+    student_num = request.session["student_num"]
+    student_name = request.session["student_name"]
+    auth = request.session["auth"]
+    message_num = request.session["message_num"]
+    path = request.session["path"]
 
-    # 优化页面细节
+    # 用于优化页面细节
     page = "班级管理"
-    path = get_image_path(student_num)
 
     return render(request, "homework_upload.html", locals())
+
+
+def unnoticed_message_management_page(request):
+    # 获取学生学号、姓名、auth
+    student_num = request.session["student_num"]
+    student_name = request.session["student_name"]
+    auth = request.session["auth"]
+    message_num = request.session["message_num"]
+    path = request.session["path"]
+
+    # 用于优化页面细节
+    page = "班级管理"
+
+    competition_messages = models.message_competition.objects.filter(useable=True).order_by("-published_time")
+    competition_lst = [[competition.competition_time,
+                        competition.title,
+                        competition.place,
+                        competition.description,
+                        len(models.notice_competition.objects.filter(ms_num_id=competition.ms_num)),
+                        competition.ms_num]
+                       for competition in competition_messages]
+
+    activity_messages = models.message_activity.objects.filter(useable=True).order_by("-published_time")
+    activity_lst = [[activity.activity_time,
+                     activity.title,
+                     activity.place,
+                     activity.description,
+                     len(models.notice_activity.objects.filter(ms_num_id=activity.ms_num)),
+                     activity.ms_num]
+                    for activity in activity_messages]
+
+    homework_messages = models.message_homework.objects.filter(useable=True).order_by("-published_time")
+    homework_lst = [[homework.deadline,
+                     homework.title,
+                     homework.subject,
+                     homework.Requirement,
+                     len(models.notice_homework.objects.filter(ms_num_id=homework.ms_num)),
+                     homework.ms_num]
+                    for homework in homework_messages]
+
+    return render(request, "unnoticed_message_list.html", locals())
+
+
+def detailed_message_deal(request):
+    # 获取学生学号、姓名、auth
+    student_num = request.session["student_num"]
+
+    message_id = request.GET.get("message_id")
+    upload_resault = Document_Management.homework_upload(request, student_num, message_id)
+    print(upload_resault)
+    return detailed_message_page(request, upload_resault)
+
+
+def unnoticed_message_stulist_page(request):
+    # 获取学生学号、姓名、auth
+    student_num = request.session["student_num"]
+    student_name = request.session["student_name"]
+    auth = request.session["auth"]
+    message_num = request.session["message_num"]
+    path = request.session["path"]
+
+    # 用于优化页面细节
+    page = "班级管理"
+
+    if auth != "Student":
+        ms_num = request.GET.get("message_id")
+        type = request.GET.get("type")
+
+    if type == "0":
+        notice = models.notice_competition.objects.filter(ms_num_id=ms_num)
+        not_noticed_student = [[0, models.student.objects.get(student_num=record.student_num_id)] for record in notice]
+        index = 1
+        for x in not_noticed_student:
+            x[0] = index
+            index += 1
+        return render(request, 'notnoticed_message.html', locals())
+    elif type == "1":
+        notice = models.notice_activity.objects.filter(ms_num_id=ms_num)
+        not_noticed_student = [[0, models.student.objects.get(student_num=record.student_num_id)] for record in notice]
+        index = 1
+        for x in not_noticed_student:
+            x[0] = index
+            index += 1
+        return render(request, 'notnoticed_message.html', locals())
+    elif type == "2":
+        notice = models.notice_homework.objects.filter(ms_num_id=ms_num)
+        not_noticed_student = [[0, models.student.objects.get(student_num=record.student_num_id)] for record in notice]
+        index = 1
+        for x in not_noticed_student:
+            x[0] = index
+            index += 1
+        return render(request, 'notnoticed_message.html', locals())
+
+
+def unnoticed_message_stulist_deal(request):
+    # 获取学生学号、姓名、auth
+    student_num = request.session["student_num"]
+    student_name = request.session["student_name"]
+    auth = request.session["auth"]
+    message_num = request.session["message_num"]
+    path = request.session["path"]
+
+    # 用于优化页面细节
+    page = "班级管理"
+
+    if auth != "Student":
+        ms_num = request.GET.get("message_id")
+        type = request.GET.get("type")
+        target = request.GET.get("target")
+
+    if type == "0":
+        message = models.message_competition.objects.get(ms_num=ms_num)
+        if target != "all":
+            object = models.message_message.objects.create(title="通知未读提醒", description="记得阅读'" + message.title + "'通知哦！！！！",
+                                                           send_person_student_num_id=str(student_num),
+                                                           target_student_num_id=str(target), useable=True)
+            models.notice_message.objects.create(ms_num_id=object.ms_num, student_num_id=object.target_student_num_id)
+        else:
+            students = [record.student_num_id for record in models.notice_competition.objects.filter(ms_num_id=ms_num)]
+            for target in students:
+                object = models.message_message.objects.create(title="通知未读提醒", description="记得阅读'" + message.title + "'通知哦！！！！",
+                                                           send_person_student_num_id=str(student_num),
+                                                           target_student_num_id=str(target), useable=True)
+                models.notice_message.objects.create(ms_num_id=object.ms_num,
+                                                     student_num_id=object.target_student_num_id)
+    elif type == "1":
+        message = models.message_activity.objects.get(ms_num=ms_num)
+        if target != "all":
+            object = models.message_message.objects.create(title="通知未读提醒", description="记得阅读'" + message.title + "'通知哦！！！！",
+                                                           send_person_student_num_id=str(student_num),
+                                                           target_student_num_id=str(target), useable=True)
+            models.notice_message.objects.create(ms_num_id=object.ms_num, student_num_id=object.target_student_num_id)
+        else:
+            students = [record.student_num_id for record in models.notice_activity.objects.filter(ms_num_id=ms_num)]
+            for target in students:
+                object = models.message_message.objects.create(title="通知未读提醒", description="记得阅读'" + message.title + "'通知哦！！！！",
+                                                           send_person_student_num_id=str(student_num),
+                                                           target_student_num_id=str(target), useable=True)
+                models.notice_message.objects.create(ms_num_id=object.ms_num,
+                                                     student_num_id=object.target_student_num_id)
+    elif type == "2":
+        message = models.message_homework.objects.get(ms_num=ms_num)
+        if target != "all":
+            object = models.message_message.objects.create(title="通知未读提醒", description="记得阅读'" + message.title + "'通知哦！！！！",
+                                                           send_person_student_num_id=str(student_num),
+                                                           target_student_num_id=str(target), useable=True)
+            models.notice_message.objects.create(ms_num_id=object.ms_num, student_num_id=object.target_student_num_id)
+        else:
+            students = [record.student_num_id for record in models.notice_homework.objects.filter(ms_num_id=ms_num)]
+            for target in students:
+                object = models.message_message.objects.create(title="通知未读提醒", description="记得阅读'" + message.title + "'通知哦！！！！",
+                                                           send_person_student_num_id=str(student_num),
+                                                           target_student_num_id=str(target), useable=True)
+                models.notice_message.objects.create(ms_num_id=object.ms_num,
+                                                     student_num_id=object.target_student_num_id)
+
+    return unnoticed_message_stulist_page(request)

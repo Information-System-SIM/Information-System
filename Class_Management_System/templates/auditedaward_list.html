@@ -1,0 +1,53 @@
+{% extends "mainpage.html" %}
+
+{% block title %}
+    奖项审核进度
+{% endblock title %}
+    奖项审核进度
+{% block page_title %}
+
+{% endblock page_title %}
+
+{% block breadcrumbs %}
+    <li><span>我的奖项</span></li>
+    <li><span>奖项审核进度</span></li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+    <section class="panel">
+        <header class="panel-heading">
+            <div class="panel-actions">
+                <a href="#" class="fa fa-caret-down"></a>
+                <a href="#" class="fa fa-times"></a>
+            </div>
+
+            <h2 class="panel-title">获奖审核结果</h2>
+        </header>
+        <div class="panel-body">
+            <table class="table table-bordered table-striped mb-none" id="datatable-details">
+                <thead>
+                <tr style="font-size: 16px">
+                    <th style="text-align: center">申请/审核时间</th>
+                    <th style="text-align: center">奖项名称</th>
+                    <th style="text-align: center">奖项等第</th>
+                    <th style="text-align: center" width="100px">审核情况</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for award in award_lst %}
+                    <tr class="gradeX">
+                        <td class="center" style="vertical-align: middle">{{ award.0|date:"m/d h:m" }}</td>
+                        <td class="center" style="vertical-align: middle">{{ award.1 }}</td>
+                        <td class="center" style="vertical-align: middle">{{ award.2 }}</td>
+                        <td class="center" style="vertical-align: middle">
+                            <a href="/award/auditedaward_list/award_content?apply_num={{ award.4 }}" class="btn">
+                                {{ award.3 }}
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+{% endblock content %}

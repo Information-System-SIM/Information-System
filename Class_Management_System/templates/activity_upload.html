@@ -27,8 +27,8 @@
                 </header>
                 <div class="panel-body">
                     <form class="form-horizontal form-bordered" method="post"
-                          action="/management/notice_publishment/activity?student_num={{ student_num }}&auth={{ auth }}"
-                          target="/management/notice_publishment/activity?student_num={{ student_num }}&auth={{ auth }}">
+                          action="/management/notice_publishment/activity"
+                          target="/management/notice_publishment/activity">
                         {% csrf_token %}
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="inputDefault">活动名称</label>
@@ -87,4 +87,11 @@
 
         </div>
     </div>
+    {% if messages %}
+        <script>
+            {% for msg in messages %}
+                alert('{{ msg.message }}');
+            {% endfor %}
+        </script>
+    {% endif %}
 {% endblock %}

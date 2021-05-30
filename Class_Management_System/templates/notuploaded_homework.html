@@ -40,15 +40,26 @@
                         <td>{{ student.1.student_num_id }}</td>
                         <td>{{ student.1.student_name }}</td>
                         <td class="center">
-                            <form action="/management/homework_notuploadedlist?student_num={{ student_num }}&message_id={{ ms_num }}&target={{ student.1.student_num_id }}" method="post">
+                            <form action="/management/homework_notuploadedlist?message_id={{ ms_num }}&target={{ student.1.student_num_id }}"
+                                  method="post">
                                 {% csrf_token %}
-                                    <input type="submit" value="发送提醒" class="btn btn-primary" height="2px">
+                                <input type="submit" value="发送提醒" class="btn btn-primary" height="2px">
                             </form>
+
                         </td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
+            <hr/>
+            <div style="text-align: center">
+                <form action="/management/homework_notuploadedlist?message_id={{ ms_num }}&target=all"
+                      method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="向所有未读同学发送提醒" class="btn btn-primary" height="2px">
+                </form>
+            </div>
+
         </div>
     </section>
 {% endblock content %}

@@ -312,31 +312,31 @@
           rel="stylesheet" type="text/css">
 
     <!-- Vendor CSS -->
-    <link rel="stylesheet" href="/static/vendor/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="/static/vendor/font-awesome/css/font-awesome.css">
-    <link rel="stylesheet" href="/static/vendor/magnific-popup/magnific-popup.css">
-    <link rel="stylesheet" href="/static/vendor/bootstrap-datepicker/css/datepicker3.css">
+    <link rel="stylesheet" href={% static "vendor/bootstrap/css/bootstrap.css" %}>
+    <link rel="stylesheet" href={% static "vendor/font-awesome/css/font-awesome.css" %}>
+    <link rel="stylesheet" href={% static "vendor/magnific-popup/magnific-popup.css" %}>
+    <link rel="stylesheet" href={% static "vendor/bootstrap-datepicker/css/datepicker3.css" %}>
 
     <!-- Specific Page Vendor CSS -->
-    <link rel="stylesheet" href="/static/vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.css">
-    <link rel="stylesheet" href="/static/vendor/bootstrap-multiselect/bootstrap-multiselect.css">
-    <link rel="stylesheet" href="/static/vendor/morris/morris.css">
+    <link rel="stylesheet" href={% static "vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.css" %}>
+    <link rel="stylesheet" href={% static "vendor/bootstrap-multiselect/bootstrap-multiselect.css" %}>
+    <link rel="stylesheet" href={% static "vendor/morris/morris.css" %}>
 
     <!-- Theme CSS -->
-    <link rel="stylesheet" href="/static/stylesheets/theme.css">
+    <link rel="stylesheet" href={% static "stylesheets/theme.css" %}>
 
     <!-- Skin CSS -->
-    <link rel="stylesheet" href="/static/stylesheets/skins/default.css">
+    <link rel="stylesheet" href={% static "stylesheets/skins/default.css" %}>
 
     <!-- Theme Custom CSS -->
-    <link rel="stylesheet" href="/static/stylesheets/theme-custom.css">
+    <link rel="stylesheet" href={% static "stylesheets/theme-custom.css" %}>
 
     {% block additional_css %}
 
     {% endblock additional_css %}
 
     <!-- Head Libs -->
-    <script src="/static/vendor/modernizr/modernizr.js"></script>
+    <script src={% static "vendor/modernizr/modernizr.js" %}></script>
 
     <style>.pw-panel {
         position: fixed;
@@ -709,7 +709,7 @@
                 <li>
                     <a href="#" class="dropdown-toggle notification-icon" data-toggle="dropdown">
                         <i class="fa fa-envelope"></i>
-                        <span class="badge">4</span>
+                        <span class="badge">{{ message_num }}</span>
                     </a>
 
                     <div class="dropdown-menu notification-menu">
@@ -779,7 +779,7 @@
                 <li>
                     <a href="#" class="dropdown-toggle notification-icon" data-toggle="dropdown">
                         <i class="fa fa-bell"></i>
-                        <span class="badge">3</span>
+                        <span class="badge"></span>
                     </a>
 
                     <div class="dropdown-menu notification-menu">
@@ -838,7 +838,7 @@
                              data-lock-picture="assets/images/!logged-user.jpg">
                     </figure>
                     <div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@JSOFT.com">
-                        <span class="name">{{ student_name }}</span>
+                        <span class="name">{{ student_num }}</span>
                         <span class="role">{{ auth }}</span>
                     </div>
 
@@ -883,13 +883,13 @@
                             <ul class="nav nav-main">
                                 <!-- 传入一个page参数来控制导航栏显示 -->
                                 <li {% if page == "主页" %} class="nav-active nav-expanded" {% endif %}>
-                                    <a href="/mainpage?student_num={{ student_num }}&auth={{ auth }}">
+                                    <a href="/mainpage">
                                         <i class="fa fa-home" aria-hidden="true"></i>
                                         <span>主页</span>
                                     </a>
                                 </li>
                                 <li {% if page == "通知&消息" %}class="nav-active nav-expanded"{% endif %}>
-                                    <a href="/mainpage/messages_homework?student_num={{ student_num }}">
+                                    <a href="/mainpage/messages_homework">
                                         <span class="pull-right label label-primary">{{ message_num }}</span>
                                         <i class="fa fa-envelope" aria-hidden="true"></i>
                                         <span>通知&amp;消息</span>
@@ -902,35 +902,22 @@
                                     </a>
                                     <ul class="nav nav-children">
                                         <li>
-                                            <a href="/homework/homework_list?student_num={{ student_num }}">
+                                            <a href="/homework/homework_list">
                                                 作业DDL一览
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="/homework/uploaded_homework?student_num={{ student_num }}">
+                                            <a href="/homework/uploaded_homework">
                                                 我提交的作业
                                             </a>
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="nav-parent {% if page == "班级Gallery" %}nav-active nav-expanded{% endif %}">
-                                    <a>
+                                <li class="nav nav-children {% if page == "班级Gallery" %}nav-active nav-expanded{% endif %}">
+                                    <a href="/Gallery">
                                         <i class="fa fa-tasks" aria-hidden="true"></i>
                                         <span>班级Gallery</span>
                                     </a>
-                                    <ul class="nav nav-children">
-                                        <li>
-                                            <a href="">
-                                                班级成员
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="">
-                                                班级委员
-                                            </a>
-                                        </li>
-
-                                    </ul>
                                 </li>
                                 <li class="nav-parent {% if page == "提交获奖信息" %}nav-active nav-expanded{% endif %}">
                                     <a>
@@ -939,24 +926,19 @@
                                     </a>
                                     <ul class="nav nav-children">
                                         <li>
-                                            <a href="award/award_upload">
+                                            <a href="/award/award_upload">
                                                 提交获奖信息
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="">
+                                            <a href="/award/auditedaward_list">
                                                 奖项审核进度
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="">
-                                                审核通过的奖项
                                             </a>
                                         </li>
                                     </ul>
                                 </li>
                                 <li class="nav nav-children {% if page == "活动分查看" %}nav-active nav-expanded{% endif %}">
-                                    <a>
+                                    <a href="/activity_score">
                                         <i class="fa fa-table" aria-hidden="true"></i>
                                         <span>活动分查看</span>
                                     </a>
@@ -971,28 +953,28 @@
                                             <li class="nav-parent">
                                                 <a>发布通知</a>
                                                 <ul class="nav nav-children">
-                                                    <li><a href="/management/notice_publishment/competition?student_num={{ student_num }}&auth={{ auth }}">发布比赛通知</a></li>
-                                                    <li><a href="/management/notice_publishment/activity?student_num={{ student_num }}&auth={{ auth }}">发布活动通知</a></li>
+                                                    <li><a href="/management/notice_publishment/competition">发布比赛通知</a></li>
+                                                    <li><a href="/management/notice_publishment/activity">发布活动通知</a></li>
 
                                                     {% if auth == "Study" %}
-                                                        <li><a href="/management/notice_publishment/homework?student_num={{ student_num }}&auth={{ auth }}">发布作业通知</a></li>
+                                                        <li><a href="/management/notice_publishment/homework">发布作业通知</a></li>
                                                     {% endif %}
 
                                                 </ul>
                                             </li>
 
                                             <li>
-                                                <a>通知反馈</a>
+                                                <a href="/Management/unnoticed_message">通知反馈</a>
                                             </li>
                                             <li>
-                                                <a>获奖审核</a>
+                                                <a href="/management/award_list">获奖审核</a>
                                             </li>
                                             <li>
-                                                <a>活动分统计</a>
+                                                <a href="/Management/activity_score">活动分统计</a>
                                             </li>
                                             {% if auth == "Study" %}
                                                 <li>
-                                                    <a href="/management/homework?student_num={{ student_num }}">作业管理</a>
+                                                    <a href="/management/homework">作业管理</a>
                                                 </li>
                                             {% endif %}
                                         </ul>
@@ -1613,53 +1595,53 @@
 </section>
 
 <!-- Vendor -->
-<script src="/static/vendor/jquery/jquery.js"></script>
-<script src="/static/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
-<script src="/static/vendor/bootstrap/js/bootstrap.js"></script>
-<script src="/static/vendor/nanoscroller/nanoscroller.js"></script>
-<script src="/static/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-<script src="/static/vendor/magnific-popup/magnific-popup.js"></script>
-<script src="/static/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+<script src={% static "vendor/jquery/jquery.js" %}></script>
+<script src={% static "vendor/jquery-browser-mobile/jquery.browser.mobile.js" %}></script>
+<script src={% static "vendor/bootstrap/js/bootstrap.js" %}></script>
+<script src={% static "vendor/nanoscroller/nanoscroller.js" %}></script>
+<script src={% static "vendor/bootstrap-datepicker/js/bootstrap-datepicker.js" %}></script>
+<script src={% static "vendor/magnific-popup/magnific-popup.js" %}></script>
+<script src={% static "vendor/jquery-placeholder/jquery.placeholder.js" %}></script>
 
 <!-- Specific Page Vendor -->
-<script src="/static/vendor/jquery-ui/js/jquery-ui-1.10.4.custom.js"></script>
-<script src="/static/vendor/jquery-ui-touch-punch/jquery.ui.touch-punch.js"></script>
-<script src="/static/vendor/jquery-appear/jquery.appear.js"></script>
-<script src="/static/vendor/bootstrap-multiselect/bootstrap-multiselect.js"></script>
-<script src="/static/vendor/jquery-easypiechart/jquery.easypiechart.js"></script>
-<script src="/static/vendor/flot/jquery.flot.js"></script>
-<script src="/static/vendor/flot-tooltip/jquery.flot.tooltip.js"></script>
-<script src="/static/vendor/flot/jquery.flot.pie.js"></script>
-<script src="/static/vendor/flot/jquery.flot.categories.js"></script>
-<script src="/static/vendor/flot/jquery.flot.resize.js"></script>
-<script src="/static/vendor/jquery-sparkline/jquery.sparkline.js"></script>
-<script src="/static/vendor/raphael/raphael.js"></script>
-<script src="/static/vendor/morris/morris.js"></script>
-<script src="/static/vendor/gauge/gauge.js"></script>
-<script src="/static/vendor/snap-svg/snap.svg.js"></script>
-<script src="/static/vendor/liquid-meter/liquid.meter.js"></script>
-<script src="/static/vendor/jqvmap/jquery.vmap.js"></script>
-<script src="/static/vendor/jqvmap/data/jquery.vmap.sampledata.js"></script>
-<script src="/static/vendor/jqvmap/maps/jquery.vmap.world.js"></script>
-<script src="/static/vendor/jqvmap/maps/continents/jquery.vmap.africa.js"></script>
-<script src="/static/vendor/jqvmap/maps/continents/jquery.vmap.asia.js"></script>
-<script src="/static/vendor/jqvmap/maps/continents/jquery.vmap.australia.js"></script>
-<script src="/static/vendor/jqvmap/maps/continents/jquery.vmap.europe.js"></script>
-<script src="/static/vendor/jqvmap/maps/continents/jquery.vmap.north-america.js"></script>
-<script src="/static/vendor/jqvmap/maps/continents/jquery.vmap.south-america.js"></script>
+<script src={% static "vendor/jquery-ui/js/jquery-ui-1.10.4.custom.js" %}></script>
+<script src={% static "vendor/jquery-ui-touch-punch/jquery.ui.touch-punch.js" %}></script>
+<script src={% static "vendor/jquery-appear/jquery.appear.js" %}></script>
+<script src={% static "vendor/bootstrap-multiselect/bootstrap-multiselect.js" %}></script>
+<script src={% static "vendor/jquery-easypiechart/jquery.easypiechart.js" %}></script>
+<script src={% static "vendor/flot/jquery.flot.js" %}></script>
+<script src={% static "vendor/flot-tooltip/jquery.flot.tooltip.js" %}></script>
+<script src={% static "vendor/flot/jquery.flot.pie.js" %}></script>
+<script src={% static "vendor/flot/jquery.flot.categories.js" %}></script>
+<script src={% static "vendor/flot/jquery.flot.resize.js" %}></script>
+<script src={% static "vendor/jquery-sparkline/jquery.sparkline.js" %}></script>
+<script src={% static "vendor/raphael/raphael.js" %}></script>
+<script src={% static "vendor/morris/morris.js" %}></script>
+<script src={% static "vendor/gauge/gauge.js" %}></script>
+<script src={% static "vendor/snap-svg/snap.svg.js" %}></script>
+<script src={% static "vendor/liquid-meter/liquid.meter.js" %}></script>
+<script src={% static "vendor/jqvmap/jquery.vmap.js" %}></script>
+<script src={% static "vendor/jqvmap/data/jquery.vmap.sampledata.js" %}></script>
+<script src={% static "vendor/jqvmap/maps/jquery.vmap.world.js" %}></script>
+<script src={% static "vendor/jqvmap/maps/continents/jquery.vmap.africa.js" %}></script>
+<script src={% static "vendor/jqvmap/maps/continents/jquery.vmap.asia.js" %}></script>
+<script src={% static "vendor/jqvmap/maps/continents/jquery.vmap.australia.js" %}></script>
+<script src={% static "vendor/jqvmap/maps/continents/jquery.vmap.europe.js" %}></script>
+<script src={% static "vendor/jqvmap/maps/continents/jquery.vmap.north-america.js" %}></script>
+<script src={% static "vendor/jqvmap/maps/continents/jquery.vmap.south-america.js" %}></script>
 
 <!-- Theme Base, Components and Settings -->
-<script src="/static/javascripts/theme.js"></script>
+<script src={% static "javascripts/theme.js" %}></script>
 
 <!-- Theme Custom -->
-<script src="/static/javascripts/theme.custom.js"></script>
+<script src={% static "javascripts/theme.custom.js" %}></script>
 
 <!-- Theme Initialization Files -->
-<script src="/static/javascripts/theme.init.js"></script>
+<script src={% static "javascripts/theme.init.js" %}></script>
 
 
 <!-- Examples -->
-<script src="/static/javascripts/dashboard/examples.dashboard.js"></script>
+<script src={% static "javascripts/dashboard/examples.dashboard.js" %}></script>
 <div id="flotTip" style="display: none; position: absolute; left: 535px; top: 475px;">
     <div id="extwaiokist" style="display:none" v="fcoon" q="7bc7b595" c="13.83" i="21" u="258.5" s="05072114" d="1"
          w="false" e="" m="BMe=" vn="3gtra">

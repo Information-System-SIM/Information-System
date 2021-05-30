@@ -1,0 +1,86 @@
+{% extends "mainpage.html" %}
+
+{% block title %}
+    活动分详情
+{% endblock title %}
+
+{% block page_title %}
+    活动分详情
+{% endblock page_title %}
+
+{% block breadcrumbs %}
+    <li><span>活动分详情</span></li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-6">
+            <h1 class="mailbox-title text-light m-none">
+                <a id="mailboxToggleSidebar" class="sidebar-toggle-btn trigger-toggle-sidebar">
+                    <span class="line"></span>
+                    <span class="line"></span>
+                    <span class="line"></span>
+                    <span class="line line-angle1"></span>
+                    <span class="line line-angle2"></span>
+                </a>
+
+                <strong>我的活动分统计</strong>
+            </h1>
+        </div>
+    </div>
+
+    <hr/>
+
+    <!-- 主体内容 -->
+    <section class="panel">
+        <div class="panel-body">
+            <hr/>
+            <div>
+                <section class="panel">
+                    <header class="panel-heading">
+                        <div class="panel-actions">
+                            <a href="#" class="fa fa-caret-down"></a>
+                            <a href="#" class="fa fa-times"></a>
+                        </div>
+
+                        <h2 class="panel-title">奖项等第</h2>
+                    </header>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table mb-none">
+                                <thead>
+                                <tr align="center">
+                                    <td>获奖时间</td>
+                                    <td>奖项名称</td>
+                                    <td>获奖等级</td>
+                                    <td>获奖类型</td>
+                                    <td>单项活动分</td>
+                                </tr>
+                                </thead>
+                                <tbody align="center">
+                                {% for award in award_lst %}
+                                    <tr>
+                                        <td>{{ award.0 }}</td>
+                                        <td>{{ award.1 }}</td>
+                                        <td>{{ award.2 }}</td>
+                                        <td>{{ award.3 }}</td>
+                                        <td>{{ award.4 }}</td>
+                                    </tr>
+                                {% endfor %}
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>总计：</td>
+                                    <td>{{ total }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+

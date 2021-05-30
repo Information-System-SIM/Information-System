@@ -43,13 +43,13 @@
                         <td style="font-size: 15px;text-align: center;vertical-align: middle" valign="middle">{{ homework.2 }}</td>
                         <td class="center" style="font-size: 15px;text-align: center;vertical-align: middle" valign="middle">{{ homework.3 }}</td>
                         <td class="center" style="font-size: 15px;text-align: center;vertical-align: middle" valign="middle">
-                            <form action="/management/homework?student_num={{ student_num }}&message_id={{ homework.4 }}&order=download" method="post">
+                            <form action="/management/homework?message_id={{ homework.4 }}&order=download" method="post">
                                 {% csrf_token %}
                                 <input type="submit" value="文件下载" class="btn btn-primary" height="2px">
                             </form>
                         </td>
                         <td class="center" style="font-size: 15px;text-align: center;vertical-align: middle" valign="middle">
-                            <a href="/management/homework_notuploadedlist?student_num={{ student_num }}&message_id={{ homework.4 }}" class="btn">未交名单</a>
+                            <a href="/management/homework_notuploadedlist?message_id={{ homework.4 }}" class="btn">未交名单</a>
                         </td>
                     </tr>
                 {% endfor %}

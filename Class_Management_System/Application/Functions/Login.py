@@ -16,6 +16,8 @@ def login(request):
 
         # 若用户名密码正确，重定向到主界面；否则返回密码错误
         if password_true == password_entered:
+            request.session["student_num"] = student_num_entered
+            request.session["auth"] = user_true.auth
             return HttpResponseRedirect(redirect_to="/mainpage?student_num=" + user_true.student_num)
         else:
             return render(request, "pages-signin.html", {"password_true": False})
@@ -37,14 +39,10 @@ def change_password(request):
             if new_password == new_password_confirm:
                 user.pwd = new_password
                 user.save()
-                print(1)  # test
-                return render(request, "pages-changeid.html", {"confirmation": True})
+                return HttpResponseRedirect("login/")
             else:
-                print(2)  # test
                 return render(request, "pages-changeid.html", {"confirmation": False})
         else:
-            print(3)  # test
             return render(request, "pages-changeid.html", {"origin_pwd_right": False})
     except:
-        print(4)  # test
         return render(request, "pages-changeid.html", {"studentnum_exist": False})

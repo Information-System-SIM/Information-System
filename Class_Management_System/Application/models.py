@@ -102,3 +102,16 @@ class homework_upload(models.Model):
     ms_num = models.ForeignKey(message_homework, on_delete=models.CASCADE)
     student_num = models.ForeignKey(student, on_delete=models.DO_NOTHING)
     location = models.CharField(max_length=256)
+
+class award_apply(models.Model):
+    apply_num = models.AutoField(primary_key=True)
+    award_name = models.CharField(max_length=256)
+    award_type = models.CharField(max_length=256)
+    award_level = models.CharField(max_length=256)
+    award_order = models.CharField(max_length=256)
+    award_date = models.DateField(blank=True, null=True)
+    uploaded_time = models.DateTimeField(auto_now=True)
+    additional_text = models.TextField()
+    uploaded_stu = models.ForeignKey(student, on_delete=models.CASCADE)
+    filename = models.CharField(max_length=256, blank=True, null=True)
+    checked = models.CharField(max_length=256, blank=True, null=True)

@@ -1,0 +1,68 @@
+{% extends "mainpage.html" %}
+
+{% block title %}
+    为阅读通知名单
+{% endblock title %}
+
+{% block page_title %}
+    {{ title }}
+{% endblock page_title %}
+
+{% block breadcrumbs %}
+    <li><span>班级管理</span></li>
+    <li><span>未阅读通知名单</span></li>
+    <li><span>{{ title }}</span></li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+    <section class="panel">
+        <header class="panel-heading">
+            <div class="panel-actions">
+                <a href="#" class="fa fa-caret-down"></a>
+                <a href="#" class="fa fa-times"></a>
+            </div>
+
+            <h2 class="panel-title">通知未阅读名单</h2>
+        </header>
+        <div class="panel-body">
+            <table class="table table-bordered table-striped mb-none" id="datatable-details">
+                <thead>
+                <tr>
+                    <th style="text-align: center"></th>
+                    <th style="text-align: center">学号</th>
+                    <th style="text-align: center">姓名</th>
+                    <th style="text-align: center" width="100px">提醒</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for student in not_noticed_student %}
+                    <tr class="gradeX">
+                        <td class="center">{{ student.0 }}</td>
+                        <td class="center">{{ student.1.student_num_id }}</td>
+                        <td class="center">{{ student.1.student_name }}</td>
+                        <td class="center">
+                            <form action="/Management/unnoticed_message/stu_list?message_id={{ ms_num }}&target={{ student.1.student_num_id }}&type={{ type }}"
+                                  target="/Management/unnoticed_message/stu_list?message_id={{ ms_num }}&target={{ student.1.student_num_id }}&type={{ type }}"
+                                  method="post">
+                                {% csrf_token %}
+                                <input type="submit" value="发送提醒" class="btn btn-primary" height="2px">
+                            </form>
+
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <hr/>
+            <div style="text-align: center">
+                <form action="/Management/unnoticed_message/stu_list?message_id={{ ms_num }}&target=all&type={{ type }}"
+                      target="/Management/unnoticed_message/stu_list?message_id={{ ms_num }}&target=all&type={{ type }}"
+                      method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="向所有未读同学发送提醒" class="btn btn-primary" height="2px">
+                </form>
+            </div>
+
+        </div>
+    </section>
+{% endblock content %}

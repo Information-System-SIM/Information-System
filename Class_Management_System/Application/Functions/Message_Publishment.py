@@ -1,9 +1,13 @@
 import os
-
 from django.shortcuts import render
 from Application import models
 from Application.Functions.function import get_image_path
 from Class_Management_System.settings import BASE_DIR
+from django.contrib import messages
+
+
+def message_notice(request):
+    messages.success(request,"通知发布成功")
 
 
 def transfer(date_str,time_str):
@@ -12,13 +16,11 @@ def transfer(date_str,time_str):
     result = lst[-1] + "-" + lst[0] + "-" + lst[1] + " " + time_lst[0] + ":" + time_lst[1] + ":00"
     return result
 
-def competition_publishment_deal(request):
-    # 传递用户名和权限信息
-    student_num = request.GET.get("student_num")
-    auth = models.users.objects.get(student_num=student_num).auth
 
-    page = "班级管理"
-    path = get_image_path(student_num)
+def competition_publishment_deal(request):
+    # 获取学生学号、姓名、auth
+    student_num = request.session["student_num"]
+    auth = request.session["auth"]
 
     # 获取表单信息
     title = request.POST["competition_title"]
@@ -40,15 +42,20 @@ def competition_publishment_deal(request):
     for stu_num in stu_lst:
         models.notice_competition.objects.create(ms_num_id=ms_num, student_num_id=stu_num)
 
+    message_notice(request)
     return render(request, "competition_upload.html", {"student_num": student_num, "auth": auth})
 
-def activity_publishment_deal(request):
-    # 传递用户名和权限信息
-    student_num = request.GET.get("student_num")
-    auth = models.users.objects.get(student_num=student_num).auth
 
+def activity_publishment_deal(request):
+    # 获取学生学号、姓名、auth
+    student_num = request.session["student_num"]
+    student_name = request.session["student_name"]
+    auth = request.session["auth"]
+    message_num = request.session["message_num"]
+    path = request.session["path"]
+
+    # 用于优化页面细节
     page = "班级管理"
-    path = get_image_path(student_num)
 
     # 获取表单信息
     title = request.POST["activity_title"]
@@ -70,15 +77,20 @@ def activity_publishment_deal(request):
     for stu_num in stu_lst:
         models.notice_activity.objects.create(ms_num_id=ms_num, student_num_id=stu_num)
 
+    message_notice(request)
     return render(request, "activity_upload.html", locals())
 
-def homework_publishment_deal(request):
-    # 传递用户名和权限信息
-    student_num = request.GET.get("student_num")
-    auth = models.users.objects.get(student_num=student_num).auth
 
+def homework_publishment_deal(request):
+    # 获取学生学号、姓名、auth
+    student_num = request.session["student_num"]
+    student_name = request.session["student_name"]
+    auth = request.session["auth"]
+    message_num = request.session["message_num"]
+    path = request.session["path"]
+
+    # 用于优化页面细节
     page = "班级管理"
-    path = get_image_path(student_num)
 
     # 获取表单信息
     title = request.POST["homework_title"]
@@ -102,4 +114,6 @@ def homework_publishment_deal(request):
 
     path = os.path.join(BASE_DIR,'static/Documents/'+str(ms_num))
     os.mkdir(path)
+
+    message_notice(request)
     return render(request, "homework_upload.html", locals())

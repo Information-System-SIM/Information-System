@@ -27,9 +27,11 @@
                     <h2 class="panel-title">获奖信息</h2>
                 </header>
                 <div class="panel-body">
-
-
-
+                    <form enctype="multipart/form-data" class="form-horizontal form-bordered"
+                          action="/award/award_upload"
+                          target="/award/award_upload"
+                          method="post">
+                        {% csrf_token %}
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="inputDefault">奖项名称</label>
                             <div class="col-md-6">
@@ -38,16 +40,44 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label" for="inputDefault">奖项类型</label>
+                            <label class="col-md-3 control-label">获奖类型</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="award_type" id="award_type">
+                                    <select data-plugin-selectTwo class="form-control populate" name="award_type" id="award_type">
+                                        <optgroup label="奖项级别">
+                                            <option value="Individual">个人</option>
+                                            <option value="Team">团队</option>
+                                        </optgroup>
+                                    </select>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-3 control-label" for="inputDefault">获奖级别</label>
+                            <label class="col-md-3 control-label">奖项级别</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="place" id="place">
+                                    <select data-plugin-selectTwo class="form-control populate" name="award_level" id="award_level">
+                                        <optgroup label="奖项级别">
+                                            <option value="A">国家级</option>
+                                            <option value="B">省级</option>
+                                            <option value="C">市级</option>
+                                            <option value="D">校级</option>
+                                            <option value="E">院级</option>
+                                        </optgroup>
+                                    </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">获奖等第</label>
+                            <div class="col-md-6">
+                                    <select data-plugin-selectTwo class="form-control populate" name="award_order" id="award_order">
+                                        <optgroup label="奖项级别">
+                                            <option value="A">一等奖</option>
+                                            <option value="B">二等奖</option>
+                                            <option value="C">三等奖</option>
+                                            <option value="D">优秀奖</option>
+                                            <option value="E">参与</option>
+                                        </optgroup>
+                                    </select>
                             </div>
                         </div>
 
@@ -67,25 +97,19 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="inputDefault">备注</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="award_level" id="award_level">
+                                <input type="text" class="form-control" name="additional_text" id="additional_text">
                             </div>
                         </div>
 
-{#                        <div class="form-group">#}
-{#                            <label class="col-md-3 control-label">备注</label>#}
-{#                            <div class="col-md-6">#}
-{#                                <div class="input-group">#}
-{#                                    <span class="input-group-addon">#}
-{#                                        <i class="fa fa-clock-o"></i>#}
-{#                                    </span>#}
-{#                                    <input type="text" data-plugin-timepicker class="form-control"#}
-{#                                           data-plugin-options='{ "showMeridian": false }' name="competition_time" id="competition_time" placeholder="08:00">#}
-{#                                </div>#}
-{#                            </div>#}
-{#                        </div>#}
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="inputDefault">证明材料（请上传截图）</label>
+                            <div class="col-md-6">
+                                <input type="file" name="demonstration" id="demonstration">
+                            </div>
+                        </div>
 
                         <div class="col-sm-9 col-sm-offset-3" align="right">
-                            <button class="btn btn-primary" style="min-width: 200px;min-height: 50px">提交</button>
+                            <input type="submit" class="btn btn-primary" style="min-width: 200px;min-height: 50px" value="提交">
                         </div>
 
                     </form>
@@ -94,4 +118,11 @@
 
         </div>
     </div>
+    {% if messages %}
+        <script>
+            {% for msg in messages %}
+                alert('{{ msg.message }}');
+            {% endfor %}
+        </script>
+    {% endif %}
 {% endblock %}

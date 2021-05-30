@@ -23,7 +23,6 @@ urlpatterns = [
     path('login/', views.login),
     path('mainpage', views.mainpage),
     path('change_password/', views.change_password),
-    path('index/homework/upload', views.homework_upload),
     # 把原先的message名字改成了messages_homework
     path('mainpage/messages_homework', views.message_homework),
     path('mainpage/messages_competition', views.message_competition),
@@ -38,5 +37,14 @@ urlpatterns = [
     path('management/homework',views.homework_management),
     path('management/homework_notuploadedlist', views.homework_notuploadedlist),
     #获奖信息提交
-    path('award/award_upload', views.upload_award)
+    path('award/award_upload', views.upload_award),
+    path('management/award_list', views.award_list),
+    path('management/award_list/award_audit', views.award_audit),
+    path('award/auditedaward_list', views.award_audited),
+    path('award/auditedaward_list/award_content', views.award_content),
+    path('activity_score', views.activity_score),
+    path('Gallery', views.gallery),
+    path('Management/activity_score', views.class_activity_score),
+    path('Management/unnoticed_message', views.unnoticed_message_management),
+    path('Management/unnoticed_message/stu_list', views.unnoticed_message_stulist)
 ]

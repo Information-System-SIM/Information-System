@@ -1,0 +1,151 @@
+{% extends "mainpage.html" %}
+
+{% block title %}
+    {{ apply.awar_name }}
+{% endblock title %}
+
+{% block page_title %}
+    奖项审核
+{% endblock page_title %}
+
+{% block breadcrumbs %}
+    <li><span>班级管理</span></li>
+    <li><span>奖项审核</span></li>
+    <li><span>{{ apply.award_name }}</span></li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+    <section class="content-with-menu mailbox">
+        <div class="content-with-menu-container" data-mailbox data-mailbox-view="folder">
+
+            <div class="inner-body mailbox-folder">
+                <!-- START: .mailbox-header -->
+                <header class="mailbox-header">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h1 class="mailbox-title text-light m-none">
+                                <a id="mailboxToggleSidebar" class="sidebar-toggle-btn trigger-toggle-sidebar">
+                                    <span class="line"></span>
+                                    <span class="line"></span>
+                                    <span class="line"></span>
+                                    <span class="line line-angle1"></span>
+                                    <span class="line line-angle2"></span>
+                                </a>
+
+                                <strong>{{ apply.award_name }}</strong>
+                            </h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="search">
+                                <div class="input-group input-search">
+                                    <input type="text" class="form-control" name="q" id="q"
+                                           placeholder="Search...">
+                                    <span class="input-group-btn">
+														<button class="btn btn-default" type="submit"><i
+                                                                class="fa fa-search"></i></button>
+													</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+                <!-- END: .mailbox-header -->
+
+                <!-- START: .mailbox-actions -->
+                <div class="mailbox-actions">
+                    <ul class="list-unstyled m-none pt-lg pb-lg">
+                        <li class="ib mr-sm">
+                            <div class="btn-group">
+                                <a href="#" class="item-action fa fa-chevron-down dropdown-toggle"
+                                   data-toggle="dropdown"></a>
+
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#">All</a></li>
+                                    <li><a href="#">None</a></li>
+                                    <li><a href="#">Read</a></li>
+                                    <li><a href="#">Unread</a></li>
+                                    <li><a href="#">Starred</a></li>
+                                    <li><a href="#">Unstarred</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="ib mr-sm">
+                            <a class="item-action fa fa-refresh" href="#"></a>
+                        </li>
+                        <li class="ib mr-sm">
+                            <a class="item-action fa fa-tag" href="#"></a>
+                        </li>
+                        <li class="ib">
+                            <a class="item-action fa fa-times text-danger" href="#"></a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- END: .mailbox-actions -->
+
+                <!-- 主体内容 -->
+                <section class="panel">
+                    <header class="panel-heading">
+                        <div class="panel-actions">
+                            <a href="#" class="fa fa-caret-down"></a>
+                            <a href="#" class="fa fa-times"></a>
+                        </div>
+
+                        <h2 class="panel-title">申请人： {{ student_name }}</h2>
+                    </header>
+                    <div class="panel-body">
+                        <p><strong>申请时间：</strong>{{ apply.uploaded_time|date:"m-d" }}</p>
+                        <p><strong>获奖时间：</strong>{{ apply.award_date|date:"m-d" }}</p>
+                        <hr/>
+                        <div>
+                            <section class="panel">
+                                <header class="panel-heading">
+                                    <div class="panel-actions">
+                                        <a href="#" class="fa fa-caret-down"></a>
+                                        <a href="#" class="fa fa-times"></a>
+                                    </div>
+
+                                    <h2 class="panel-title">奖项等第</h2>
+                                </header>
+                                <div class="panel-body">
+                                    <div class="table-responsive">
+                                        <table class="table mb-none">
+                                            <tbody align="center">
+                                            <tr>
+                                                <td>等级</td>
+                                                <td>{{ level }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>类别</td>
+                                                <td>{{ apply.award_type }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>等第</td>
+                                                <td>{{ order }}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                        <hr/>
+                        <p><strong>证明材料：</strong></p>
+                        <img src="{{ file_path }}" alt="未提交证明材料">
+                        <hr/>
+                        <form enctype="multipart/form-data"
+                              action="/management/award_list/award_audit?apply_num={{ apply.apply_num }}"
+                              method="post"
+                              target="/management/award_list/award_audit?apply_num={{ apply.apply_num }}">
+                            {% csrf_token %}
+                            <div style="text-align: center">
+                                <input type="submit" class="btn btn-primary" value="通过" formaction="/management/award_list/award_audit?apply_num={{ apply.apply_num }}&order=0" formtarget="/management/award_list/award_audit?apply_num={{ apply.apply_num }}&student_num={{ student_num }}&order=0">
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <input type="submit" class="btn btn-primary" value="否决" style="background-color: grey" formaction="/management/award_list/award_audit?apply_num={{ apply.apply_num }}&student_num={{ student_num }}&order=0" formtarget="/management/award_list/award_audit?apply_num={{ apply.apply_num }}&student_num={{ student_num }}&order=1">
+                            </div>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

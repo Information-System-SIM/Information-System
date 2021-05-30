@@ -42,12 +42,12 @@
                         <td>{{ homework.2 }}</td>
                         <td class="center">{{ homework.3 }}</td>
                         <td class="center">
-                            <form action="/homework/uploaded_homework?student_num={{ student_num }}&message_id={{ homework.4 }}&order=download" method="post">
+                            <form action="/homework/uploaded_homework?message_id={{ homework.4 }}&order=download" method="post">
                                 {% csrf_token %}
                                 <input type="submit" value="下载" class="btn btn-primary" height="2px">
                             </form>
                             <br/>
-                            <form action="/homework/uploaded_homework?student_num={{ student_num }}&message_id={{ homework.4 }}&order=delete" method="post">
+                            <form action="/homework/uploaded_homework?message_id={{ homework.4 }}&order=delete" method="post">
                                 {% csrf_token %}
                                 <input type="submit" value="删除" class="btn btn-primary" height="2px">
                             </form>
