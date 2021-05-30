@@ -112,7 +112,7 @@ def homework_publishment_deal(request):
     for stu_num in stu_lst:
         models.notice_homework.objects.create(ms_num_id=ms_num, student_num_id=stu_num)
 
-    path = os.path.join(BASE_DIR,'static/Documents/'+str(ms_num))
+    path = os.path.join(BASE_DIR, 'static/Documents/'+str(ms_num))
     os.mkdir(path)
 
     message_notice(request)

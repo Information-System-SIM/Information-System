@@ -103,6 +103,8 @@ def award_upload_deal(request):
             with open(os.path.join(path, file_name), "wb+") as f:
                 for chunk in file:
                     f.write(chunk)
+            award_apply.filename = file_name
+            award_apply.save()
         return award_upload_page(request)
     else:
         message_fail(request)
@@ -130,7 +132,9 @@ def award_audit_page(request):
     level, order = map_code2level(apply.award_level, apply.award_order).split(" ")
     filename = apply.filename
     if filename is not None:
-        file_path = os.path.join(os.path.join(STATICFILES_DIRS, "Apply"), filename)
+        file_path = os.path.join('Award', filename)
+        print(file_path)
+
     return render(request, 'award_audit.html', locals())
 
 
@@ -201,5 +205,5 @@ def award_content_page(request):
     level, order = map_code2level(apply.award_level, apply.award_order).split(" ")
     filename = apply.filename
     if filename is not None:
-        file_path = os.path.join(os.path.join(STATICFILES_DIRS, "Apply"), filename)
+        file_path = os.path.join(BASE_DIR, 'static', 'Award', filename)
     return render(request, 'award_content.html', locals())

@@ -28,7 +28,7 @@ def homework_upload(request, student_num, message_id):
             origin_record.delete()
         except:
             pass
-        models.homework_upload.objects.create(ms_num_id=message_id,student_num_id=student_num,location=(path + file_name))
+        models.homework_upload.objects.create(ms_num_id=message_id,student_num_id=student_num,location=file_name)
         notice_success(request)
         return True
     else:

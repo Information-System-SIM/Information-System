@@ -2,6 +2,7 @@
 
 {% block title %}
     {{ apply.awar_name }}
+    {% load static %}
 {% endblock title %}
 
 {% block page_title %}
@@ -130,7 +131,7 @@
                         </div>
                         <hr/>
                         <p><strong>证明材料：</strong></p>
-                        <img src="{{ file_path }}" alt="未提交证明材料">
+                        <img src={% static file_path %} alt="未提交证明材料" class="img-responsive">
                         <hr/>
                         <form enctype="multipart/form-data"
                               action="/management/award_list/award_audit?apply_num={{ apply.apply_num }}"

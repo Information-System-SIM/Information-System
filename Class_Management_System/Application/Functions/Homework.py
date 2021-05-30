@@ -44,16 +44,16 @@ def uploaded_homework_deal(request):
 
 
 def delete(student_num, ms_num):
-    path = models.homework_upload.objects.get(ms_num_id=ms_num, student_num_id=student_num).location
-    os.remove(path)
+    filename = models.homework_upload.objects.get(ms_num_id=ms_num, student_num_id=student_num).location
+    os.remove(os.path.join(BASE_DIR, 'static', 'Documents', str(ms_num), filename))
     models.homework_upload.objects.get(student_num_id=student_num, ms_num_id=ms_num).delete()
 
 
 def download(student_num, ms_num):
-    path = models.homework_upload.objects.get(ms_num_id=ms_num, student_num_id=student_num).location
-    print(path.split("/")[-1])
+    filename = models.homework_upload.objects.get(ms_num_id=ms_num, student_num_id=student_num).location
+    path = os.path.join(BASE_DIR, 'static', 'Documents', str(ms_num), filename)
     f = open(path, "rb")
-    response = FileResponse(f, filename=path.split("/")[-1], as_attachment=True)
+    response = FileResponse(f, filename=filename, as_attachment=True)
     response['Content-Type'] = 'application/octet-stream'
     response['Content-Disposition'] = 'attachment;filename=%s' % quote(path.split("/")[-1])
     return response
