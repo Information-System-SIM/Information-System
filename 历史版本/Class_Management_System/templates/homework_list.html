@@ -1,0 +1,59 @@
+{% extends "mainpage.html" %}
+
+{% block title %}
+    作业DeadLine
+{% endblock title %}
+
+{% block page_title %}
+    作业DeadLine
+{% endblock page_title %}
+
+{% block breadcrumbs %}
+    <li><span>提交作业</span></li>
+    <li><span>作业DDL一览</span></li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+    <section class="panel">
+        <header class="panel-heading">
+            <div class="panel-actions">
+                <a href="#" class="fa fa-caret-down"></a>
+                <a href="#" class="fa fa-times"></a>
+            </div>
+
+            <h2 class="panel-title">作业一览表</h2>
+        </header>
+        <div class="panel-body">
+            <table class="table table-bordered table-striped mb-none" id="datatable-details">
+                <thead>
+                <tr>
+                    <th style="text-align: center">DeadLine</th>
+                    <th style="text-align: center">作业名称</th>
+                    <th style="text-align: center">作业学科</th>
+                    <th style="text-align: center">作业描述</th>
+                    <th style="text-align: center" width="100px">提交情况</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for homework in homework_list %}
+                    <tr class="gradeX">
+                        <td>{{ homework.0|date:"m/d h:m" }}</td>
+                        <td>{{ homework.1 }}</td>
+                        <td>{{ homework.2 }}</td>
+                        <td class="center">{{ homework.3 }}</td>
+                        <td class="center">
+                            <a href="/mainpage/message?message_id={{ homework.4 }}&type=0">
+                            {% if homework.5 == True %}
+                                已完成
+                            {% else %}
+                                提交
+                            {% endif %}
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+{% endblock content %}

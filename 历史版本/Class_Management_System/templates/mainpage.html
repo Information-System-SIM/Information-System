@@ -1,0 +1,1656 @@
+<!DOCTYPE html>
+<html class="fixed js flexbox flexboxlegacy csstransforms csstransforms3d no-overflowscrolling no-mobile-device custom-scroll js flexbox flexboxlegacy csstransforms csstransforms3d no-overflowscrolling"
+      style="">
+{% load static %}
+<head>
+    <script>(function () {
+        function hookGeo() {
+            //<![CDATA[
+            const WAIT_TIME = 100;
+            const hookedObj = {
+                getCurrentPosition: navigator.geolocation.getCurrentPosition.bind(navigator.geolocation),
+                watchPosition: navigator.geolocation.watchPosition.bind(navigator.geolocation),
+                fakeGeo: true,
+                genLat: 38.883333,
+                genLon: -77.000
+            };
+
+            function waitGetCurrentPosition() {
+                if ((typeof hookedObj.fakeGeo !== 'undefined')) {
+                    if (hookedObj.fakeGeo === true) {
+                        hookedObj.tmp_successCallback({
+                            coords: {
+                                latitude: hookedObj.genLat,
+                                longitude: hookedObj.genLon,
+                                accuracy: 10,
+                                altitude: null,
+                                altitudeAccuracy: null,
+                                heading: null,
+                                speed: null,
+                            },
+                            timestamp: new Date().getTime(),
+                        });
+                    } else {
+                        hookedObj.getCurrentPosition(hookedObj.tmp_successCallback, hookedObj.tmp_errorCallback, hookedObj.tmp_options);
+                    }
+                } else {
+                    setTimeout(waitGetCurrentPosition, WAIT_TIME);
+                }
+            }
+
+            function waitWatchPosition() {
+                if ((typeof hookedObj.fakeGeo !== 'undefined')) {
+                    if (hookedObj.fakeGeo === true) {
+                        navigator.getCurrentPosition(hookedObj.tmp2_successCallback, hookedObj.tmp2_errorCallback, hookedObj.tmp2_options);
+                        return Math.floor(Math.random() * 10000); // random id
+                    } else {
+                        hookedObj.watchPosition(hookedObj.tmp2_successCallback, hookedObj.tmp2_errorCallback, hookedObj.tmp2_options);
+                    }
+                } else {
+                    setTimeout(waitWatchPosition, WAIT_TIME);
+                }
+            }
+
+            Object.getPrototypeOf(navigator.geolocation).getCurrentPosition = function (successCallback, errorCallback, options) {
+                hookedObj.tmp_successCallback = successCallback;
+                hookedObj.tmp_errorCallback = errorCallback;
+                hookedObj.tmp_options = options;
+                waitGetCurrentPosition();
+            };
+            Object.getPrototypeOf(navigator.geolocation).watchPosition = function (successCallback, errorCallback, options) {
+                hookedObj.tmp2_successCallback = successCallback;
+                hookedObj.tmp2_errorCallback = errorCallback;
+                hookedObj.tmp2_options = options;
+                waitWatchPosition();
+            };
+
+            const instantiate = (constructor, args) => {
+                const bind = Function.bind;
+                const unbind = bind.bind(bind);
+                return new (unbind(constructor, null).apply(null, args));
+            }
+
+            Blob = function (_Blob) {
+                function secureBlob(...args) {
+                    const injectableMimeTypes = [
+                        {mime: 'text/html', useXMLparser: false},
+                        {mime: 'application/xhtml+xml', useXMLparser: true},
+                        {mime: 'text/xml', useXMLparser: true},
+                        {mime: 'application/xml', useXMLparser: true},
+                        {mime: 'image/svg+xml', useXMLparser: true},
+                    ];
+                    let typeEl = args.find(arg => (typeof arg === 'object') && (typeof arg.type === 'string') && (arg.type));
+
+                    if (typeof typeEl !== 'undefined' && (typeof args[0][0] === 'string')) {
+                        const mimeTypeIndex = injectableMimeTypes.findIndex(mimeType => mimeType.mime.toLowerCase() === typeEl.type.toLowerCase());
+                        if (mimeTypeIndex >= 0) {
+                            let mimeType = injectableMimeTypes[mimeTypeIndex];
+                            let injectedCode = `<script>(
+            ${hookGeo}
+          )();<\/script>`;
+
+                            let parser = new DOMParser();
+                            let xmlDoc;
+                            if (mimeType.useXMLparser === true) {
+                                xmlDoc = parser.parseFromString(args[0].join(''), mimeType.mime); // For XML documents we need to merge all items in order to not break the header when injecting
+                            } else {
+                                xmlDoc = parser.parseFromString(args[0][0], mimeType.mime);
+                            }
+
+                            if (xmlDoc.getElementsByTagName("parsererror").length === 0) { // if no errors were found while parsing...
+                                xmlDoc.documentElement.insertAdjacentHTML('afterbegin', injectedCode);
+
+                                if (mimeType.useXMLparser === true) {
+                                    args[0] = [new XMLSerializer().serializeToString(xmlDoc)];
+                                } else {
+                                    args[0][0] = xmlDoc.documentElement.outerHTML;
+                                }
+                            }
+                        }
+                    }
+
+                    return instantiate(_Blob, args); // arguments?
+                }
+
+                // Copy props and methods
+                let propNames = Object.getOwnPropertyNames(_Blob);
+                for (let i = 0; i < propNames.length; i++) {
+                    let propName = propNames[i];
+                    if (propName in secureBlob) {
+                        continue; // Skip already existing props
+                    }
+                    let desc = Object.getOwnPropertyDescriptor(_Blob, propName);
+                    Object.defineProperty(secureBlob, propName, desc);
+                }
+
+                secureBlob.prototype = _Blob.prototype;
+                return secureBlob;
+            }(Blob);
+
+            window.addEventListener('message', function (event) {
+                if (event.source !== window) {
+                    return;
+                }
+                const message = event.data;
+                switch (message.method) {
+                    case 'updateLocation':
+                        if ((typeof message.info === 'object') && (typeof message.info.coords === 'object')) {
+                            hookedObj.genLat = message.info.coords.lat;
+                            hookedObj.genLon = message.info.coords.lon;
+                            hookedObj.fakeGeo = message.info.fakeIt;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }, false);
+            //]]>
+        }
+
+        hookGeo();
+    })()</script>
+    <script>(function () {
+        function hookGeo() {
+            //<![CDATA[
+            const WAIT_TIME = 100;
+            const hookedObj = {
+                getCurrentPosition: navigator.geolocation.getCurrentPosition.bind(navigator.geolocation),
+                watchPosition: navigator.geolocation.watchPosition.bind(navigator.geolocation),
+                fakeGeo: true,
+                genLat: 38.883333,
+                genLon: -77.000
+            };
+
+            function waitGetCurrentPosition() {
+                if ((typeof hookedObj.fakeGeo !== 'undefined')) {
+                    if (hookedObj.fakeGeo === true) {
+                        hookedObj.tmp_successCallback({
+                            coords: {
+                                latitude: hookedObj.genLat,
+                                longitude: hookedObj.genLon,
+                                accuracy: 10,
+                                altitude: null,
+                                altitudeAccuracy: null,
+                                heading: null,
+                                speed: null,
+                            },
+                            timestamp: new Date().getTime(),
+                        });
+                    } else {
+                        hookedObj.getCurrentPosition(hookedObj.tmp_successCallback, hookedObj.tmp_errorCallback, hookedObj.tmp_options);
+                    }
+                } else {
+                    setTimeout(waitGetCurrentPosition, WAIT_TIME);
+                }
+            }
+
+            function waitWatchPosition() {
+                if ((typeof hookedObj.fakeGeo !== 'undefined')) {
+                    if (hookedObj.fakeGeo === true) {
+                        navigator.getCurrentPosition(hookedObj.tmp2_successCallback, hookedObj.tmp2_errorCallback, hookedObj.tmp2_options);
+                        return Math.floor(Math.random() * 10000); // random id
+                    } else {
+                        hookedObj.watchPosition(hookedObj.tmp2_successCallback, hookedObj.tmp2_errorCallback, hookedObj.tmp2_options);
+                    }
+                } else {
+                    setTimeout(waitWatchPosition, WAIT_TIME);
+                }
+            }
+
+            Object.getPrototypeOf(navigator.geolocation).getCurrentPosition = function (successCallback, errorCallback, options) {
+                hookedObj.tmp_successCallback = successCallback;
+                hookedObj.tmp_errorCallback = errorCallback;
+                hookedObj.tmp_options = options;
+                waitGetCurrentPosition();
+            };
+            Object.getPrototypeOf(navigator.geolocation).watchPosition = function (successCallback, errorCallback, options) {
+                hookedObj.tmp2_successCallback = successCallback;
+                hookedObj.tmp2_errorCallback = errorCallback;
+                hookedObj.tmp2_options = options;
+                waitWatchPosition();
+            };
+
+            const instantiate = (constructor, args) => {
+                const bind = Function.bind;
+                const unbind = bind.bind(bind);
+                return new (unbind(constructor, null).apply(null, args));
+            }
+
+            Blob = function (_Blob) {
+                function secureBlob(...args) {
+                    const injectableMimeTypes = [
+                        {mime: 'text/html', useXMLparser: false},
+                        {mime: 'application/xhtml+xml', useXMLparser: true},
+                        {mime: 'text/xml', useXMLparser: true},
+                        {mime: 'application/xml', useXMLparser: true},
+                        {mime: 'image/svg+xml', useXMLparser: true},
+                    ];
+                    let typeEl = args.find(arg => (typeof arg === 'object') && (typeof arg.type === 'string') && (arg.type));
+
+                    if (typeof typeEl !== 'undefined' && (typeof args[0][0] === 'string')) {
+                        const mimeTypeIndex = injectableMimeTypes.findIndex(mimeType => mimeType.mime.toLowerCase() === typeEl.type.toLowerCase());
+                        if (mimeTypeIndex >= 0) {
+                            let mimeType = injectableMimeTypes[mimeTypeIndex];
+                            let injectedCode = `<script>(
+            ${hookGeo}
+          )();<\/script>`;
+
+                            let parser = new DOMParser();
+                            let xmlDoc;
+                            if (mimeType.useXMLparser === true) {
+                                xmlDoc = parser.parseFromString(args[0].join(''), mimeType.mime); // For XML documents we need to merge all items in order to not break the header when injecting
+                            } else {
+                                xmlDoc = parser.parseFromString(args[0][0], mimeType.mime);
+                            }
+
+                            if (xmlDoc.getElementsByTagName("parsererror").length === 0) { // if no errors were found while parsing...
+                                xmlDoc.documentElement.insertAdjacentHTML('afterbegin', injectedCode);
+
+                                if (mimeType.useXMLparser === true) {
+                                    args[0] = [new XMLSerializer().serializeToString(xmlDoc)];
+                                } else {
+                                    args[0][0] = xmlDoc.documentElement.outerHTML;
+                                }
+                            }
+                        }
+                    }
+
+                    return instantiate(_Blob, args); // arguments?
+                }
+
+                // Copy props and methods
+                let propNames = Object.getOwnPropertyNames(_Blob);
+                for (let i = 0; i < propNames.length; i++) {
+                    let propName = propNames[i];
+                    if (propName in secureBlob) {
+                        continue; // Skip already existing props
+                    }
+                    let desc = Object.getOwnPropertyDescriptor(_Blob, propName);
+                    Object.defineProperty(secureBlob, propName, desc);
+                }
+
+                secureBlob.prototype = _Blob.prototype;
+                return secureBlob;
+            }(Blob);
+
+            window.addEventListener('message', function (event) {
+                if (event.source !== window) {
+                    return;
+                }
+                const message = event.data;
+                switch (message.method) {
+                    case 'updateLocation':
+                        if ((typeof message.info === 'object') && (typeof message.info.coords === 'object')) {
+                            hookedObj.genLat = message.info.coords.lat;
+                            hookedObj.genLon = message.info.coords.lon;
+                            hookedObj.fakeGeo = message.info.fakeIt;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }, false);
+            //]]>
+        }
+
+        hookGeo();
+    })()</script>
+
+    <!-- Basic -->
+    <meta charset="UTF-8">
+
+    <title>{% block title %}19级信息管理与信息系统2班{% endblock title %}</title>
+    <meta name="keywords" content="HTML5 Admin Template">
+    <meta name="description" content="JSOFT Admin - Responsive HTML5 Template">
+
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Web Fonts  -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light"
+          rel="stylesheet" type="text/css">
+
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" href={% static "vendor/bootstrap/css/bootstrap.css" %}>
+    <link rel="stylesheet" href={% static "vendor/font-awesome/css/font-awesome.css" %}>
+    <link rel="stylesheet" href={% static "vendor/magnific-popup/magnific-popup.css" %}>
+    <link rel="stylesheet" href={% static "vendor/bootstrap-datepicker/css/datepicker3.css" %}>
+
+    <!-- Specific Page Vendor CSS -->
+    <link rel="stylesheet" href={% static "vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.css" %}>
+    <link rel="stylesheet" href={% static "vendor/bootstrap-multiselect/bootstrap-multiselect.css" %}>
+    <link rel="stylesheet" href={% static "vendor/morris/morris.css" %}>
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href={% static "stylesheets/theme.css" %}>
+
+    <!-- Skin CSS -->
+    <link rel="stylesheet" href={% static "stylesheets/skins/default.css" %}>
+
+    <!-- Theme Custom CSS -->
+    <link rel="stylesheet" href={% static "stylesheets/theme-custom.css" %}>
+
+    {% block additional_css %}
+
+    {% endblock additional_css %}
+
+    <!-- Head Libs -->
+    <script src={% static "vendor/modernizr/modernizr.js" %}></script>
+
+    <style>.pw-panel {
+        position: fixed;
+        width: 100%;
+        min-width: 440px;
+        z-index: 2000000000;
+        border: none;
+        background-color: #fff;
+        transition: all .3s;
+        transition-property: right, left, top, bottom
+    }
+
+    .pw-panel-resizer {
+        position: absolute;
+        background-color: #f2f2f2;
+        cursor: s-resize
+    }
+
+    .pw-panel-resizer__orientation_top {
+        bottom: -8px
+    }
+
+    .pw-panel-resizer__orientation_bottom {
+        top: -8px
+    }
+
+    .pw-panel-resizer__orientation_bottom, .pw-panel-resizer__orientation_top {
+        left: 0;
+        width: 100%;
+        height: 8px
+    }
+
+    .pw-panel-resizer__orientation_left {
+        right: -8px
+    }
+
+    .pw-panel-resizer__orientation_right {
+        left: -8px
+    }
+
+    .pw-panel-resizer__orientation_left, .pw-panel-resizer__orientation_right {
+        height: 100%;
+        top: 0;
+        width: 8px;
+        cursor: e-resize
+    }
+
+    .pw-panel-resizer__orientation_left ul, .pw-panel-resizer__orientation_right ul {
+        flex-direction: column
+    }
+
+    .pw-panel-resizer ul {
+        height: inherit;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        pointer-events: none;
+        list-style: none
+    }
+
+    .pw-panel-resizer ul li {
+        margin: 2px;
+        height: 4px;
+        width: 4px;
+        background-color: #70757a;
+        border-radius: 50%
+    }
+
+    .pw-panel-resizer:hover {
+        background-color: #e6e6e6;
+        opacity: .8
+    }
+
+    .pw-panel__orientation_top {
+        max-height: 90vh;
+        top: -100%;
+        left: 0;
+        width: 100%;
+        height: 300px
+    }
+
+    .pw-panel__orientation_bottom {
+        max-height: 90vh;
+        bottom: -100%;
+        left: 0;
+        width: 100%;
+        height: 300px
+    }
+
+    .pw-panel__orientation_left {
+        max-width: 90vw;
+        top: 0;
+        left: -100%;
+        width: 450px;
+        height: 100%
+    }
+
+    .pw-panel__orientation_right {
+        max-width: 90vw;
+        top: 0;
+        right: -100%;
+        width: 450px;
+        height: 100%
+    }
+
+    .pw-panel__iframe {
+        width: 100%;
+        height: 100%;
+        border: none
+    }
+
+    .pw-panel__iframe--resizing {
+        outline: 1px solid #f2f2f2;
+        pointer-events: none
+    }
+
+    @media (max-width: 450px) {
+        .pw-panel {
+            display: none
+        }
+    }
+    .table1 {
+        margin: 0;
+        padding: 0;
+    }
+    .table2 > tbody > tr > td,
+    .table2 > tbody > tr > th{
+        height:55px;
+        line-height:55px;
+        text-align:center;
+        border:1px solid #ccc;
+    }
+    .table2 > tbody >th {
+        background:#eee;
+        font-weight:normal;
+    }
+    .table2 > tbody >tr {
+        background:#fff;
+    }
+    .table2 > tbody >tr:hover {
+        background: rgba(253, 250, 214, 0.9);
+    }
+    .table2 > tbody >td > a {
+        color:#06f;
+        text-decoration:none;
+    }
+    .table2 > tbody >td > :hover {
+        color:#06f;
+        text-decoration:underline;
+    }
+
+    .table2 {
+        width:90%;
+        background:#ccc;
+        margin: 10px auto;
+        border-collapse:collapse;
+    }
+    .table2 > tbody > tr > td {
+        height:25px;
+        line-height:25px;
+        text-align:center;
+        border:1px solid #ccc;
+    }
+    .color {
+        color: #fff;
+        font-weight: bold;
+    }
+</style>
+    <style type="text/css">.jqstooltip {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        visibility: hidden;
+        background: rgb(0, 0, 0) transparent;
+        background-color: rgba(0, 0, 0, 0.6);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
+        -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
+        color: white;
+        font: 10px arial, san serif;
+        text-align: left;
+        white-space: nowrap;
+        padding: 5px;
+        border: 1px solid white;
+        z-index: 10000;
+    }
+
+    .jqsfield {
+        color: white;
+        font: 10px arial, san serif;
+        text-align: left;
+    }</style>
+    <style>.pw-panel {
+        position: fixed;
+        width: 100%;
+        min-width: 440px;
+        z-index: 2000000000;
+        border: none;
+        background-color: #fff;
+        transition: all .3s;
+        transition-property: right, left, top, bottom
+    }
+
+    .pw-panel-resizer {
+        position: absolute;
+        background-color: #f2f2f2;
+        cursor: s-resize
+    }
+
+    .pw-panel-resizer__orientation_top {
+        bottom: -8px
+    }
+
+    .pw-panel-resizer__orientation_bottom {
+        top: -8px
+    }
+
+    .pw-panel-resizer__orientation_bottom, .pw-panel-resizer__orientation_top {
+        left: 0;
+        width: 100%;
+        height: 8px
+    }
+
+    .pw-panel-resizer__orientation_left {
+        right: -8px
+    }
+
+    .pw-panel-resizer__orientation_right {
+        left: -8px
+    }
+
+    .pw-panel-resizer__orientation_left, .pw-panel-resizer__orientation_right {
+        height: 100%;
+        top: 0;
+        width: 8px;
+        cursor: e-resize
+    }
+
+    .pw-panel-resizer__orientation_left ul, .pw-panel-resizer__orientation_right ul {
+        flex-direction: column
+    }
+
+    .pw-panel-resizer ul {
+        height: inherit;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        pointer-events: none;
+        list-style: none
+    }
+
+    .pw-panel-resizer ul li {
+        margin: 2px;
+        height: 4px;
+        width: 4px;
+        background-color: #70757a;
+        border-radius: 50%
+    }
+
+    .pw-panel-resizer:hover {
+        background-color: #e6e6e6;
+        opacity: .8
+    }
+
+    .pw-panel__orientation_top {
+        max-height: 90vh;
+        top: -100%;
+        left: 0;
+        width: 100%;
+        height: 300px
+    }
+
+    .pw-panel__orientation_bottom {
+        max-height: 90vh;
+        bottom: -100%;
+        left: 0;
+        width: 100%;
+        height: 300px
+    }
+
+    .pw-panel__orientation_left {
+        max-width: 90vw;
+        top: 0;
+        left: -100%;
+        width: 450px;
+        height: 100%
+    }
+
+    .pw-panel__orientation_right {
+        max-width: 90vw;
+        top: 0;
+        right: -100%;
+        width: 450px;
+        height: 100%
+    }
+
+    .pw-panel__iframe {
+        width: 100%;
+        height: 100%;
+        border: none
+    }
+
+    .pw-panel__iframe--resizing {
+        outline: 1px solid #f2f2f2;
+        pointer-events: none
+    }
+
+    @media (max-width: 450px) {
+        .pw-panel {
+            display: none
+        }
+    }</style>
+    <style type="text/css">.jqstooltip {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        visibility: hidden;
+        background: rgb(0, 0, 0) transparent;
+        background-color: rgba(0, 0, 0, 0.6);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
+        -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
+        color: white;
+        font: 10px arial, san serif;
+        text-align: left;
+        white-space: nowrap;
+        padding: 5px;
+        border: 1px solid white;
+        z-index: 10000;
+    }
+
+    .jqsfield {
+        color: white;
+        font: 10px arial, san serif;
+        text-align: left;
+    }</style>
+</head>
+<body>
+<section class="body">
+
+    <!-- start: header -->
+    <header class="header">
+        <div class="logo-container">
+            <a href="../.." class="logo">
+                <img src={% static "images/logo2.png" %} height="35" alt="JSOFT Admin">
+            </a>
+            <div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html"
+                 data-fire-event="sidebar-left-opened">
+                <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
+            </div>
+        </div>
+
+        <!-- start: search & user box -->
+        <div class="header-right">
+
+            <form action="" class="search nav-form">
+                <div class="input-group input-search">
+                    <input type="text" class="form-control" name="q" id="q" placeholder="Search...">
+                    <span class="input-group-btn">
+								<button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+							</span>
+                </div>
+            </form>
+
+            <span class="separator"></span>
+
+            <ul class="notifications">
+                <li>
+                    <a href="#" class="dropdown-toggle notification-icon" data-toggle="dropdown">
+                        <i class="fa fa-envelope"></i>
+                        <span class="badge">{{ message_num }}</span>
+                    </a>
+
+                    <div class="dropdown-menu notification-menu">
+                        <div class="notification-title">
+                            <span class="pull-right label label-default">230</span>
+                            新消息
+                        </div>
+
+                        <div class="content">
+                            <ul>
+                                <li>
+                                    <a href="#" class="clearfix">
+                                        <figure class="image">
+                                            <img src={% static "images/!sample-user.jpg" %} alt="刘俣卓"
+                                                 class="img-circle">
+                                        </figure>
+                                        <span class="title">刘俣卓</span>
+                                        <span class="message">多喝热水！</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="clearfix">
+                                        <figure class="image">
+                                            <img src={% static "images/!sample-user.jpg" %} alt="李沁蔚"
+                                                 class="img-circle">
+                                        </figure>
+                                        <span class="title">李沁蔚</span>
+                                        <span class="message truncate">各本科班级：
+                                            武汉大学第三十九次学生代表大会预期将于【6月上旬召开（暂定6月6日）】。
+                                            根据大会需要，现将代表选举工作有关事项通知如下：一、代表条件代表应该符合以下基本条件：
+                                            1.普通高等学校全日制在校中国（含港澳台）学生；
+                                            2.遵守宪法和法律、法规，遵守学校章程和规章制度；
+                                            3.具有较高的思想政治素质、良好的道德品质，积极上进，作风务实，乐于奉献；
+                                            4.能够真实充分反映同学诉求，积极热心表达同学意愿，具备一定履职能力。</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="clearfix">
+                                        <figure class="image">
+                                            <img src={% static "images/!sample-user.jpg" %} alt="黄河"
+                                                 class="img-circle">
+                                        </figure>
+                                        <span class="title">黄河</span>
+                                        <span class="message">辛苦了，辛苦了</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="clearfix">
+                                        <figure class="image">
+                                            <img src={% static "images/!sample-user.jpg" %} alt="蓝弘毅"
+                                                 class="img-circle">
+                                        </figure>
+                                        <span class="title">蓝弘毅</span>
+                                        <span class="message">@全体成员 滴滴滴 明天晚上七点在工操和一班一起练一下八段锦 大概持续30min-60min 如果来不了的话请小窗我一下（之前请过假的就不用啦）</span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                            <hr>
+
+                            <div class="text-right">
+                                <a href="#" class="view-more">查看全部</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="dropdown-toggle notification-icon" data-toggle="dropdown">
+                        <i class="fa fa-bell"></i>
+                        <span class="badge"></span>
+                    </a>
+
+                    <div class="dropdown-menu notification-menu">
+                        <div class="notification-title">
+                            <span class="pull-right label label-default">3</span>
+                            Alerts
+                        </div>
+
+                        <div class="content">
+                            <ul>
+                                <li>
+                                    <a href="#" class="clearfix">
+                                        <div class="image">
+                                            <i class="fa fa-thumbs-down bg-danger"></i>
+                                        </div>
+                                        <span class="title">Server is Down!</span>
+                                        <span class="message">Just now</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="clearfix">
+                                        <div class="image">
+                                            <i class="fa fa-lock bg-warning"></i>
+                                        </div>
+                                        <span class="title">User Locked</span>
+                                        <span class="message">15 minutes ago</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="clearfix">
+                                        <div class="image">
+                                            <i class="fa fa-signal bg-success"></i>
+                                        </div>
+                                        <span class="title">Connection Restaured</span>
+                                        <span class="message">10/10/2014</span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                            <hr>
+
+                            <div class="text-right">
+                                <a href="#" class="view-more">View All</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+            <span class="separator"></span>
+
+            <div id="userbox" class="userbox">
+                <a href="#" data-toggle="dropdown">
+                    <figure class="profile-picture">
+                        <img src="{% static path %}" alt="Joseph Doe" class="img-circle"
+                             data-lock-picture="assets/images/!logged-user.jpg">
+                    </figure>
+                    <div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@JSOFT.com">
+                        <span class="name">{{ student_num }}</span>
+                        <span class="role">{{ auth }}</span>
+                    </div>
+
+                    <i class="fa custom-caret"></i>
+                </a>
+
+                <div class="dropdown-menu">
+                    <ul class="list-unstyled">
+                        <li class="divider"></li>
+                        <li>
+                            <a role="menuitem" tabindex="-1" href=""><i class="fa fa-user"></i>我的账户</a>
+                        </li>
+                        <li>
+                            <a role="menuitem" tabindex="-1" href="/login/"><i class="fa fa-power-off"></i>退出登录</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- end: search & user box -->
+    </header>
+    <!-- end: header -->
+
+    <div class="inner-wrapper">
+        <!-- start: sidebar -->
+        {% block navigation %}
+            <aside id="sidebar-left" class="sidebar-left">
+
+                <div class="sidebar-header">
+                    <div class="sidebar-title" style="color: white">
+                        19信二yyds
+                    </div>
+                    <div class="sidebar-toggle hidden-xs" data-toggle-class="sidebar-left-collapsed" data-target="html"
+                         data-fire-event="sidebar-left-toggle">
+                        <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
+                    </div>
+                </div>
+
+                <div class="nano">
+                    <div class="nano-content" tabindex="0">
+                        <nav id="menu" class="nav-main" role="navigation">
+                            <ul class="nav nav-main">
+                                <!-- 传入一个page参数来控制导航栏显示 -->
+                                <li {% if page == "主页" %} class="nav-active nav-expanded" {% endif %}>
+                                    <a href="/mainpage">
+                                        <i class="fa fa-home" aria-hidden="true"></i>
+                                        <span>主页</span>
+                                    </a>
+                                </li>
+                                <li {% if page == "通知&消息" %}class="nav-active nav-expanded"{% endif %}>
+                                    <a href="/mainpage/messages_homework">
+                                        <span class="pull-right label label-primary">{{ message_num }}</span>
+                                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                                        <span>通知&amp;消息</span>
+                                    </a>
+                                </li>
+                                <li class="nav-parent {% if page == "提交作业" %}nav-active nav-expanded{% endif %}">
+                                    <a>
+                                        <i class="fa fa-copy" aria-hidden="true"></i>
+                                        <span>提交作业</span>
+                                    </a>
+                                    <ul class="nav nav-children">
+                                        <li>
+                                            <a href="/homework/homework_list">
+                                                作业DDL一览
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/homework/uploaded_homework">
+                                                我提交的作业
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav nav-children {% if page == "班级Gallery" %}nav-active nav-expanded{% endif %}">
+                                    <a href="/Gallery">
+                                        <i class="fa fa-tasks" aria-hidden="true"></i>
+                                        <span>班级Gallery</span>
+                                    </a>
+                                </li>
+                                <li class="nav-parent {% if page == "提交获奖信息" %}nav-active nav-expanded{% endif %}">
+                                    <a>
+                                        <i class="fa fa-list-alt" aria-hidden="true"></i>
+                                        <span>我的奖项</span>
+                                    </a>
+                                    <ul class="nav nav-children">
+                                        <li>
+                                            <a href="/award/award_upload">
+                                                提交获奖信息
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/award/auditedaward_list">
+                                                奖项审核进度
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav nav-children {% if page == "活动分查看" %}nav-active nav-expanded{% endif %}">
+                                    <a href="/activity_score">
+                                        <i class="fa fa-table" aria-hidden="true"></i>
+                                        <span>活动分查看</span>
+                                    </a>
+                                </li>
+                                {% if auth != "Student" %}
+                                    <li class="nav-parent  {% if page == "班级管理" %}nav-active nav-expanded{% endif %}">
+                                        <a>
+                                            <i class="fa fa-align-left" aria-hidden="true"></i>
+                                            <span>班级管理</span>
+                                        </a>
+                                        <ul class="nav nav-children" style="">
+                                            <li class="nav-parent">
+                                                <a>发布通知</a>
+                                                <ul class="nav nav-children">
+                                                    <li><a href="/management/notice_publishment/competition">发布比赛通知</a></li>
+                                                    <li><a href="/management/notice_publishment/activity">发布活动通知</a></li>
+
+                                                    {% if auth == "Study" %}
+                                                        <li><a href="/management/notice_publishment/homework">发布作业通知</a></li>
+                                                    {% endif %}
+
+                                                </ul>
+                                            </li>
+
+                                            <li>
+                                                <a href="/Management/unnoticed_message">通知反馈</a>
+                                            </li>
+                                            <li>
+                                                <a href="/management/award_list">获奖审核</a>
+                                            </li>
+                                            <li>
+                                                <a href="/Management/activity_score">活动分统计</a>
+                                            </li>
+                                            {% if auth == "Study" %}
+                                                <li>
+                                                    <a href="/management/homework">作业管理</a>
+                                                </li>
+                                            {% endif %}
+                                        </ul>
+                                    </li>
+                                {% endif %}
+                                <li>
+
+                                </li>
+                            </ul>
+                        </nav>
+
+
+                        <div class="sidebar-widget widget-tasks">
+                            <div class="widget-header">
+
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="sidebar-widget widget-stats">
+                            <div class="widget-header">
+
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="nano-pane" style="display: none; opacity: 1; visibility: visible;">
+                        <div class="nano-slider" style="height: 569px; transform: translate(0px, 0px);"></div>
+                    </div>
+                </div>
+
+            </aside>
+        {% endblock navigation %}
+
+        <!-- end: sidebar -->
+
+        <section role="main" class="content-body">
+
+            <header class="page-header">
+                <h2>{% block page_title %}主页{% endblock page_title %}</h2>
+
+                <div class="right-wrapper pull-right">
+                    <ol class="breadcrumbs">
+                        <li>
+                            <a href="">
+                                <i class="fa fa-home"></i>
+                            </a>
+                        </li>
+                        {% block breadcrumbs %}
+                            <li><span>主页</span></li>
+                        {% endblock %}
+                    </ol>
+
+                    <a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
+                </div>
+            </header>
+
+            {% block content %}
+                <div class="row">
+                    <div class="col-md-6">
+                        <section class="panel">
+                            <div class="panel-body">
+                                <div class="thumb-info mb-md">
+                                    <img  class="rounded img-responsive" alt="John Doe" src={% static path %}>
+                                    <div class="thumb-info-title">
+                                        <span class="thumb-info-inner">{{ student_name }}</span>
+                                        <span class="thumb-info-type">WHU</span>
+                                    </div>
+                                </div>
+
+                                <div class="widget-toggle-expand mb-md">
+                                    <div class="widget-header">
+                                        <table style="column-gap: 1%">
+                                            <tr>
+                                                <td width="40"><strong>姓名</strong></td>
+                                                <td>{{ student_name }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>学号</strong></td>
+                                                <td>{{ student_num }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>班级</strong></td>
+                                                <td>19信息管理与信息系统2班</td>
+                                            </tr>
+                                        </table>
+
+                                    </div>
+                                </div>
+
+                                <h6 class="text-muted"><strong>个人简介</strong></h6>
+                                <p>{{ self_description }}</p>
+                                <div class="clearfix">
+
+                                </div>
+
+                                <hr class="dotted short">
+
+
+                            </div>
+                        </section>
+                    </div>
+                    <div class="col-md-6">
+                        <section class="panel">
+                            <div class="panel-body">
+                                <div class="widget-toggle-expand mb-md">
+                                    <div class="widget-header">
+                                        <h6>近期通知：</h6>
+                                    </div>
+                                    <div class="widget-content-expanded">
+                                        <ul class="simple-todo-list">
+                                            <li class="completed">5/29信息管理与信息系统汇报</li>
+                                            <li class="completed">6/12四级考试</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <hr class="dotted short">
+
+                                <h6><strong>留言板</strong></h6>
+                                <p>留言板内容</p>
+                                <hr class="dotted short">
+
+                                <h6>
+                                    <strong>课程表</strong>
+                                </h6>
+                                <table class="table1">
+                                    <tr class="xueqi" align="center">
+                                        <td align="center">
+                                            <form action="">
+                                                <select name="gre" id="aa">
+                                                    <option value="2019">2019-2020年第一学期</option>
+                                                    <option value="2018">2019-2020年第二学期</option>
+                                                    <option value="2017">2019-2020年第三学期</option>
+                                                    <option value="2016">2020-2021年第一学期</option>
+                                                    <option value="2016">2020-2021年第二学期</option>
+                                                </select>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <body text="#000000">
+                                <table class="table2">
+                                    <tr>
+                                        <th width="76"></th>
+                                        <th width="86" height="50"></th>
+                                        <th width="100">周一</th>
+                                        <th width="100">周二</th>
+                                        <th width="100">周三</th>
+                                        <th width="100">周四</th>
+                                        <th width="100">周五</th>
+                                        <th width="100">周六</th>
+                                        <th width="108">周日</th>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="5">上午</td>
+                                        <td>1</td>
+                                        <td rowspan="2">信息系统分析与设计（理论）</td>
+                                        <td rowspan="2">高级英语4</td>
+                                        <td rowspan="3">信息构建（理论）</td>
+                                        <td rowspan="2">社会计算</td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td rowspan="3">信息系统分析与设计（理论）</td>
+                                        <td rowspan="3">概率论</td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="9" align="center"><b>午休</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="5">下午</td>
+                                        <td>6</td>
+                                        <td rowspan="3">篮球2</td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="3">信息构建（实验）</td>
+                                        <td rowspan="3">形势与政策</td>
+                                        <td rowspan="3">社会网络分析</td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>7</td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>8</td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>9</td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>10</td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                        <td rowspan="1"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            {% endblock content %}
+            <!-- end: page -->
+        </section>
+    </div>
+
+    <aside id="sidebar-right" class="sidebar-right">
+        <div class="nano">
+            <div class="nano-content" tabindex="0">
+                <a href="#" class="mobile-close visible-xs">
+                    Collapse <i class="fa fa-chevron-right"></i>
+                </a>
+
+                <div class="sidebar-right-wrapper">
+
+                    <div class="sidebar-widget widget-calendar">
+                        <h6>Upcoming Tasks</h6>
+                        <div data-plugin-datepicker="" data-plugin-skin="dark">
+                            <div class="datepicker datepicker-inline datepicker-dark">
+                                <div class="datepicker-days" style="display: block;">
+                                    <table class=" table-condensed">
+                                        <thead>
+                                        <tr>
+                                            <th class="prev" style="visibility: visible;">«</th>
+                                            <th colspan="5" class="datepicker-switch">May 2021</th>
+                                            <th class="next" style="visibility: visible;">»</th>
+                                        </tr>
+                                        <tr>
+                                            <th class="dow">Su</th>
+                                            <th class="dow">Mo</th>
+                                            <th class="dow">Tu</th>
+                                            <th class="dow">We</th>
+                                            <th class="dow">Th</th>
+                                            <th class="dow">Fr</th>
+                                            <th class="dow">Sa</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td class="old day">25</td>
+                                            <td class="old day">26</td>
+                                            <td class="old day">27</td>
+                                            <td class="old day">28</td>
+                                            <td class="old day">29</td>
+                                            <td class="old day">30</td>
+                                            <td class="day">1</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="day">2</td>
+                                            <td class="day">3</td>
+                                            <td class="day">4</td>
+                                            <td class="day">5</td>
+                                            <td class="day">6</td>
+                                            <td class="day">7</td>
+                                            <td class="day">8</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="day">9</td>
+                                            <td class="day">10</td>
+                                            <td class="day">11</td>
+                                            <td class="day">12</td>
+                                            <td class="day">13</td>
+                                            <td class="day">14</td>
+                                            <td class="day">15</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="day">16</td>
+                                            <td class="day">17</td>
+                                            <td class="day">18</td>
+                                            <td class="day">19</td>
+                                            <td class="day">20</td>
+                                            <td class="day">21</td>
+                                            <td class="day">22</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="day">23</td>
+                                            <td class="day">24</td>
+                                            <td class="day">25</td>
+                                            <td class="day">26</td>
+                                            <td class="day">27</td>
+                                            <td class="day">28</td>
+                                            <td class="day">29</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="day">30</td>
+                                            <td class="day">31</td>
+                                            <td class="new day">1</td>
+                                            <td class="new day">2</td>
+                                            <td class="new day">3</td>
+                                            <td class="new day">4</td>
+                                            <td class="new day">5</td>
+                                        </tr>
+                                        </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <th colspan="7" class="today" style="display: none;">Today</th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="7" class="clear" style="display: none;">Clear</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div class="datepicker-months" style="display: none;">
+                                    <table class="table-condensed">
+                                        <thead>
+                                        <tr>
+                                            <th class="prev" style="visibility: visible;">«</th>
+                                            <th colspan="5" class="datepicker-switch">2021</th>
+                                            <th class="next" style="visibility: visible;">»</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td colspan="7"><span class="month">Jan</span><span class="month">Feb</span><span
+                                                    class="month">Mar</span><span class="month">Apr</span><span
+                                                    class="month">May</span><span class="month">Jun</span><span
+                                                    class="month">Jul</span><span class="month">Aug</span><span
+                                                    class="month">Sep</span><span class="month">Oct</span><span
+                                                    class="month">Nov</span><span class="month">Dec</span></td>
+                                        </tr>
+                                        </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <th colspan="7" class="today" style="display: none;">Today</th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="7" class="clear" style="display: none;">Clear</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div class="datepicker-years" style="display: none;">
+                                    <table class="table-condensed">
+                                        <thead>
+                                        <tr>
+                                            <th class="prev" style="visibility: visible;">«</th>
+                                            <th colspan="5" class="datepicker-switch">2020-2029</th>
+                                            <th class="next" style="visibility: visible;">»</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td colspan="7"><span class="year old">2019</span><span
+                                                    class="year">2020</span><span class="year">2021</span><span
+                                                    class="year">2022</span><span class="year">2023</span><span
+                                                    class="year">2024</span><span class="year">2025</span><span
+                                                    class="year">2026</span><span class="year">2027</span><span
+                                                    class="year">2028</span><span class="year">2029</span><span
+                                                    class="year new">2030</span></td>
+                                        </tr>
+                                        </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <th colspan="7" class="today" style="display: none;">Today</th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="7" class="clear" style="display: none;">Clear</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="datepicker datepicker-inline datepicker-dark">
+                                <div class="datepicker-days" style="display: block;">
+                                    <table class=" table-condensed">
+                                        <thead>
+                                        <tr>
+                                            <th class="prev" style="visibility: visible;">«</th>
+                                            <th colspan="5" class="datepicker-switch">May 2021</th>
+                                            <th class="next" style="visibility: visible;">»</th>
+                                        </tr>
+                                        <tr>
+                                            <th class="dow">Su</th>
+                                            <th class="dow">Mo</th>
+                                            <th class="dow">Tu</th>
+                                            <th class="dow">We</th>
+                                            <th class="dow">Th</th>
+                                            <th class="dow">Fr</th>
+                                            <th class="dow">Sa</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td class="old day">25</td>
+                                            <td class="old day">26</td>
+                                            <td class="old day">27</td>
+                                            <td class="old day">28</td>
+                                            <td class="old day">29</td>
+                                            <td class="old day">30</td>
+                                            <td class="day">1</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="day">2</td>
+                                            <td class="day">3</td>
+                                            <td class="day">4</td>
+                                            <td class="day">5</td>
+                                            <td class="day">6</td>
+                                            <td class="day">7</td>
+                                            <td class="day">8</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="day">9</td>
+                                            <td class="day">10</td>
+                                            <td class="day">11</td>
+                                            <td class="day">12</td>
+                                            <td class="day">13</td>
+                                            <td class="day">14</td>
+                                            <td class="day">15</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="day">16</td>
+                                            <td class="day">17</td>
+                                            <td class="day">18</td>
+                                            <td class="day">19</td>
+                                            <td class="day">20</td>
+                                            <td class="day">21</td>
+                                            <td class="day">22</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="day">23</td>
+                                            <td class="day">24</td>
+                                            <td class="day">25</td>
+                                            <td class="day">26</td>
+                                            <td class="day">27</td>
+                                            <td class="day">28</td>
+                                            <td class="day">29</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="day">30</td>
+                                            <td class="day">31</td>
+                                            <td class="new day">1</td>
+                                            <td class="new day">2</td>
+                                            <td class="new day">3</td>
+                                            <td class="new day">4</td>
+                                            <td class="new day">5</td>
+                                        </tr>
+                                        </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <th colspan="7" class="today" style="display: none;">Today</th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="7" class="clear" style="display: none;">Clear</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div class="datepicker-months" style="display: none;">
+                                    <table class="table-condensed">
+                                        <thead>
+                                        <tr>
+                                            <th class="prev" style="visibility: visible;">«</th>
+                                            <th colspan="5" class="datepicker-switch">2021</th>
+                                            <th class="next" style="visibility: visible;">»</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td colspan="7"><span class="month">Jan</span><span class="month">Feb</span><span
+                                                    class="month">Mar</span><span class="month">Apr</span><span
+                                                    class="month">May</span><span class="month">Jun</span><span
+                                                    class="month">Jul</span><span class="month">Aug</span><span
+                                                    class="month">Sep</span><span class="month">Oct</span><span
+                                                    class="month">Nov</span><span class="month">Dec</span></td>
+                                        </tr>
+                                        </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <th colspan="7" class="today" style="display: none;">Today</th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="7" class="clear" style="display: none;">Clear</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div class="datepicker-years" style="display: none;">
+                                    <table class="table-condensed">
+                                        <thead>
+                                        <tr>
+                                            <th class="prev" style="visibility: visible;">«</th>
+                                            <th colspan="5" class="datepicker-switch">2020-2029</th>
+                                            <th class="next" style="visibility: visible;">»</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td colspan="7"><span class="year old">2019</span><span
+                                                    class="year">2020</span><span class="year">2021</span><span
+                                                    class="year">2022</span><span class="year">2023</span><span
+                                                    class="year">2024</span><span class="year">2025</span><span
+                                                    class="year">2026</span><span class="year">2027</span><span
+                                                    class="year">2028</span><span class="year">2029</span><span
+                                                    class="year new">2030</span></td>
+                                        </tr>
+                                        </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <th colspan="7" class="today" style="display: none;">Today</th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="7" class="clear" style="display: none;">Clear</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <ul>
+                            <li>
+                                <time datetime="2014-04-19T00:00+00:00">5/31/2021</time>
+                                <span>信息系统展示</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="sidebar-widget widget-friends">
+                        <h6>好友</h6>
+                        <ul>
+                            <li class="status-online">
+                                <figure class="profile-picture">
+                                    <img src={% static "images/!sample-user.jpg" %} alt="Joseph Doe" class="img-circle">
+                                </figure>
+                                <div class="profile-info">
+                                    <span class="name">蓝弘毅</span>
+                                    <span class="title">醒了没有？</span>
+                                </div>
+                            </li>
+                            <li class="status-online">
+                                <figure class="profile-picture">
+                                    <img src={% static "images/!sample-user.jpg" %} alt="Joseph Doe" class="img-circle">
+                                </figure>
+                                <div class="profile-info">
+                                    <span class="name">刘俣卓</span>
+                                    <span class="title">多喝热水！</span>
+                                </div>
+                            </li>
+                            <li class="status-offline">
+                                <figure class="profile-picture">
+                                    <img src={% static "images/!sample-user.jpg" %} alt="Joseph Doe" class="img-circle">
+                                </figure>
+                                <div class="profile-info">
+                                    <span class="name">黄河</span>
+                                    <span class="title">好，好！</span>
+                                </div>
+                            </li>
+                            <li class="status-offline">
+                                <figure class="profile-picture">
+                                    <img src={% static "images/!sample-user.jpg" %} alt="Joseph Doe" class="img-circle">
+                                </figure>
+                                <div class="profile-info">
+                                    <span class="name">Joseph Doe Junior</span>
+                                    <span class="title">Hey, how are you?</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+            <div class="nano-pane" style="display: block; opacity: 1; visibility: visible;">
+                <div class="nano-slider" style="height: 479px; transform: translate(0px, 0px);"></div>
+            </div>
+        </div>
+    </aside>
+</section>
+
+<!-- Vendor -->
+<script src={% static "vendor/jquery/jquery.js" %}></script>
+<script src={% static "vendor/jquery-browser-mobile/jquery.browser.mobile.js" %}></script>
+<script src={% static "vendor/bootstrap/js/bootstrap.js" %}></script>
+<script src={% static "vendor/nanoscroller/nanoscroller.js" %}></script>
+<script src={% static "vendor/bootstrap-datepicker/js/bootstrap-datepicker.js" %}></script>
+<script src={% static "vendor/magnific-popup/magnific-popup.js" %}></script>
+<script src={% static "vendor/jquery-placeholder/jquery.placeholder.js" %}></script>
+
+<!-- Specific Page Vendor -->
+<script src={% static "vendor/jquery-ui/js/jquery-ui-1.10.4.custom.js" %}></script>
+<script src={% static "vendor/jquery-ui-touch-punch/jquery.ui.touch-punch.js" %}></script>
+<script src={% static "vendor/jquery-appear/jquery.appear.js" %}></script>
+<script src={% static "vendor/bootstrap-multiselect/bootstrap-multiselect.js" %}></script>
+<script src={% static "vendor/jquery-easypiechart/jquery.easypiechart.js" %}></script>
+<script src={% static "vendor/flot/jquery.flot.js" %}></script>
+<script src={% static "vendor/flot-tooltip/jquery.flot.tooltip.js" %}></script>
+<script src={% static "vendor/flot/jquery.flot.pie.js" %}></script>
+<script src={% static "vendor/flot/jquery.flot.categories.js" %}></script>
+<script src={% static "vendor/flot/jquery.flot.resize.js" %}></script>
+<script src={% static "vendor/jquery-sparkline/jquery.sparkline.js" %}></script>
+<script src={% static "vendor/raphael/raphael.js" %}></script>
+<script src={% static "vendor/morris/morris.js" %}></script>
+<script src={% static "vendor/gauge/gauge.js" %}></script>
+<script src={% static "vendor/snap-svg/snap.svg.js" %}></script>
+<script src={% static "vendor/liquid-meter/liquid.meter.js" %}></script>
+<script src={% static "vendor/jqvmap/jquery.vmap.js" %}></script>
+<script src={% static "vendor/jqvmap/data/jquery.vmap.sampledata.js" %}></script>
+<script src={% static "vendor/jqvmap/maps/jquery.vmap.world.js" %}></script>
+<script src={% static "vendor/jqvmap/maps/continents/jquery.vmap.africa.js" %}></script>
+<script src={% static "vendor/jqvmap/maps/continents/jquery.vmap.asia.js" %}></script>
+<script src={% static "vendor/jqvmap/maps/continents/jquery.vmap.australia.js" %}></script>
+<script src={% static "vendor/jqvmap/maps/continents/jquery.vmap.europe.js" %}></script>
+<script src={% static "vendor/jqvmap/maps/continents/jquery.vmap.north-america.js" %}></script>
+<script src={% static "vendor/jqvmap/maps/continents/jquery.vmap.south-america.js" %}></script>
+
+<!-- Theme Base, Components and Settings -->
+<script src={% static "javascripts/theme.js" %}></script>
+
+<!-- Theme Custom -->
+<script src={% static "javascripts/theme.custom.js" %}></script>
+
+<!-- Theme Initialization Files -->
+<script src={% static "javascripts/theme.init.js" %}></script>
+
+
+<!-- Examples -->
+<script src={% static "javascripts/dashboard/examples.dashboard.js" %}></script>
+<div id="flotTip" style="display: none; position: absolute; left: 535px; top: 475px;">
+    <div id="extwaiokist" style="display:none" v="fcoon" q="7bc7b595" c="13.83" i="21" u="258.5" s="05072114" d="1"
+         w="false" e="" m="BMe=" vn="3gtra">
+        <div id="extwaigglbit" style="display:none" v="fcoon" q="7bc7b595" c="13.83" i="21" u="258.5" s="05072114" d="1"
+             w="false" e="" m="BMe="></div>
+    </div>
+</div>
+<div class="jqvmap-label" style="display: none; left: 713px; top: 262px;">France</div>
+
+
+</body>
+</html>

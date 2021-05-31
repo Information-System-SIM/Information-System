@@ -129,7 +129,6 @@ def award_audit_page(request):
     student_name = map_num2name(apply.uploaded_stu_id)
     level, order = map_code2level(apply.award_level, apply.award_order).split(" ")
     filename = apply.filename
-    print("111" + filename)
     if filename is not None:
         file_path = os.path.join('Award', filename)
         print(file_path)
@@ -196,7 +195,7 @@ def award_content_page(request):
     path = request.session["path"]
 
     # 用于优化页面细节
-    page = "班级管理"
+    page = "提交获奖信息"
 
     apply_num = request.GET.get("apply_num")
     apply = models.award_apply.objects.get(apply_num=apply_num)

@@ -1,0 +1,131 @@
+{% extends "mainpage.html" %}
+
+{% block title %}
+    未读通知管理
+{% endblock title %}
+
+{% block page_title %}
+    未读通知管理
+{% endblock page_title %}
+
+{% block breadcrumbs %}
+    <li><span>班级管理</span></li>
+    <li><span>未读通知管理</span></li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+    <section class="panel">
+        <header class="panel-heading">
+            <div class="panel-actions">
+                <a href="#" class="fa fa-caret-down"></a>
+                <a href="#" class="fa fa-times"></a>
+            </div>
+
+            <h2 class="panel-title">未读比赛通知</h2>
+        </header>
+        <div class="panel-body">
+            <table class="table table-bordered table-striped mb-none" id="datatable-details">
+                <thead>
+                <tr>
+                    <th style="text-align: center">比赛时间</th>
+                    <th style="text-align: center">比赛名称</th>
+                    <th style="text-align: center">比赛地点</th>
+                    <th style="text-align: center">比赛描述</th>
+                    <th style="text-align: center" width="100px">通知阅读情况</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for competition in competition_lst %}
+                    <tr class="gradeX">
+                        <td class="center">{{ competition.0|date:"m/d h:i" }}</td>
+                        <td class="center">{{ competition.1 }}</td>
+                        <td class="center">{{ competition.2 }}</td>
+                        <td class="center">{{ competition.3 }}</td>
+                        <td class="center">
+                            <a href="/Management/unnoticed_message/stu_list?message_id={{ competition.5 }}&type=0">
+                            {{ competition.4 }}/37
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <section class="panel">
+        <header class="panel-heading">
+            <div class="panel-actions">
+                <a href="#" class="fa fa-caret-down"></a>
+                <a href="#" class="fa fa-times"></a>
+            </div>
+
+            <h2 class="panel-title">未读活动通知</h2>
+        </header>
+        <div class="panel-body">
+            <table class="table table-bordered table-striped mb-none" id="datatable-details">
+                <thead>
+                <tr>
+                    <th style="text-align: center">活动时间</th>
+                    <th style="text-align: center">活动名称</th>
+                    <th style="text-align: center">活动地点</th>
+                    <th style="text-align: center">活动描述</th>
+                    <th style="text-align: center" width="100px">通知阅读情况</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for activity in activity_lst %}
+                    <tr class="gradeX">
+                        <td class="center">{{ activity.0|date:"m/d h:i" }}</td>
+                        <td class="center">{{ activity.1 }}</td>
+                        <td class="center">{{ activity.2 }}</td>
+                        <td class="center">{{ activity.3 }}</td>
+                        <td class="center">
+                            <a href="/Management/unnoticed_message/stu_list?message_id={{ activity.5 }}&type=1">
+                                {{ activity.4 }}/37
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <section class="panel">
+        <header class="panel-heading">
+            <div class="panel-actions">
+                <a href="#" class="fa fa-caret-down"></a>
+                <a href="#" class="fa fa-times"></a>
+            </div>
+
+            <h2 class="panel-title">未读作业通知</h2>
+        </header>
+        <div class="panel-body">
+            <table class="table table-bordered table-striped mb-none" id="datatable-details">
+                <thead>
+                <tr>
+                    <th style="text-align: center">DeadLine</th>
+                    <th style="text-align: center">作业名称</th>
+                    <th style="text-align: center">作业学科</th>
+                    <th style="text-align: center">作业描述</th>
+                    <th style="text-align: center" width="100px">通知阅读情况</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for homework in homework_lst %}
+                    <tr class="gradeX">
+                        <td class="center">{{ homework.0|date:"m/d h:i" }}</td>
+                        <td class="center">{{ homework.1 }}</td>
+                        <td class="center">{{ homework.2 }}</td>
+                        <td class="center">{{ homework.3 }}</td>
+                        <td class="center">
+                            <a href="/Management/unnoticed_message/stu_list?message_id={{ homework.5 }}&type=2">
+                                {{ homework.4 }}/37
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+{% endblock content %}

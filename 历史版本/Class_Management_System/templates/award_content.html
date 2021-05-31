@@ -1,0 +1,92 @@
+{% extends "mainpage.html" %}
+
+{% block title %}
+    {{ apply.awar_name }}
+    {% load static %}
+{% endblock title %}
+
+{% block page_title %}
+    奖项审核详情
+{% endblock page_title %}
+
+{% block breadcrumbs %}
+    <li><span>我的奖项</span></li>
+    <li><span>奖项审核进度</span></li>
+    <li><span>{{ apply.award_name }}</span></li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+                <!-- START: .mailbox-header -->
+                <header class="mailbox-header">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h1 class="mailbox-title text-light m-none">
+                                <strong>{{ apply.award_name }}</strong>
+                            </h1>
+                        </div>
+                    </div>
+                </header>
+                <!-- END: .mailbox-header -->
+
+    <hr/>
+
+                <!-- 主体内容 -->
+                <section class="panel">
+                    <header class="panel-heading">
+                        <div class="panel-actions">
+                            <a href="#" class="fa fa-caret-down"></a>
+                            <a href="#" class="fa fa-times"></a>
+                        </div>
+
+                        <h2 class="panel-title">申请人： {{ student_name }}</h2>
+                    </header>
+                    <div class="panel-body">
+                        <p><strong>申请时间：</strong>{{ apply.uploaded_time|date:"m-d" }}</p>
+                        <p><strong>获奖时间：</strong>{{ apply.award_date|date:"m-d" }}</p>
+                        <hr/>
+                        <div>
+                            <section class="panel">
+                                <header class="panel-heading">
+                                    <div class="panel-actions">
+                                        <a href="#" class="fa fa-caret-down"></a>
+                                        <a href="#" class="fa fa-times"></a>
+                                    </div>
+
+                                    <h2 class="panel-title">奖项等第</h2>
+                                </header>
+                                <div class="panel-body">
+                                    <div class="table-responsive">
+                                        <table class="table mb-none">
+                                            <tbody align="center">
+                                            <tr>
+                                                <td>等级</td>
+                                                <td>{{ level }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>类别</td>
+                                                <td>{{ apply.award_type }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>等第</td>
+                                                <td>{{ order }}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                        <hr/>
+                        <p><strong>证明材料：</strong></p>
+                        <img src={% static file_path %} alt="未提交证明材料" class="img-responsive">
+                        <hr/>
+                        {% if apply.checked == None %}
+                            <h2 style="color: grey" align="center">未审核</h2>
+                        {% elif apply.checked == "未通过" %}
+                            <h2 style="color: red" align="center">未通过</h2>
+                        {% elif apply.checked == "已通过" %}
+                            <h2 style="color: green" align="center">已通过</h2>
+                        {% endif %}
+                    </div>
+                </section>
+{% endblock content %}

@@ -1,5 +1,7 @@
 import os
 from urllib.parse import quote
+
+from django.contrib import messages
 from django.http import FileResponse, HttpResponseRedirect
 from django.shortcuts import render
 from Application import models
@@ -36,6 +38,7 @@ def uploaded_homework_deal(request):
         return download(student_num, ms_num)
     elif order == "delete":
         delete(student_num, ms_num)
+        messages.success(request, "删除成功")
         return homework_page(request)
 
 
@@ -160,6 +163,7 @@ def homework_notuploadedlist_deal(request):
                                                    send_person_student_num_id=str(student_num),
                                                    target_student_num_id=str(target), useable=True)
     models.notice_message.objects.create(ms_num_id=object.ms_num, student_num_id=object.target_student_num_id)
+    messages.success(request, "提醒发送成功")
     return homework_notuploadedlist_page(request)
 
 
