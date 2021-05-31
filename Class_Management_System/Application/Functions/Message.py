@@ -239,7 +239,7 @@ def unnoticed_message_management_page(request):
     competition_lst = [[competition.competition_time,
                         competition.title,
                         competition.place,
-                        competition.description,
+                        competition.description[:10] + "...",
                         len(models.notice_competition.objects.filter(ms_num_id=competition.ms_num)),
                         competition.ms_num]
                        for competition in competition_messages]
@@ -248,7 +248,7 @@ def unnoticed_message_management_page(request):
     activity_lst = [[activity.activity_time,
                      activity.title,
                      activity.place,
-                     activity.description,
+                     activity.description[:10] + "......",
                      len(models.notice_activity.objects.filter(ms_num_id=activity.ms_num)),
                      activity.ms_num]
                     for activity in activity_messages]
@@ -257,7 +257,7 @@ def unnoticed_message_management_page(request):
     homework_lst = [[homework.deadline,
                      homework.title,
                      homework.subject,
-                     homework.Requirement,
+                     homework.Requirement[:10] + "......",
                      len(models.notice_homework.objects.filter(ms_num_id=homework.ms_num)),
                      homework.ms_num]
                     for homework in homework_messages]
